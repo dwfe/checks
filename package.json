@@ -1,7 +1,7 @@
 {
-  "name": "dwfe-blank-lerna-ts",
-  "version": "1.0.0",
-  "license": "MIT",
+  "name": "dwfe-some-checks",
+  "private": true,
+  "license": "UNLICENSED",
   "scripts": {
     "clean:dist": "lerna run clean",
     "bootstrap": "npm run clean:dist && rimraf package-lock.json && lerna bootstrap --hoist",

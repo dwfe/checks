@@ -1,0 +1,12 @@
+
+.Timers input {
+  width: 60px;
+  font-family: inherit;
+  font-size: inherit;
+  border-radius: 4px;
+  border-width: 1px;
+}
+
+.Timers .input-invalid {
+  background-color: pink;
+}
