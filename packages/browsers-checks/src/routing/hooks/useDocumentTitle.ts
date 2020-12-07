@@ -1,11 +1,10 @@
 import {IRoutableProps} from '../contract';
 import {useEffect} from 'react';
 
-export const useDocumentTitle = ({currentActionData}: IRoutableProps) => {
+export const useDocumentTitle = ({routeActionData}: IRoutableProps) => {
   useEffect(() => {
-    const title = currentActionData?.note?.title
+    const title = routeActionData?.note?.title
     if (title)
       document.title = title
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []) // eslint-disable-line
 }
