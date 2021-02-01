@@ -6,7 +6,8 @@ export const IndexPage = (props: IRoutableProps) => {
 
   return (
     <div>
-      <Link href="/event-loop">EventLoop</Link><br/>
+      <Link href="/event-loop">EventLoop</Link><br/><br/>
+      <Link href="/rxjs">RxJs</Link><br/><br/>
     </div>
   )
 }
