@@ -82,12 +82,12 @@ export const Microtasks = () => {
   }
 
 
-  return (<>
+  return (<div>
     <h3>Microtasks</h3>
     <button onClick={promiseMicrotaskQueue1}>Promise.MicrotaskQueue 1</button>
     <br/>
     <button onClick={promiseMicrotaskQueue2}>Promise.MicrotaskQueue 2</button>
     <br/>
     <button onClick={promiseMicrotaskQueue3}>Promise.MicrotaskQueue 3</button>
-  </>)
+  </div>)
 }

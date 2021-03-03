@@ -16,5 +16,5 @@ export interface IRouteNote {
 }
 
 export interface IRoutableProps extends HTMLProps<any> {
-  currentActionData?: RouteActionData;
+  routeActionData?: RouteActionData;
 }

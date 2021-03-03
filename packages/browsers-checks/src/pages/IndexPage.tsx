@@ -1,5 +1,6 @@
 import React from 'react'
-import {IRoutableProps, Link, useDocumentTitle} from '../routing';
+import {IRoutableProps, Link} from '../routing';
+import {useDocumentTitle} from '../hooks/use-document-title'
 
 export const IndexPage = (props: IRoutableProps) => {
   useDocumentTitle(props)
