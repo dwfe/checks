@@ -1,15 +1,18 @@
 import React, {HTMLProps, SyntheticEvent} from 'react'
 import {BrowserRouter} from '@do-while-for-each/browser-router';
-import {useRouter} from '../hooks/useRouter'
+import {useDIInstance} from '../hooks/use-di-instance'
 
 export const Link = (props: IProps) => {
   const {href, onClick, children, ctx} = props
-  const [router] = useRouter<BrowserRouter>(BrowserRouter)
+  const [router] = useDIInstance(BrowserRouter)
 
   const handleClick = (event: SyntheticEvent) => {
     event.preventDefault()
     onClick && onClick(event as any)
-    router.go(event.currentTarget as HTMLAnchorElement, ctx)
+    const target = event.currentTarget as HTMLAnchorElement;
+    target.origin === window.location.origin
+      ? router.goto(target, ctx)
+      : router.goAway(target.href, target.target)
   }
   return (
     <a {...props}
@@ -19,6 +22,7 @@ export const Link = (props: IProps) => {
     </a>
   )
 }
+
 
 interface IProps extends HTMLProps<HTMLAnchorElement> {
   ctx?: any;

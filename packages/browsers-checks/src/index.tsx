@@ -1,6 +1,9 @@
 import 'reflect-metadata';
 import './index.css';
-import {startRouter} from './routing'
-import {routes} from './routes'
+import {RouteResultsHandler} from './routing/route-results.handler'
+import {DI} from './di'
 
-startRouter(routes, document.getElementById('root'))
+DI.init()
+
+const routeResultsHandler = new RouteResultsHandler(document.getElementById('root'))
+routeResultsHandler.start()

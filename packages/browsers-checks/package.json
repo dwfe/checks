@@ -20,8 +20,8 @@
     "classnames": "2"
   },
   "dependencies": {
-    "@do-while-for-each/path-resolver": "1",
-    "@do-while-for-each/browser-router": "1",
+    "@do-while-for-each/path-resolver": "2",
+    "@do-while-for-each/browser-router": "2",
     "tsyringe": "4",
     "reflect-metadata": "0"
   },
