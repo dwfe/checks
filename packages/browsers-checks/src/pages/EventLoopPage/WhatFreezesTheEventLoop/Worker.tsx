@@ -1,5 +1,5 @@
 import React from 'react';
-import {log} from '../../utils/globals';
+import {log} from '../../../utils/globals';
 
 
 export const WorkerTask = () => {
