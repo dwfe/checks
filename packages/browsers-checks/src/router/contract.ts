@@ -1,4 +1,4 @@
-import {IActionData, TRouteContext} from '@do-while-for-each/path-resolver'
+import {IActionData} from '@do-while-for-each/path-resolver'
 import {IResultListenersArg} from '@do-while-for-each/browser-router'
 import {HTMLProps, ReactElement} from 'react';
 

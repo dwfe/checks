@@ -1,8 +1,8 @@
-import {IActionResult, IRoute} from '@do-while-for-each/path-resolver';
+import {NotFoundPage} from '@do-while-for-each/browser-router-react-tools'
+import {IActionResult, IRoute} from '@do-while-for-each/path-resolver'
 import React, {ReactElement} from 'react'
-import {IRouteNote, NotFoundPage} from './routing'
-import {EventLoopPage, IndexPage, RxJsPage} from './pages'
-
+import {EventLoopPage, IndexPage, RxJsPage} from '../app/pages'
+import {IRouteNote} from './index'
 
 export const routes: IRoute<ReactElement, IRouteNote, IActionResult<ReactElement>>[] = [
   {path: '', component: <IndexPage/>},

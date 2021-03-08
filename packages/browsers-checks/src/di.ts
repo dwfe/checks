@@ -1,20 +1,11 @@
-import {BrowserRouter, IBrowserRouterOptions} from '@do-while-for-each/browser-router'
+import {BrowserRouter} from '@do-while-for-each/browser-router'
 import {container} from 'tsyringe'
-import {routes} from './routes'
+import {routes} from './router'
 
 export class DI {
 
   static init(): void {
-
-    const routerOptions: IBrowserRouterOptions = {
-      isDebug: true,
-      injectRouteActionsDataToComponent: true,
-      pathResolver: {
-        isDebug: true,
-      }
-    }
-    const router = new BrowserRouter(routes, routerOptions)
-
+    const router = new BrowserRouter(routes)
     container.register(BrowserRouter, {useValue: router}) // singleton
   }
 

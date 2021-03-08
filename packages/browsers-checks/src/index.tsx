@@ -1,7 +1,7 @@
-import 'reflect-metadata';
-import './index.css';
-import {RouteResultsHandler} from './routing/route-results.handler'
+import 'reflect-metadata'
+import {RouteResultsHandler} from './router'
 import {DI} from './di'
+import './index.css'
 
 DI.init()
 

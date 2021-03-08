@@ -1,7 +1,7 @@
 import {BrowserRouter} from '@do-while-for-each/browser-router'
+import React, {ReactElement} from 'react'
 import {container} from 'tsyringe'
 import ReactDOM from 'react-dom'
-import React from 'react'
 import {TRouteResultArg} from './contract'
 
 export class RouteResultsHandler {
@@ -22,11 +22,18 @@ export class RouteResultsHandler {
     this.unlistenFn?.()
   }
 
-  private onRouteResult({component, routeActionData}: TRouteResultArg) {
+  private onRouteResult(arg: TRouteResultArg) {
+    const component = this.injectProps(arg);
     ReactDOM.render(
       component,
       this.root
     )
+  }
+
+  private injectProps({component, routeActionData}: TRouteResultArg): ReactElement {
+    return React.isValidElement(component)
+      ? React.cloneElement(component as any, {routeActionData})
+      : component;
   }
 
 }

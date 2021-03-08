@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import classNames from 'classnames'
-import {useSubjState} from '../../utils/hooks/useSubjState'
+import {useSubjState} from '../../../hooks/useSubjState'
 import './styles.css'
 import {invalidClass, isCountValidFn, isIntervalValidFn} from './globals';
 import {TimerFactory} from './TimerFactory';

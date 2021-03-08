@@ -1,6 +1,6 @@
+import {Link} from '@do-while-for-each/browser-router-react-tools'
 import React from 'react'
 import './style.css'
-import {Link} from '../../routing'
 
 
 export const Header = () => {

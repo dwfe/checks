@@ -1,4 +1,4 @@
-import {isNumeric} from '../../utils/globals';
+import {isNumeric} from '../../../common';
 
 //region Validators
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import {log, logError} from '../../../utils/globals';
+import {log, logError} from '../../../../common';
 
 export const MultipleRequestsToServer = () => {
 
