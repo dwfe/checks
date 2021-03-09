@@ -1,7 +1,7 @@
-import {combineLatest, Observable, Subscription} from 'rxjs'
 import {debounceTime, filter, map, mapTo, shareReplay, tap} from 'rxjs/operators'
-import {log} from '../../../common';
+import {combineLatest, Observable, Subscription} from 'rxjs'
 import {InputValidator} from './TimerInput/input.validator'
+import {log} from '../../../common';
 
 export class TimerFactory {
   private timers: number[] = []
