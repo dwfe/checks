@@ -1,25 +1,19 @@
 import React, {useEffect} from 'react'
 import classNames from 'classnames'
-import {useSubjState} from '../../../hooks/useSubjState'
+import {invalidClass, isCountValidFn, isIntervalValidFn} from './globals'
+import {useSubjState} from '../../../hooks.utils/useSubjState'
+import {TimerFactory} from './TimerFactory'
 import './styles.css'
-import {invalidClass, isCountValidFn, isIntervalValidFn} from './globals';
-import {TimerFactory} from './TimerFactory';
 
-
-export const Timers = () => {
+export function Timers() {
   const [count, count$, setCount] = useSubjState('1')
-  const countInvalidClass = invalidClass(count, isCountValidFn)
-
   const [interval, interval$, setInterval] = useSubjState('0.3')
+  const countInvalidClass = invalidClass(count, isCountValidFn)
   const intervalInvalidClass = invalidClass(interval, isIntervalValidFn)
 
-  useEffect(() => {
-    const timerFactory = new TimerFactory(count$, interval$)
-    timerFactory.start()
-    return () => {
-      timerFactory.stop()
-    }
-  }, [count$, interval$])
+  useEffect(() =>
+      TimerFactory.forEffect(count$, interval$)
+    , [count$, interval$])
 
   return (
     <div className="Timers">

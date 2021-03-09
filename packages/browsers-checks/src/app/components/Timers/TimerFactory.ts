@@ -27,7 +27,7 @@ export class TimerFactory {
   }
 
   private build$: Observable<null> = combineLatest([this.count$, this.interval$]).pipe(
-    debounceTime(1000),
+    debounceTime(500),
     filter(() => this.isFactoryRun),
     tap(() => this.stopTimers()),
     map(convertTimerParams),
@@ -56,6 +56,12 @@ export class TimerFactory {
     log(`stop ${this.timers.length} timers`)
     this.timers.forEach(clearInterval)
     this.timers.length = 0
+  }
+
+  static forEffect(count$: Observable<string>, interval$: Observable<string>) {
+    const factory = new TimerFactory(count$, interval$)
+    factory.start();
+    return () => factory.stop();
   }
 
 }

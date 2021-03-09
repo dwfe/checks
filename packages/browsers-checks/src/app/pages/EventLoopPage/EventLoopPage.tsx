@@ -11,6 +11,7 @@ export const EventLoopPage = (props: IRoutableProps) => {
   return (
     <>
       <Timers/>
+      {/*<Timers2 count={'1'} interval={'0.5'}/>*/}
       <AboutEventLoop/>
       <WhatFreezesTheEventLoop/>
     </>
