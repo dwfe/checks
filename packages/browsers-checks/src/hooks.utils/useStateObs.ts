@@ -3,7 +3,7 @@ import {shareReplay} from 'rxjs/operators'
 import {useCallback, useState} from 'react'
 import {useControlledRender} from './useControlledRender'
 
-export const useSubjState = <T = any>(initValue: T): [T, Observable<T>, (value: T) => void] => {
+export const useStateObs = <T = any>(initValue: T): [T, (value: T) => void, Observable<T>] => {
   const [subj] = useState(new BehaviorSubject<T>(initValue))
   const [value$] = useState(subj.asObservable().pipe(shareReplay(1)))
   const renderRunFn = useControlledRender()
@@ -13,5 +13,5 @@ export const useSubjState = <T = any>(initValue: T): [T, Observable<T>, (value: 
       renderRunFn()
     }
   }, [subj, renderRunFn])
-  return [subj.getValue(), value$, setValue]
+  return [subj.getValue(), setValue, value$]
 }

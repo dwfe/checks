@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react'
 import {invalidClass, isCountValidFn, isIntervalValidFn} from '../common'
-import {useSubjState} from '../../../../hooks.utils/useSubjState'
+import {useStateObs} from '../../../../hooks.utils/useStateObs'
 import {TimerInput} from '../TimerInput/TimerInput'
 import {TimerFactory} from '../TimerFactory'
 
 export function Timer() {
-  const [count, count$, setCount] = useSubjState('1')
-  const [interval, interval$, setInterval] = useSubjState('0.3')
+  const [count, setCount, count$] = useStateObs('1')
+  const [interval, setInterval, interval$] = useStateObs('0.3')
 
   useEffect(() =>
       TimerFactory.forEffect(count$, interval$)
