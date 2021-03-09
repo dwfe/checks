@@ -1,7 +1,6 @@
 import {skip, takeUntil, tap} from 'rxjs/operators'
 import {combineLatest, Subject} from 'rxjs'
 import React from 'react'
-import {invalidClass, isCountValidFn, isIntervalValidFn} from '../common'
 import {SubjectWrap} from '../../../../hooks.utils/subject.wrap'
 import {TimerInput} from '../TimerInput/TimerInput'
 import {TimerFactory} from '../TimerFactory'
@@ -66,8 +65,8 @@ export class Timer2 extends React.Component<IProps, IState> {
     return (
       <div className="Timers">
         <h3>Timers2</h3>
-        <TimerInput label="count" value={count} setValue={this.count.setValue} invalidClass={invalidClass(count, isCountValidFn)}/>&nbsp;&nbsp;&nbsp;
-        <TimerInput label="interval" value={interval} setValue={this.interval.setValue} invalidClass={invalidClass(interval, isIntervalValidFn)}/>
+        <TimerInput label="count" value={count} setValue={this.count.setValue}/>&nbsp;&nbsp;&nbsp;
+        <TimerInput label="interval" value={interval} setValue={this.interval.setValue}/>
       </div>
     );
   }

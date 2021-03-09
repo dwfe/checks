@@ -1,8 +1,7 @@
 import {combineLatest, Observable, Subscription} from 'rxjs'
 import {debounceTime, filter, map, mapTo, shareReplay, tap} from 'rxjs/operators'
 import {log} from '../../../common';
-import {convertTimerParams} from './common';
-
+import {InputValidator} from './TimerInput/input.validator'
 
 export class TimerFactory {
   private timers: number[] = []
@@ -30,7 +29,7 @@ export class TimerFactory {
     debounceTime(500),
     filter(() => this.isFactoryRun),
     tap(() => this.stopTimers()),
-    map(convertTimerParams),
+    map(TimerFactory.convertTimerParams),
     filter(params => !!params),
     tap((params: number[]) => this.startTimers(params)),
     mapTo(null),
@@ -56,6 +55,12 @@ export class TimerFactory {
     log(`stop ${this.timers.length} timers`)
     this.timers.forEach(clearInterval)
     this.timers.length = 0
+  }
+
+  static convertTimerParams([count, interval]: string[]): number[] | false {
+    return InputValidator.isCountValidFn(count) && InputValidator.isIntervalValidFn(interval)
+      ? [+count, +interval]
+      : false
   }
 
   static forEffect(count$: Observable<string>, interval$: Observable<string>) {

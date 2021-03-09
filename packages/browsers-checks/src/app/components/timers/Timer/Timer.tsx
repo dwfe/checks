@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react'
-import {invalidClass, isCountValidFn, isIntervalValidFn} from '../common'
 import {useStateObs} from '../../../../hooks.utils/useStateObs'
 import {TimerInput} from '../TimerInput/TimerInput'
 import {TimerFactory} from '../TimerFactory'
@@ -15,8 +14,8 @@ export function Timer() {
   return (
     <div>
       <h3>Timers</h3>
-      <TimerInput label="count" value={count} setValue={setCount} invalidClass={invalidClass(count, isCountValidFn)}/>&nbsp;&nbsp;&nbsp;
-      <TimerInput label="interval" value={interval} setValue={setInterval} invalidClass={invalidClass(interval, isIntervalValidFn)}/>
+      <TimerInput label="count" value={count} setValue={setCount}/>&nbsp;&nbsp;&nbsp;
+      <TimerInput label="interval" value={interval} setValue={setInterval}/>
     </div>
   )
 }
