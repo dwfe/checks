@@ -1,12 +1,10 @@
 import {skip, takeUntil, tap} from 'rxjs/operators'
 import {combineLatest, Subject} from 'rxjs'
-import classNames from 'classnames'
 import React from 'react'
-import {invalidClass, isCountValidFn, isIntervalValidFn} from './globals'
-import {SubjectWrap} from '../../../hooks.utils/subject.wrap'
-import {TimerFactory} from './TimerFactory'
-import './styles.css'
-
+import {invalidClass, isCountValidFn, isIntervalValidFn} from '../common'
+import {SubjectWrap} from '../../../../hooks.utils/subject.wrap'
+import {TimerInput} from '../TimerInput/TimerInput'
+import {TimerFactory} from '../TimerFactory'
 
 interface IProps {
   count: string;
@@ -17,7 +15,7 @@ interface IState {
   i: number
 }
 
-export class Timers2 extends React.Component<IProps, IState> {
+export class Timer2 extends React.Component<IProps, IState> {
 
   /**
    * State
@@ -30,8 +28,8 @@ export class Timers2 extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    this.count.value = props.count || '1';
-    this.interval.value = props.interval || '0.3';
+    this.count.setValue(props.count || '1');
+    this.interval.setValue(props.interval || '0.3');
     this.state = {i: 0};
   }
 
@@ -44,8 +42,8 @@ export class Timers2 extends React.Component<IProps, IState> {
 
   shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<IState>, nextContext: any): boolean {
     if (this.props !== nextProps) {
-      this.count.value = nextProps.count
-      this.interval.value = nextProps.interval
+      this.count.setValue(nextProps.count);
+      this.interval.setValue(nextProps.interval);
     }
     return true;
   }
@@ -62,28 +60,14 @@ export class Timers2 extends React.Component<IProps, IState> {
   )
 
   render() {
-    console.log(`render`, JSON.stringify(this.state))
+    // console.log(`render`, JSON.stringify(this.state))
     const count = this.count.value;
     const interval = this.interval.value;
     return (
       <div className="Timers">
         <h3>Timers2</h3>
-        <label>
-          count&nbsp;
-          <input type="string"
-                 className={classNames(invalidClass(count, isCountValidFn))}
-                 onChange={event => this.count.value = event.target.value}
-                 value={count}
-          />
-        </label>&nbsp;&nbsp;&nbsp;
-        <label>
-          interval&nbsp;
-          <input type="string"
-                 className={classNames(invalidClass(interval, isIntervalValidFn))}
-                 onChange={event => this.interval.value = event.target.value}
-                 value={interval}
-          />&nbsp;seconds
-        </label>
+        <TimerInput label="count" value={count} setValue={this.count.setValue} invalidClass={invalidClass(count, isCountValidFn)}/>&nbsp;&nbsp;&nbsp;
+        <TimerInput label="interval" value={interval} setValue={this.interval.setValue} invalidClass={invalidClass(interval, isIntervalValidFn)}/>
       </div>
     );
   }

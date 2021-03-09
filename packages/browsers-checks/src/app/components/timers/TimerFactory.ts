@@ -1,7 +1,7 @@
 import {combineLatest, Observable, Subscription} from 'rxjs'
 import {debounceTime, filter, map, mapTo, shareReplay, tap} from 'rxjs/operators'
 import {log} from '../../../common';
-import {convertTimerParams} from './globals';
+import {convertTimerParams} from './common';
 
 
 export class TimerFactory {

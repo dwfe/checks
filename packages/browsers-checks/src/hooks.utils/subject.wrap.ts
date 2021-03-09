@@ -17,7 +17,7 @@ export class SubjectWrap<TData = any> {
     return this.subj.getValue()
   }
 
-  set value(value: TData) {
+  setValue = (value: TData) => {
     if (this.value !== value)
       this.subj.next(value)
   }

@@ -1,5 +1,9 @@
 
-.Timers input {
+.TimerInput {
+  display: inline;
+}
+
+.TimerInput_input {
   width: 60px;
   font-family: inherit;
   font-size: inherit;
@@ -7,6 +11,6 @@
   border-width: 1px;
 }
 
-.Timers .input-invalid {
+.TimerInput_input.input-invalid {
   background-color: pink;
 }
