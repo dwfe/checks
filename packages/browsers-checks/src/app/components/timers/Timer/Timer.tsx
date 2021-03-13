@@ -1,5 +1,5 @@
+import {useSubjectedState} from '@do-while-for-each/react'
 import React, {useEffect} from 'react'
-import {useSubjectedState} from '../../../../hooks/useSubjectedState'
 import {TimerInput} from '../TimerInput/TimerInput'
 import {TimerFactory} from '../TimerFactory'
 

@@ -24,6 +24,7 @@
     "@do-while-for-each/browser-router": "2",
     "@do-while-for-each/browser-router-react-tools": "2",
     "@do-while-for-each/rxjs": "1",
+    "@do-while-for-each/react": "1",
     "reflect-metadata": "0",
     "tsyringe": "4",
     "autosize": "4",
