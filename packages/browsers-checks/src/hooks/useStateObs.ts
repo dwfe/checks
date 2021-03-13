@@ -1,13 +1,13 @@
-import {BehaviourSubjWrap, Observable} from '@do-while-for-each/rxjs'
+import {BehaviourSubjWrap} from '@do-while-for-each/rxjs'
 import {useCallback, useState} from 'react'
 import {useControlledRender} from './useControlledRender'
 
-export const useStateObs = <T = any>(initValue: T): [T, (value: T) => void, Observable<T>] => {
+export const useStateObs = <T = any>(initValue: T): [BehaviourSubjWrap<T>, (value: T) => void] => {
   const [wrap] = useState(new BehaviourSubjWrap<T>(initValue))
   const renderRunFn = useControlledRender()
   const setValue = useCallback((value: T) => {
     wrap.setValue(value)
     renderRunFn()
   }, [wrap, renderRunFn])
-  return [wrap.value, setValue, wrap.value$]
+  return [wrap, setValue]
 }

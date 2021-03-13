@@ -4,18 +4,18 @@ import {TimerInput} from '../TimerInput/TimerInput'
 import {TimerFactory} from '../TimerFactory'
 
 export function Timer() {
-  const [count, setCount, count$] = useStateObs('1')
-  const [interval, setInterval, interval$] = useStateObs('0.3')
+  const [count, setCount] = useStateObs('1')
+  const [interval, setInterval] = useStateObs('0.3')
 
   useEffect(() =>
-      TimerFactory.forEffect(count$, interval$)
-    , [count$, interval$])
+      TimerFactory.forEffect(count.value$, interval.value$)
+    , [count, interval])
 
   return (
     <div>
       <h3>Timers</h3>
-      <TimerInput label="count" value={count} setValue={setCount}/>&nbsp;&nbsp;&nbsp;
-      <TimerInput label="interval" value={interval} setValue={setInterval}/>
+      <TimerInput label="count" value={count.value} setValue={setCount}/>&nbsp;&nbsp;&nbsp;
+      <TimerInput label="interval" value={interval.value} setValue={setInterval}/>
     </div>
   )
 }
