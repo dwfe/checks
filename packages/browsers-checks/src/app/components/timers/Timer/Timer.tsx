@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {useStateObs} from '../../../../hooks.utils/useStateObs'
+import {useStateObs} from '../../../../hooks/useStateObs'
 import {TimerInput} from '../TimerInput/TimerInput'
 import {TimerFactory} from '../TimerFactory'
 

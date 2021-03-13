@@ -1,5 +1,4 @@
-import {debounceTime, filter, map, mapTo, shareReplay, tap} from 'rxjs/operators'
-import {combineLatest, Observable, Subscription} from 'rxjs'
+import {combineLatest, debounceTime, filter, map, mapTo, Observable, shareReplay, Subscription, tap} from '@do-while-for-each/rxjs'
 import {InputValidator} from './TimerInput/input.validator'
 import {log} from '../../../common';
 
