@@ -1,4 +1,4 @@
-import {isNumeric} from '../../../../common'
+import {isNumeric} from '@do-while-for-each/common'
 
 export class InputValidator {
 

@@ -24,12 +24,15 @@ export class RouteResultsHandler {
   }
 
   private onRouteResult(arg: TRouteResultArg) {
-    ReactDOM.render(
-      <GeneralTemplate>
-        {arg.component}
-      </GeneralTemplate>,
-      this.root
-    )
+    setTimeout(()=>{
+      ReactDOM.render(
+        <GeneralTemplate>
+          {arg.component}
+        </GeneralTemplate>,
+        this.root
+      )
+    });
+
   }
 
 }
