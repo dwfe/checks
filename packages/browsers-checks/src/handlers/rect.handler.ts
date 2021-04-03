@@ -5,13 +5,6 @@ export class RectHandler {
 
   private _rect: BehaviourSubj<ClientRect>
 
-  constructor(public element: Element) {
-    this._rect = new BehaviourSubj(this.rawRect)
-    new ResizeObserver(entries => {
-      this._rect.setValue(this.rawRect)
-    }).observe(this.element)
-  }
-
   get rect(): ClientRect {
     return this._rect.value
   }
@@ -20,8 +13,15 @@ export class RectHandler {
     return this._rect.value$
   }
 
-  get rawRect(): ClientRect {
+  get rectRaw(): ClientRect {
     return this.element.getBoundingClientRect()
+  }
+
+  constructor(private element: Element) {
+    this._rect = new BehaviourSubj(this.rectRaw)
+    new ResizeObserver(entries => {
+      this._rect.setValue(this.rectRaw)
+    }).observe(this.element)
   }
 
   get center(): IPoint {
