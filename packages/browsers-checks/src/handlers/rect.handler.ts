@@ -3,14 +3,14 @@ import {IPoint} from '@do-while-for-each/math'
 
 export class RectHandler {
 
-  private _rect: BehaviourSubj<ClientRect>
+  private clientRect: BehaviourSubj<ClientRect>
 
   get rect(): ClientRect {
-    return this._rect.value
+    return this.clientRect.value
   }
 
   get rect$(): Observable<ClientRect> {
-    return this._rect.value$
+    return this.clientRect.value$
   }
 
   get rectRaw(): ClientRect {
@@ -18,9 +18,9 @@ export class RectHandler {
   }
 
   constructor(private element: Element) {
-    this._rect = new BehaviourSubj(this.rectRaw)
+    this.clientRect = new BehaviourSubj(this.rectRaw)
     new ResizeObserver(entries => {
-      this._rect.setValue(this.rectRaw)
+      this.clientRect.setValue(this.rectRaw)
     }).observe(this.element)
   }
 
