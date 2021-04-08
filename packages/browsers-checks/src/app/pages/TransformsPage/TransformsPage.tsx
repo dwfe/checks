@@ -5,6 +5,7 @@ export function TransformsPage() {
   return (
     <div>
       <Link href="/transforms/constant-distance">Constant distance</Link><br/><br/>
+      <Link href="/transforms/resize-observer">Resize observer</Link><br/><br/>
     </div>
   );
 }

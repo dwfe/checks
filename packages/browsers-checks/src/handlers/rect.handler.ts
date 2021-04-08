@@ -40,4 +40,8 @@ export class RectHandler {
     }
   }
 
+  stop() {
+    this.clientRect.stop()
+  }
+
 }
