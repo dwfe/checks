@@ -6,6 +6,15 @@ export class RectHandler {
   private resizeObserver: ResizeObserver
   private clientRect: BehaviourSubj<ClientRect>
 
+  constructor(private element: Element,
+              private boxOptions: ResizeObserverBoxOptions = 'border-box') {
+    this.clientRect = new BehaviourSubj(this.rectRaw)
+    this.resizeObserver = new ResizeObserver(entries => {
+      this.clientRect.setValue(this.rectRaw)
+    })
+    this.resizeObserver.observe(this.element, {box: boxOptions})
+  }
+
   get rect(): ClientRect {
     return this.clientRect.value
   }
@@ -16,15 +25,6 @@ export class RectHandler {
 
   get rectRaw(): ClientRect {
     return this.element.getBoundingClientRect()
-  }
-
-  constructor(private element: Element,
-              private boxOptions: ResizeObserverBoxOptions = 'border-box') {
-    this.clientRect = new BehaviourSubj(this.rectRaw)
-    this.resizeObserver = new ResizeObserver(entries => {
-      this.clientRect.setValue(this.rectRaw)
-    })
-    this.resizeObserver.observe(this.element, {box: boxOptions})
   }
 
   get center(): IPoint {
