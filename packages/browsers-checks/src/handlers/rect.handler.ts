@@ -3,6 +3,7 @@ import {IPoint} from '@do-while-for-each/math'
 
 export class RectHandler {
 
+  private resizeObserver: ResizeObserver
   private clientRect: BehaviourSubj<ClientRect>
 
   get rect(): ClientRect {
@@ -17,11 +18,13 @@ export class RectHandler {
     return this.element.getBoundingClientRect()
   }
 
-  constructor(private element: Element) {
+  constructor(private element: Element,
+              private boxOptions: ResizeObserverBoxOptions = 'border-box') {
     this.clientRect = new BehaviourSubj(this.rectRaw)
-    new ResizeObserver(entries => {
+    this.resizeObserver = new ResizeObserver(entries => {
       this.clientRect.setValue(this.rectRaw)
-    }).observe(this.element)
+    })
+    this.resizeObserver.observe(this.element, {box: boxOptions})
   }
 
   get center(): IPoint {
@@ -42,6 +45,7 @@ export class RectHandler {
 
   stop() {
     this.clientRect.stop()
+    this.resizeObserver.disconnect()
   }
 
 }
