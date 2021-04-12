@@ -1,6 +1,6 @@
 import React from 'react'
-import {useResizeObserver} from '../../../../handlers/useResizeObserver'
 import {InnerRectangle} from './InnerRectangle/InnerRectangle'
+import {useResizeObserver} from '../../../../handlers'
 import './TransformProvingGround.css'
 
 export function TransformProvingGround() {
