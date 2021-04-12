@@ -1,4 +1,4 @@
-import {BehaviourSubj, filter, Observable} from '@do-while-for-each/rxjs'
+import {BehaviourSubj, filter, Observable, shareReplay} from '@do-while-for-each/rxjs'
 import {IPoint} from '@do-while-for-each/math'
 
 export class RectHandler {
@@ -25,7 +25,8 @@ export class RectHandler {
 
   get rect$(): Observable<ClientRect> {
     return this.clientRect.value$.pipe(
-      filter(rect => rect.width > 0 && rect.height > 0)
+      filter(rect => rect.width > 0 && rect.height > 0),
+      shareReplay(1),
     )
   }
 
