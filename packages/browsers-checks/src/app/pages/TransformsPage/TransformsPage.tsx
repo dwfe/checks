@@ -6,7 +6,7 @@ export function TransformsPage() {
     <div>
       <Link href="/transforms/constant-distance">Constant distance</Link><br/><br/>
       <Link href="/transforms/resize-observer">Resize observer</Link><br/><br/>
-      <Link href="/transforms/transform-polygon">Transform polygon</Link><br/><br/>
+      <Link href="/transforms/transform-proving-ground">Transform proving ground</Link><br/><br/>
     </div>
   );
 }

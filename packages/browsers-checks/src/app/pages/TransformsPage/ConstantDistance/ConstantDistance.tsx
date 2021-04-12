@@ -1,7 +1,7 @@
 import React from 'react'
 
-export function ConstantDistance(){
-  return(
+export function ConstantDistance() {
+  return (
     <div>
       ConstantDistance
     </div>

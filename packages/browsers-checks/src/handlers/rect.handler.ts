@@ -1,18 +1,22 @@
-import {BehaviourSubj, Observable} from '@do-while-for-each/rxjs'
+import {BehaviourSubj, filter, Observable} from '@do-while-for-each/rxjs'
 import {IPoint} from '@do-while-for-each/math'
 
 export class RectHandler {
 
-  private resizeObserver: ResizeObserver
-  private clientRect: BehaviourSubj<ClientRect>
+  private element!: Element
+  private resizeObserver!: ResizeObserver
+  private clientRect!: BehaviourSubj<ClientRect>
 
-  constructor(private element: Element,
-              private boxOptions: ResizeObserverBoxOptions = 'border-box') {
+  constructor(private boxOptions: ResizeObserverBoxOptions = 'border-box') {
+  }
+
+  init(element: Element): void {
+    this.element = element
     this.clientRect = new BehaviourSubj(this.rectRaw)
     this.resizeObserver = new ResizeObserver(entries => {
       this.clientRect.setValue(this.rectRaw)
     })
-    this.resizeObserver.observe(this.element, {box: boxOptions})
+    this.resizeObserver.observe(this.element, {box: this.boxOptions})
   }
 
   get rect(): ClientRect {
@@ -20,7 +24,9 @@ export class RectHandler {
   }
 
   get rect$(): Observable<ClientRect> {
-    return this.clientRect.value$
+    return this.clientRect.value$.pipe(
+      filter(rect => rect.width > 0 && rect.height > 0)
+    )
   }
 
   get rectRaw(): ClientRect {
@@ -44,8 +50,8 @@ export class RectHandler {
   }
 
   stop() {
-    this.clientRect.stop()
     this.resizeObserver.disconnect()
+    this.clientRect.stop()
   }
 
 }
