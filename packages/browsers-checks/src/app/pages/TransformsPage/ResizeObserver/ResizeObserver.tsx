@@ -1,6 +1,6 @@
 import {debounceTime, tap} from '@do-while-for-each/rxjs'
 import React, {useEffect} from 'react'
-import {useResizeObserver} from '../../../../handlers'
+import {useResizeObserver} from '../../../../handler'
 import './ResizeObserver.css'
 
 export function ResizeObserver() {

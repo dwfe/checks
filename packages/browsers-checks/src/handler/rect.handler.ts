@@ -51,8 +51,8 @@ export class RectHandler {
   }
 
   stop() {
-    this.resizeObserver.disconnect()
     this.clientRect.stop()
+    this.resizeObserver.disconnect()
   }
 
 }

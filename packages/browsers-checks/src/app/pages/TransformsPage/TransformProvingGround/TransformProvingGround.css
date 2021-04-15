@@ -1,4 +1,5 @@
 .TransformProvingGround {
-  border: 1px solid gray;
+  box-sizing: border-box;
   height: 85vh;
+  border: 1px solid gray;
 }

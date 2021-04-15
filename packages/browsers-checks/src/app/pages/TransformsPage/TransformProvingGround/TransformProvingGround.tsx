@@ -1,15 +1,26 @@
-import React from 'react'
-import {InnerRectangle} from './InnerRectangle/InnerRectangle'
-import {useResizeObserver} from '../../../../handlers'
+import React, {useEffect} from 'react'
+import {ChangeableContainer} from './ChangeableContainer/ChangeableContainer'
+import {MouseMoveEvent, useResizeObserver} from '../../../../handler'
 import './TransformProvingGround.css'
 
 export function TransformProvingGround() {
-  const [rectElemRef, rectHandler] = useResizeObserver<HTMLDivElement>()
+  const [element, rectHandler] = useResizeObserver<HTMLDivElement>()
+
+  useEffect(() => {
+    const subscription = MouseMoveEvent.of(element.current as Element)
+      .subscribe(event => {
+        console.log(
+          `client[${event.clientX}, ${event.clientY}]`,
+          `offset[${event.offsetX}, ${event.offsetY}]`,
+          `page[${event.pageX}, ${event.pageY}]`)
+      })
+    return () => subscription.unsubscribe();
+  }, [])
 
   return (
     <div className="TransformProvingGround"
-         ref={rectElemRef}>
-      <InnerRectangle/>
+         ref={element}>
+      {/*<ChangeableContainer/>*/}
     </div>
   );
 }
