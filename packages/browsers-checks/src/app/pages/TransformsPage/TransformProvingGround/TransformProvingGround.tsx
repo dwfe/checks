@@ -1,25 +1,19 @@
-import React, {useEffect} from 'react'
-import {ChangeableContainer} from './ChangeableContainer/ChangeableContainer'
-import {MouseMoveEvent, useResizeObserver} from '../../../../handler'
+import React, {useEffect, useState} from 'react'
+import {useResizeObserver} from '../../../../handler'
+import {EventInfo} from './EventInfo/EventInfo'
 import './TransformProvingGround.css'
 
 export function TransformProvingGround() {
-  const [element, rectHandler] = useResizeObserver<HTMLDivElement>()
+  const [ref, rectHandler] = useResizeObserver<HTMLDivElement>()
+  const [element, setElement] = useState(ref.current)
 
   useEffect(() => {
-    const subscription = MouseMoveEvent.of(element.current as Element)
-      .subscribe(event => {
-        console.log(
-          `client[${event.clientX}, ${event.clientY}]`,
-          `offset[${event.offsetX}, ${event.offsetY}]`,
-          `page[${event.pageX}, ${event.pageY}]`)
-      })
-    return () => subscription.unsubscribe();
+    setElement(ref.current)
   }, [])
 
   return (
-    <div className="TransformProvingGround"
-         ref={element}>
+    <div className="TransformProvingGround" ref={ref}>
+      {element === null ? <></> : <EventInfo element={element}/>}
       {/*<ChangeableContainer/>*/}
     </div>
   );

@@ -1,0 +1,18 @@
+.EventInfo {
+
+}
+
+.EventInfo_table {
+  margin: 0;
+  font-size: 11px;
+}
+
+.EventInfo_title {
+  text-align: end;
+}
+
+.EventInfo_value {
+  min-width: 25px;
+  text-align: end;
+  font-family: Menlo, "Courier New", monospace;
+}

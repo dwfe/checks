@@ -2,4 +2,13 @@
   box-sizing: border-box;
   height: 85vh;
   border: 1px solid gray;
+
+  position: relative;
+}
+
+.GeometryInfo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
 }
