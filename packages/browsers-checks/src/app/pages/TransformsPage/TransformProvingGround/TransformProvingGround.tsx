@@ -13,8 +13,8 @@ export function TransformProvingGround() {
 
   return (
     <div className="TransformProvingGround" ref={ref}>
-      {element === null ? <></> : <EventInfo element={element}/>}
       {/*<ChangeableContainer/>*/}
+      {element === null ? <></> : <EventInfo element={element}/>}
     </div>
   );
 }
