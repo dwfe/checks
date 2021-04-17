@@ -1,20 +1,21 @@
 import React, {useEffect, useState} from 'react'
 import {animationFrame, debounceTime, tap} from '@do-while-for-each/rxjs'
-import {MouseMove} from '../../../../../handler'
+import {MouseMove, RectHandler} from '../../../../../handler'
 import './EventInfo.css'
 
-export function EventInfo({element}: IProps) {
+export function EventInfo({element, rectHandler}: IProps) {
   const [client, setClient] = useState([] as number[])
-  const [offset, setOffset] = useState([] as number[])
   const [page, setPage] = useState([] as number[])
+  const [pos, setPos] = useState([] as number[])
 
   useEffect(() => {
     const subscription = MouseMove.of$(element).pipe(
       debounceTime(0, animationFrame),
       tap(event => {
         setClient([event.clientX, event.clientY])
-        setOffset([event.offsetX, event.offsetY])
         setPage([event.pageX, event.pageY])
+        const pagePoint = rectHandler.getPagePoint(event.pageX, event.pageY)
+        setPos([pagePoint.x, pagePoint.y])
       })
     ).subscribe()
     return () => subscription.unsubscribe();
@@ -30,14 +31,14 @@ export function EventInfo({element}: IProps) {
           <td className="EventInfo_value">{client[1]}</td>
         </tr>
         <tr>
-          <td className="EventInfo_title">offset</td>
-          <td className="EventInfo_value">{offset[0]}</td>
-          <td className="EventInfo_value">{offset[1]}</td>
-        </tr>
-        <tr>
           <td className="EventInfo_title">page</td>
           <td className="EventInfo_value">{page[0]}</td>
           <td className="EventInfo_value">{page[1]}</td>
+        </tr>
+        <tr>
+          <td className="EventInfo_title">pos</td>
+          <td className="EventInfo_value">{pos[0]}</td>
+          <td className="EventInfo_value">{pos[1]}</td>
         </tr>
         </tbody>
       </table>
@@ -47,4 +48,5 @@ export function EventInfo({element}: IProps) {
 
 interface IProps {
   element: Element;
+  rectHandler: RectHandler;
 }

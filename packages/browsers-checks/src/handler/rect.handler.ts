@@ -1,57 +1,49 @@
-import {BehaviourSubj, filter, Observable, shareReplay} from '@do-while-for-each/rxjs'
+import {BehaviourSubj, filter, Observable} from '@do-while-for-each/rxjs'
 import {IPoint} from '@do-while-for-each/math'
 
 export class RectHandler {
 
   private element!: Element
   private resizeObserver!: ResizeObserver
-  private clientRect!: BehaviourSubj<ClientRect>
+  public rect!: ClientRect
+  private rectSubj!: BehaviourSubj<ClientRect>
 
   constructor(private boxOptions: ResizeObserverBoxOptions = 'border-box') {
   }
 
   init(element: Element): void {
     this.element = element
-    this.clientRect = new BehaviourSubj(this.rectRaw)
+    this.rect = this.rectRaw
+    this.rectSubj = new BehaviourSubj(this.rect)
     this.resizeObserver = new ResizeObserver(entries => {
-      this.clientRect.setValue(this.rectRaw)
+      this.rect = this.rectRaw
+      this.rectSubj.setValue(this.rect)
     })
     this.resizeObserver.observe(this.element, {box: this.boxOptions})
-  }
-
-  get rect(): ClientRect {
-    return this.clientRect.value
-  }
-
-  get rect$(): Observable<ClientRect> {
-    return this.clientRect.value$.pipe(
-      filter(rect => rect.width > 0 && rect.height > 0),
-      shareReplay(1),
-    )
   }
 
   get rectRaw(): ClientRect {
     return this.element.getBoundingClientRect()
   }
 
-  get center(): IPoint {
-    const rect = this.rect
-    return {
-      x: (rect.left + rect.right) / 2,
-      y: (rect.top + rect.bottom) / 2
-    }
+  get rect$(): Observable<ClientRect> {
+    return this.rectSubj.value$.pipe(
+      filter(rect => rect.width > 0 && rect.height > 0),
+    )
   }
 
-  getPoint(event: { pageX: number; pageY: number }): IPoint {
-    const rect = this.rect
-    return {
-      x: event.pageX - rect.left,
-      y: event.pageY - rect.top
-    }
-  }
+  getCenter = (): IPoint => ({
+    x: (this.rect.left + this.rect.right) / 2,
+    y: (this.rect.top + this.rect.bottom) / 2
+  })
+
+  getPagePoint = (pageX: number, pageY: number): IPoint => ({
+    x: pageX - this.rect.left,
+    y: pageY - this.rect.top
+  })
 
   stop() {
-    this.clientRect.stop()
+    this.rectSubj.stop()
     this.resizeObserver.disconnect()
   }
 

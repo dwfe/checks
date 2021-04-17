@@ -1,12 +1,15 @@
 .TransformProvingGround {
   box-sizing: border-box;
   height: 85vh;
-  border: 1px solid gray;
+  /*width: 1000px;*/
+  /*height: 600px;*/
+  outline: 1px solid gray;
+  border: none;
 
   position: relative;
 }
 
-.GeometryInfo {
+.EventInfo {
   position: absolute;
   top: 0;
   left: 0;
