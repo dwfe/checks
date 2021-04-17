@@ -32,12 +32,7 @@ export class RectHandler {
     )
   }
 
-  getCenter = (): IPoint => ({
-    x: (this.rect.left + this.rect.right) / 2,
-    y: (this.rect.top + this.rect.bottom) / 2
-  })
-
-  getPagePoint = (pageX: number, pageY: number): IPoint => ({
+  pagePoint = (pageX: number, pageY: number): IPoint => ({
     x: pageX - this.rect.left,
     y: pageY - this.rect.top
   })

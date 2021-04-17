@@ -3,17 +3,17 @@ import {MouseMove} from '../mouse/mouse-move.event'
 import {TouchMove} from '../touch/touch-move.event'
 import {RectHandler} from '../../rect.handler'
 import {IUnpackedEvent} from '../contract'
-import {Unpack} from '../unpack-event'
+import {Prepare} from '../event.prepare'
 
 export class MoveEvent {
 
   static of$ = (element: Element, rectHandler: RectHandler, options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
     merge(
       MouseMove.of$(element, options).pipe(
-        map(event => Unpack.mouseEvent(event, rectHandler)),
+        map(event => Prepare.mouseEvent(event, rectHandler)),
       ),
       TouchMove.of$(element, options).pipe(
-        map(event => Unpack.touchEvent(event, rectHandler)),
+        map(event => Prepare.touchEvent(event, rectHandler)),
       ),
     )
 
