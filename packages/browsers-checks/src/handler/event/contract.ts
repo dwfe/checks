@@ -1,8 +1,8 @@
-import {IPoint} from '@do-while-for-each/math';
+import {IPoint} from '@do-while-for-each/math'
 
 export type TManualEvent = MouseEvent | TouchEvent
 
-export interface IMoveEvent {
+export interface IUnpackedEvent {
   pagePoint: IPoint;
   target: EventTarget | null;
   event: TManualEvent;
