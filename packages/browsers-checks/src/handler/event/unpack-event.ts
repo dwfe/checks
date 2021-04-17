@@ -5,7 +5,6 @@ export class Unpack {
 
   static event = (event: TManualEvent, pageX: number, pageY: number, rectHandler: RectHandler): IUnpackedEvent => ({
     pagePoint: rectHandler.getPagePoint(pageX, pageY),
-    target: event.target,
     event,
   })
 

@@ -4,7 +4,6 @@ export type TManualEvent = MouseEvent | TouchEvent
 
 export interface IUnpackedEvent {
   pagePoint: IPoint;
-  target: EventTarget | null;
   event: TManualEvent;
   // clientX: number;
   // clientY: number;
