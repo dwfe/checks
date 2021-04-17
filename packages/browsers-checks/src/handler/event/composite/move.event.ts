@@ -2,7 +2,7 @@ import {map, merge, Observable} from '@do-while-for-each/rxjs'
 import {MouseMove} from '../mouse/mouse-move.event'
 import {TouchMove} from '../touch/touch-move.event'
 import {RectHandler} from '../../rect.handler'
-import {IUnpackedEvent} from '../contract'
+import {IUnpackedEvent} from '../../contract'
 import {Prepare} from '../event.prepare'
 
 export class MoveEvent {

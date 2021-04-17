@@ -1,4 +1,4 @@
-import {animationFrame, debounceTime, tap} from '@do-while-for-each/rxjs'
+import {animationFrame, delay, tap} from '@do-while-for-each/rxjs'
 import React, {useEffect, useState} from 'react'
 import {MouseMove, RectHandler} from '../../../../../handler'
 import './EventInfo.css'
@@ -10,7 +10,7 @@ export function EventInfo({element, rectHandler}: IProps) {
 
   useEffect(() => {
     const subscription = MouseMove.of$(element, {passive: true}).pipe(
-      debounceTime(0, animationFrame),
+      delay(0, animationFrame),
       tap(event => {
         setClient([event.clientX, event.clientY])
         setPage([event.pageX, event.pageY])

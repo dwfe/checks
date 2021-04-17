@@ -1,4 +1,4 @@
-import {IUnpackedEvent, TManualEvent} from './contract'
+import {IUnpackedEvent, TManualEvent} from '../contract'
 import {RectHandler} from '../rect.handler'
 
 export class Prepare {

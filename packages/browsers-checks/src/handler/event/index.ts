@@ -1,5 +1,3 @@
-export * from './contract'
-
 export * from './mouse/mouse-down.event'
 export * from './mouse/mouse-leave.event'
 export * from './mouse/mouse-move.event'

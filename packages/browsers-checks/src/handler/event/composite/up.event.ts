@@ -4,7 +4,7 @@ import {MouseLeave} from '../mouse/mouse-leave.event'
 import {TouchEnd} from '../touch/touch-end.event'
 import {MouseUp} from '../mouse/mouse-up.event'
 import {RectHandler} from '../../rect.handler'
-import {IUnpackedEvent} from '../contract'
+import {IUnpackedEvent} from '../../contract'
 import {Prepare} from '../event.prepare'
 
 export class UpEvent {

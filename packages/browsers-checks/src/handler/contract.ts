@@ -14,3 +14,9 @@ export interface IUnpackedEvent {
   // metaKey: boolean;
   // shiftKey: boolean;
 }
+
+export interface IDragEvent {
+  prev: IUnpackedEvent;
+  curr: IUnpackedEvent;
+  diff: IPoint;
+}
