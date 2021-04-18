@@ -1,11 +1,11 @@
-import {map, merge, Observable} from '@do-while-for-each/rxjs';
+import {map, merge, Observable} from '@do-while-for-each/rxjs'
 import {TouchCancel} from '../touch/touch-cancel.event'
 import {MouseLeave} from '../mouse/mouse-leave.event'
 import {TouchEnd} from '../touch/touch-end.event'
 import {MouseUp} from '../mouse/mouse-up.event'
 import {RectHandler} from '../../rect.handler'
 import {IUnpackedEvent} from '../../contract'
-import {Prepare} from '../event.prepare'
+import {Prepare} from '../common'
 
 export class UpEvent {
 

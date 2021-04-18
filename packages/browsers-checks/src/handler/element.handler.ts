@@ -1,8 +1,9 @@
 import {distinctUntilChanged, map, Observable, pairwise, shareReplay, Subject, takeUntil} from '@do-while-for-each/rxjs'
 import {Point} from '@do-while-for-each/math'
-import {IMoveEvent, ITargetWrap, IUnpackedEvent} from './contract'
+import {IElementHandleWrap, IMoveEvent, IUnpackedEvent} from './contract'
 import {DragEvent} from './event/composite/drag.event'
 import {DownEvent, MoveEvent, UpEvent} from './event'
+import {processMoveEvent} from './event/common'
 
 export class ElementHandler {
 
@@ -15,7 +16,7 @@ export class ElementHandler {
   private stopper = new Subject()
 
   constructor(private element: Element,
-              private wrap: ITargetWrap) {
+              private wrap: IElementHandleWrap) {
     this.stopper$ = this.stopper.asObservable().pipe(shareReplay(0));
     this.down$ = DownEvent.of$(element, wrap.rectHandler).pipe(
       takeUntil(this.stopper$),
@@ -28,11 +29,7 @@ export class ElementHandler {
     this.move$ = MoveEvent.of$(element, wrap.rectHandler).pipe(
       distinctUntilChanged((a, b) => Point.isEquals(a.pagePoint, b.pagePoint)),
       pairwise(),
-      map(([a, b]) => ({
-        prev: a,
-        curr: b,
-        pagePointDiff: Point.subtract(b.pagePoint, a.pagePoint)
-      })),
+      map(([a, b]) => processMoveEvent(a, b)),
       takeUntil(this.stopper$),
       shareReplay(1),
     )

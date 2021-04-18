@@ -3,7 +3,7 @@ import {MouseMove} from '../mouse/mouse-move.event'
 import {TouchMove} from '../touch/touch-move.event'
 import {RectHandler} from '../../rect.handler'
 import {IUnpackedEvent} from '../../contract'
-import {Prepare} from '../event.prepare'
+import {Prepare} from '../common'
 
 export class MoveEvent {
 

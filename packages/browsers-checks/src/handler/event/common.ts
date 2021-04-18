@@ -1,5 +1,12 @@
-import {IUnpackedEvent, TManualEvent} from '../contract'
+import {Point} from '@do-while-for-each/math'
+import {IMoveEvent, IUnpackedEvent, TManualEvent} from '../contract'
 import {RectHandler} from '../rect.handler'
+
+export const processMoveEvent = (prevEvent: IUnpackedEvent, currEvent: IUnpackedEvent): IMoveEvent => ({
+  pagePointDiff: Point.diff(currEvent.pagePoint, prevEvent.pagePoint),
+  prevEvent,
+  currEvent,
+})
 
 export class Prepare {
 

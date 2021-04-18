@@ -2,6 +2,7 @@ import {distinctUntilChanged, map, Observable, pairwise, startWith, switchMap, t
 import {Point} from '@do-while-for-each/math'
 import {IMoveEvent, IUnpackedEvent} from '../../contract'
 import {RectHandler} from '../../rect.handler'
+import {processMoveEvent} from '../common'
 import {DownEvent} from './down.event'
 import {MoveEvent} from './move.event'
 import {UpEvent} from './up.event'
@@ -17,11 +18,7 @@ export class DragEvent {
         startWith(x),
         distinctUntilChanged((a, b) => Point.isEquals(a.pagePoint, b.pagePoint)),
         pairwise(),
-        map(([a, b]) => ({
-          prev: a,
-          curr: b,
-          pagePointDiff: Point.subtract(b.pagePoint, a.pagePoint)
-        })),
+        map(([a, b]) => processMoveEvent(a, b)),
         takeUntil(UpEvent.of$(upElement, rectHandler, {once: true})),
       )),
     )

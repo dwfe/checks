@@ -3,7 +3,7 @@ import {TouchStart} from '../touch/touch-start.event'
 import {MouseDown} from '../mouse/mouse-down.event'
 import {RectHandler} from '../../rect.handler'
 import {IUnpackedEvent} from '../../contract'
-import {Prepare} from '../event.prepare'
+import {Prepare} from '../common'
 
 export class DownEvent {
 
