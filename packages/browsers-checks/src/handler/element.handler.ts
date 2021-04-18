@@ -31,7 +31,7 @@ export class ElementHandler {
       map(([a, b]) => ({
         prev: a,
         curr: b,
-        diffPagePoint: Point.subtract(b.pagePoint, a.pagePoint)
+        pagePointDiff: Point.subtract(b.pagePoint, a.pagePoint)
       })),
       takeUntil(this.stopper$),
       shareReplay(1),

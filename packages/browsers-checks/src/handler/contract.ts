@@ -19,7 +19,7 @@ export interface IUnpackedEvent {
 export interface IMoveEvent {
   prev: IUnpackedEvent;
   curr: IUnpackedEvent;
-  diffPagePoint: IPoint;
+  pagePointDiff: IPoint;
 }
 
 export interface ITargetWrap {
