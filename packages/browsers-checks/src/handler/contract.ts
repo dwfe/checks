@@ -16,10 +16,10 @@ export interface IUnpackedEvent {
   // shiftKey: boolean;
 }
 
-export interface IDragEvent {
+export interface IMoveEvent {
   prev: IUnpackedEvent;
   curr: IUnpackedEvent;
-  diff: IPoint;
+  diffPagePoint: IPoint;
 }
 
 export interface ITargetWrap {

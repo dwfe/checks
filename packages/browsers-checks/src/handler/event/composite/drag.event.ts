@@ -1,6 +1,6 @@
 import {distinctUntilChanged, map, Observable, pairwise, startWith, switchMap, takeUntil} from '@do-while-for-each/rxjs'
 import {Point} from '@do-while-for-each/math'
-import {IDragEvent, IUnpackedEvent} from '../../contract'
+import {IMoveEvent, IUnpackedEvent} from '../../contract'
 import {RectHandler} from '../../rect.handler'
 import {DownEvent} from './down.event'
 import {MoveEvent} from './move.event'
@@ -11,7 +11,7 @@ export class DragEvent {
   static of$ = (down$: Observable<IUnpackedEvent>,
                 rectHandler: RectHandler,
                 moveElement: Element,
-                upElement: Element = moveElement): Observable<IDragEvent> =>
+                upElement: Element = moveElement): Observable<IMoveEvent> =>
     down$.pipe(
       switchMap(x => MoveEvent.of$(moveElement, rectHandler, {passive: true}).pipe(
         startWith(x),
@@ -20,16 +20,16 @@ export class DragEvent {
         map(([a, b]) => ({
           prev: a,
           curr: b,
-          diff: Point.subtract(b.pagePoint, a.pagePoint)
+          diffPagePoint: Point.subtract(b.pagePoint, a.pagePoint)
         })),
-        takeUntil(UpEvent.of$(upElement, rectHandler, {once: true}))
+        takeUntil(UpEvent.of$(upElement, rectHandler, {once: true})),
       )),
     )
 
   static of2$ = (elementWrap: Element,
                  element: Element,
                  rectHandler: RectHandler,
-                 options?: AddEventListenerOptions): Observable<IDragEvent> =>
+                 options?: AddEventListenerOptions): Observable<IMoveEvent> =>
     DragEvent.of$(
       DownEvent.of$(element, rectHandler, options),
       rectHandler,

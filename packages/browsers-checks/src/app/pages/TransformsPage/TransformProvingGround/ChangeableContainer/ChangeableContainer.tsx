@@ -10,7 +10,7 @@ export function ChangeableContainer({elementWrap, rectHandler}: IProps) {
   useEffect(() => {
     const elementHandler = new ElementHandler(ref.current as HTMLDivElement, {element: elementWrap, rectHandler})
     elementHandler.drag$.pipe(
-      map(drag => WebMatrix.of().translate(drag.diff.x, drag.diff.y)),
+      map(drag => WebMatrix.of().translate(drag.diffPagePoint.x, drag.diffPagePoint.y)),
       scan((acc, curr) => acc.multiply(curr)),
       delay(0, animationFrame),
       startWith(WebMatrix.of()),
