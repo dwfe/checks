@@ -1,15 +1,15 @@
 import {animationFrame, delay, map, scan, startWith, tap} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
 import React, {useEffect, useRef} from 'react'
-import {ManualHandler, RectHandler} from '../../../../../handler'
+import {ElementHandler, RectHandler} from '../../../../../handler'
 import './ChangeableContainer.css'
 
 export function ChangeableContainer(props: IProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const manualHandler = new ManualHandler(ref.current as HTMLDivElement, props.rectHandler)
-    manualHandler.drag$.pipe(
+    const elementHandler = new ElementHandler(props.elementWrap, ref.current as HTMLDivElement, props.rectHandler)
+    elementHandler.drag$.pipe(
       map(drag => WebMatrix.of().translate(drag.diff.x, drag.diff.y)),
       scan((acc, curr) => acc.multiply(curr)),
       delay(0, animationFrame),
@@ -18,7 +18,7 @@ export function ChangeableContainer(props: IProps) {
         (ref.current as HTMLDivElement).style.transform = m.toStyleValue()
       })
     ).subscribe()
-    return () => manualHandler.stop()
+    return () => elementHandler.stop()
   }, [])
 
   return (
@@ -29,5 +29,6 @@ export function ChangeableContainer(props: IProps) {
 }
 
 interface IProps {
+  elementWrap: Element;
   rectHandler: RectHandler;
 }

@@ -1,8 +1,8 @@
 .ChangeableContainer {
   box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  border: 1px solid deepskyblue;
+  width: 30%;
+  height: 30%;
+  outline: 1px solid deepskyblue;
   background: lightyellow;
 
   will-change: transform;

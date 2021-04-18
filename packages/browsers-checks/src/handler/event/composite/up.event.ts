@@ -9,7 +9,9 @@ import {Prepare} from '../event.prepare'
 
 export class UpEvent {
 
-  static of$ = (element: Element, rectHandler: RectHandler, options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
+  static of$ = (element: Element,
+                rectHandler: RectHandler,
+                options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
     merge(
       MouseUp.of$(element, options).pipe(
         map(event => Prepare.mouseEvent(event, rectHandler)),

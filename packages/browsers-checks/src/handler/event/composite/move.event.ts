@@ -7,7 +7,9 @@ import {Prepare} from '../event.prepare'
 
 export class MoveEvent {
 
-  static of$ = (element: Element, rectHandler: RectHandler, options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
+  static of$ = (element: Element,
+                rectHandler: RectHandler,
+                options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
     merge(
       MouseMove.of$(element, options).pipe(
         map(event => Prepare.mouseEvent(event, rectHandler)),

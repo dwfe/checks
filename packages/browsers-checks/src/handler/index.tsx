@@ -1,5 +1,5 @@
 export * from './event'
 export * from './contract'
-export * from './manual.handler'
+export * from './element.handler'
 export * from './rect.handler'
 export * from './useResizeObserver'
