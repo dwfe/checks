@@ -1,4 +1,5 @@
 import {IPoint} from '@do-while-for-each/math'
+import {RectHandler} from './rect.handler'
 
 export type TManualEvent = MouseEvent | TouchEvent
 
@@ -19,4 +20,9 @@ export interface IDragEvent {
   prev: IUnpackedEvent;
   curr: IUnpackedEvent;
   diff: IPoint;
+}
+
+export interface ITargetWrap {
+  element: Element;
+  rectHandler: RectHandler;
 }

@@ -4,11 +4,11 @@ import React, {useEffect, useRef} from 'react'
 import {ElementHandler, RectHandler} from '../../../../../handler'
 import './ChangeableContainer.css'
 
-export function ChangeableContainer(props: IProps) {
+export function ChangeableContainer({elementWrap, rectHandler}: IProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const elementHandler = new ElementHandler(props.elementWrap, ref.current as HTMLDivElement, props.rectHandler)
+    const elementHandler = new ElementHandler(ref.current as HTMLDivElement, {element: elementWrap, rectHandler})
     elementHandler.drag$.pipe(
       map(drag => WebMatrix.of().translate(drag.diff.x, drag.diff.y)),
       scan((acc, curr) => acc.multiply(curr)),
