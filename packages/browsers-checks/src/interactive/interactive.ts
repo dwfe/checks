@@ -35,7 +35,8 @@ export class Interactive {
     shareReplay(0),
   )
 
-  matrixResult$ = (): Observable<WebMatrix> => this.matrix$().pipe(
+  matrixResult$ = (): Observable<WebMatrix> => this.actions$.pipe(
+    map(action => action.matrix),
     scan((acc, curr) => acc.multiply(curr)),
     shareReplay(0),
   )
