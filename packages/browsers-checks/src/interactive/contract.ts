@@ -2,6 +2,9 @@ import {IDiff, IPoint, WebMatrix} from '@do-while-for-each/math'
 import {Observable} from '@do-while-for-each/rxjs'
 import {RectHandler} from './rect.handler'
 
+
+//region Event
+
 export type TManualEvent = MouseEvent | TouchEvent | KeyboardEvent | WheelEvent
 
 export interface IUnpackedEvent {
@@ -17,7 +20,18 @@ export interface IMoveEvent {
   currEvent: IUnpackedEvent;
 }
 
+export interface IElementHandleWrap {
+  element: Element;
+  rectHandler: RectHandler;
+}
+
+//endregion
+
+
+//region Transform
+
 export interface ITransformData {
+  type: InteractiveType;
   matrix: WebMatrix;
   target: EventTarget | null;
   event: IUnpackedEvent;
@@ -27,7 +41,15 @@ export interface ITransformGenerator {
   data$: Observable<ITransformData>;
 }
 
-export interface IElementHandleWrap {
-  element: Element;
-  rectHandler: RectHandler;
+//endregion
+
+
+//region Interactive
+
+export enum InteractiveType {
+  DRAG,
+  SCALE,
+  ROTATE,
 }
+
+//endregion
