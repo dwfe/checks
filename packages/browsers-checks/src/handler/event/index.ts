@@ -11,3 +11,5 @@ export * from './touch/touch-start.event'
 export * from './composite/down.event'
 export * from './composite/move.event'
 export * from './composite/up.event'
+
+export * from './common'

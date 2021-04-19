@@ -1,9 +1,8 @@
 import {distinctUntilChanged, map, Observable, pairwise, shareReplay, Subject, takeUntil} from '@do-while-for-each/rxjs'
 import {Point} from '@do-while-for-each/math'
 import {IElementHandleWrap, IMoveEvent, IUnpackedEvent} from './contract'
+import {DownEvent, MoveEvent, processMoveEvent, UpEvent} from './event'
 import {DragEvent} from './event/composite/drag.event'
-import {DownEvent, MoveEvent, UpEvent} from './event'
-import {processMoveEvent} from './event/common'
 
 export class ElementHandler {
 
@@ -31,7 +30,7 @@ export class ElementHandler {
       pairwise(),
       map(([a, b]) => processMoveEvent(a, b)),
       takeUntil(this.stopper$),
-      shareReplay(1),
+      shareReplay(0),
     )
     this.drag$ = DragEvent.of$(this.down$, wrap.rectHandler, wrap.element).pipe(
       takeUntil(this.stopper$),
