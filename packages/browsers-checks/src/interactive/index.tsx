@@ -1,5 +1,5 @@
 export * from './event'
-export * from './generator'
+export * from './transform'
 export * from './contract'
 export * from './element.handler'
 export * from './interactive'

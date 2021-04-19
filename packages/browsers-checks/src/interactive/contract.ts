@@ -17,14 +17,14 @@ export interface IMoveEvent {
   currEvent: IUnpackedEvent;
 }
 
-export interface IGeneratorData {
+export interface ITransformData {
   matrix: WebMatrix;
   target: EventTarget | null;
   event: IUnpackedEvent;
 }
 
-export interface IGenerator {
-  data$: Observable<IGeneratorData>;
+export interface ITransformGenerator {
+  data$: Observable<ITransformData>;
 }
 
 export interface IElementHandleWrap {

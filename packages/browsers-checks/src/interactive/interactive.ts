@@ -1,16 +1,16 @@
 import {map, merge, Observable, scan, shareReplay} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
-import {IGeneratorData} from './contract'
 import {ElementHandler} from './element.handler'
 import {RectHandler} from './rect.handler'
-import {DragGenerator} from './generator'
+import {ITransformData} from './contract'
+import {DragTransform} from './transform'
 
 export class Interactive {
 
   rectHandler: RectHandler;
   elementHandler: ElementHandler
 
-  data$!: Observable<IGeneratorData>
+  data$!: Observable<ITransformData>
   matrix$: Observable<WebMatrix>
   matrixResult$: Observable<WebMatrix>
 
@@ -34,7 +34,7 @@ export class Interactive {
 
   private init(): void {
     this.data$ = merge(
-      new DragGenerator(this.elementHandler.drag$).data$,
+      new DragTransform(this.elementHandler.drag$).data$,
     ).pipe(
       shareReplay(0)
     )
