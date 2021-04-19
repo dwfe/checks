@@ -1,24 +1,22 @@
-import {animationFrame, delay, map, scan, startWith, tap} from '@do-while-for-each/rxjs'
+import {animationFrame, delay, startWith, tap} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
 import React, {useEffect, useRef} from 'react'
-import {ElementHandler, RectHandler} from '../../../../../handler'
+import {Interactive} from '../../../../../interactive'
 import './ChangeableContainer.css'
 
-export function ChangeableContainer({elementWrap, rectHandler}: IProps) {
+export function ChangeableContainer({elementWrap}: IProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const elementHandler = new ElementHandler(ref.current as HTMLDivElement, {element: elementWrap, rectHandler})
-    elementHandler.drag$.pipe(
-      map(drag => WebMatrix.of().translate(drag.pagePointDiff.dX, drag.pagePointDiff.dY)),
-      scan((acc, curr) => acc.multiply(curr)),
-      delay(0, animationFrame),
+    const interactive = new Interactive(ref.current as HTMLDivElement, elementWrap)
+    interactive.matrixResult$().pipe(
       startWith(WebMatrix.of()),
+      delay(0, animationFrame),
       tap(m => {
         (ref.current as HTMLDivElement).style.transform = m.toStyleValue()
       })
     ).subscribe()
-    return () => elementHandler.stop()
+    return () => interactive.stop()
   }, [])
 
   return (
@@ -30,5 +28,4 @@ export function ChangeableContainer({elementWrap, rectHandler}: IProps) {
 
 interface IProps {
   elementWrap: Element;
-  rectHandler: RectHandler;
 }

@@ -1,6 +1,6 @@
 import {animationFrame, delay, tap} from '@do-while-for-each/rxjs'
 import React, {useEffect, useState} from 'react'
-import {MouseMove, RectHandler} from '../../../../../handler'
+import {MouseMove, RectHandler} from '../../../../../interactive'
 import './EventInfo.css'
 
 export function EventInfo({element, rectHandler}: IProps) {

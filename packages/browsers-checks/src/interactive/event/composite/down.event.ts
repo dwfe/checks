@@ -1,4 +1,4 @@
-import {map, merge, Observable} from '@do-while-for-each/rxjs';
+import {map, merge, Observable} from '@do-while-for-each/rxjs'
 import {TouchStart} from '../touch/touch-start.event'
 import {MouseDown} from '../mouse/mouse-down.event'
 import {RectHandler} from '../../rect.handler'

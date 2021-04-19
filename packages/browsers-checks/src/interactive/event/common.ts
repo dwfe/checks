@@ -4,6 +4,7 @@ import {RectHandler} from '../rect.handler'
 
 export const processMoveEvent = (prevEvent: IUnpackedEvent, currEvent: IUnpackedEvent): IMoveEvent => ({
   pagePointDiff: Point.diff(currEvent.pagePoint, prevEvent.pagePoint),
+  target: currEvent.target,
   prevEvent,
   currEvent,
 })
@@ -12,6 +13,7 @@ export class Prepare {
 
   static event = (event: TManualEvent, pageX: number, pageY: number, rectHandler: RectHandler): IUnpackedEvent => ({
     pagePoint: rectHandler.pagePoint(pageX, pageY),
+    target: event.target,
     event,
   })
 
