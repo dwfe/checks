@@ -1,4 +1,4 @@
-import {map, Observable, shareReplay} from '@do-while-for-each/rxjs'
+import {map, Observable} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
 import {IMoveEvent, InteractiveType, ITransformData, ITransformGenerator} from '../contract'
 
@@ -14,7 +14,6 @@ export class DragTransform implements ITransformGenerator {
       target: drag.target,
       event: drag.currEvent,
     })),
-    shareReplay(0),
   )
 
 }
