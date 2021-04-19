@@ -9,7 +9,7 @@ export function ChangeableContainer({elementWrap}: IProps) {
 
   useEffect(() => {
     const interactive = new Interactive(ref.current as HTMLDivElement, elementWrap)
-    interactive.matrixResult$().pipe(
+    interactive.matrixResult$.pipe(
       startWith(WebMatrix.of()),
       delay(0, animationFrame),
       tap(m => {
