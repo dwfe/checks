@@ -18,7 +18,7 @@ export class Interactive {
 
   constructor(private element: Element,
               private elementWrap: Element,
-              private acceptable: InteractiveType[] = [DRAG]) {
+              private expected: InteractiveType[] = [DRAG]) {
     this.rectHandler = new RectHandler()
     this.rectHandler.init(elementWrap)
     this.elementHandler = new ElementHandler(element, {element: elementWrap, rectHandler: this.rectHandler})
@@ -37,10 +37,10 @@ export class Interactive {
 
   private init(): void {
     const generators: ITransformGenerator[] = []
-    if (this.acceptable.includes(DRAG))
+    if (this.expected.includes(DRAG))
       generators.push(new DragTransform(this.elementHandler.drag$))
-    // if (this.acceptable.includes(SCALE))
-    // if (this.acceptable.includes(ROTATE))
+    // if (this.expected.includes(SCALE))
+    // if (this.expected.includes(ROTATE))
     this.data$ = merge(
       ...generators.map(generator => generator.data$)
     ).pipe(
