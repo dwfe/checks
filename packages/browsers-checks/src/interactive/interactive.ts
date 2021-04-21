@@ -37,7 +37,7 @@ export class Interactive {
   private init(): void {
     const generators: ITransformGenerator[] = []
     if (this.variants.includes(DRAG))
-      generators.push(new DragTransform(this.elementHandler.drag$))
+      generators.push(new DragTransform(this.elementHandler))
     // if (this.variants.includes(SCALE))
     // if (this.variants.includes(ROTATE))
     this.data$ = merge(
