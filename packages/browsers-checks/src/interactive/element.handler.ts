@@ -16,22 +16,22 @@ export class ElementHandler {
   constructor(private element: Element,
               private wrap: IElementHandleWrap) {
     this.down$ = DownEvent.of$(element, wrap.rectHandler).pipe(
-      takeUntil(this.stopper.obs$),
+      takeUntil(this.stopper.ob$),
     )
     this.up$ = UpEvent.of$(element, wrap.rectHandler).pipe(
-      takeUntil(this.stopper.obs$),
+      takeUntil(this.stopper.ob$),
     )
     this.move$ = MoveEvent.of$(element, wrap.rectHandler).pipe(
       distinctUntilChanged((a, b) => Point.isEquals(a.pagePoint, b.pagePoint)),
       pairwise(),
       map(([a, b]) => processMoveEvent(a, b)),
-      takeUntil(this.stopper.obs$),
+      takeUntil(this.stopper.ob$),
     )
     this.drag$ = DragEvent.of$(this.down$, wrap.rectHandler, wrap.element).pipe(
       tap(drag => {
         drag.target = element
       }),
-      takeUntil(this.stopper.obs$),
+      takeUntil(this.stopper.ob$),
     )
   }
 

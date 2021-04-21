@@ -24,7 +24,7 @@ export class RouteResultsHandler {
   }
 
   private onRouteResult(arg: TRouteResultArg) {
-    setTimeout(()=>{
+    setTimeout(() => {
       ReactDOM.render(
         <GeneralTemplate>
           {arg.component}

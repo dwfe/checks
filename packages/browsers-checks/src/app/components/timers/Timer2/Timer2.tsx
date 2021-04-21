@@ -1,4 +1,4 @@
-import {BehaviourSubj, combineLatest, skip, Subject, takeUntil, tap} from '@do-while-for-each/rxjs'
+import {combineLatest, skip, Subj, Subject, takeUntil, tap} from '@do-while-for-each/rxjs'
 import React from 'react'
 import {TimerInput} from '../TimerInput/TimerInput'
 import {TimerFactory} from '../TimerFactory'
@@ -17,8 +17,8 @@ export class Timer2 extends React.Component<IProps, IState> {
   /**
    * State
    */
-  private count = new BehaviourSubj('0');
-  private interval = new BehaviourSubj('0');
+  private count = new Subj({type: 'shareReplay + refCount'}, '0');
+  private interval = new Subj({type: 'shareReplay + refCount'}, '0');
 
   private timerFactory = new TimerFactory(this.count.value$, this.interval.value$)
   private unsubscribeSubj = new Subject()
@@ -58,8 +58,8 @@ export class Timer2 extends React.Component<IProps, IState> {
 
   render() {
     // console.log(`render`, JSON.stringify(this.state))
-    const count = this.count.value;
-    const interval = this.interval.value;
+    const count = this.count.lastValue as string;
+    const interval = this.interval.lastValue as string;
     return (
       <div className="Timers">
         <h3>Timers2</h3>

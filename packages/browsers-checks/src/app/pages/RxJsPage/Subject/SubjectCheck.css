@@ -1,0 +1,6 @@
+.SubjectCheck {
+  display: grid;
+  grid-row-gap: 10px;
+
+  font-size: 13px;
+}
