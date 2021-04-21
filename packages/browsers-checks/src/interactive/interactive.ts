@@ -18,11 +18,72 @@ export class Interactive {
 
   constructor(private element: Element,
               private elementWrap: Element,
-              private expected: InteractiveType[] = [DRAG]) {
+              private variants: InteractiveType[] = [DRAG]) {
     this.rectHandler = new RectHandler()
     this.rectHandler.init(elementWrap)
     this.elementHandler = new ElementHandler(element, {element: elementWrap, rectHandler: this.rectHandler})
     this.init()
+
+
+    // // const up$ = UpEvent.of$(element, this.rectHandler)
+    // const subscr1 = this.elementHandler.drag$.subscribe(()=> console.log(`drag-1`,))
+    // const subscr2 = this.elementHandler.drag$.subscribe(()=> console.log(`drag-2`,))
+    // // const subscr1 = drag$.subscribe(() => console.log(`drag-1`,))
+    // // const subscr2 = drag$.subscribe(() => console.log(`drag-2`,))
+    //
+    // setTimeout(() => {
+    //   subscr1.unsubscribe()
+    //   subscr2.unsubscribe()
+    //   console.log(`unsubscr 1, 2`,)
+    // }, 10_000)
+    // setTimeout(() => {
+    //   const subscr3 = this.elementHandler.drag$.subscribe(()=> console.log(`drag-3`,))
+    //   const subscr4 = this.elementHandler.drag$.subscribe(()=> console.log(`drag-4`,))
+    //   // const subscr3 = drag$.subscribe(() => console.log(`drag-3`,))
+    //   // const subscr4 = drag$.subscribe(() => console.log(`drag-4`,))
+    //   console.log(`subscr 3, 4`,)
+    // }, 20_000)
+
+
+    // // const up$ = UpEvent.of$(element, this.rectHandler)
+    // const subscr1 = this.elementHandler.up$.subscribe(()=> console.log(`up-1`,))
+    // const subscr2 = this.elementHandler.up$.subscribe(()=> console.log(`up-2`,))
+    // // const subscr1 = up$.subscribe(() => console.log(`up-1`,))
+    // // const subscr2 = up$.subscribe(() => console.log(`up-2`,))
+    //
+    // setTimeout(() => {
+    //   subscr1.unsubscribe()
+    //   subscr2.unsubscribe()
+    //   console.log(`unsubscr 1, 2`,)
+    // }, 10_000)
+    // setTimeout(() => {
+    //   const subscr3 = this.elementHandler.up$.subscribe(()=> console.log(`up-3`,))
+    //   const subscr4 = this.elementHandler.up$.subscribe(()=> console.log(`up-4`,))
+    //   // const subscr3 = up$.subscribe(() => console.log(`up-3`,))
+    //   // const subscr4 = up$.subscribe(() => console.log(`up-4`,))
+    //   console.log(`subscr 3, 4`,)
+    // }, 20_000)
+
+
+    // // const up$ = UpEvent.of$(element, this.rectHandler)
+    // const subscr1 = this.elementHandler.down$.subscribe(()=> console.log(`down-1`,))
+    // const subscr2 = this.elementHandler.down$.subscribe(()=> console.log(`down-2`,))
+    // // const subscr1 = down$.subscribe(() => console.log(`down-1`,))
+    // // const subscr2 = down$.subscribe(() => console.log(`down-2`,))
+    //
+    // setTimeout(() => {
+    //   subscr1.unsubscribe()
+    //   subscr2.unsubscribe()
+    //   console.log(`unsubscr 1, 2`,)
+    // }, 10_000)
+    // setTimeout(() => {
+    //   const subscr3 = this.elementHandler.down$.subscribe(()=> console.log(`down-3`,))
+    //   const subscr4 = this.elementHandler.down$.subscribe(()=> console.log(`down-4`,))
+    //   // const subscr3 = down$.subscribe(() => console.log(`down-3`,))
+    //   // const subscr4 = down$.subscribe(() => console.log(`down-4`,))
+    //   console.log(`subscr 3, 4`,)
+    // }, 20_000)
+
 
     this.transform$ = this.data$.pipe(
       map(action => action.matrix),
@@ -37,10 +98,10 @@ export class Interactive {
 
   private init(): void {
     const generators: ITransformGenerator[] = []
-    if (this.expected.includes(DRAG))
+    if (this.variants.includes(DRAG))
       generators.push(new DragTransform(this.elementHandler.drag$))
-    // if (this.expected.includes(SCALE))
-    // if (this.expected.includes(ROTATE))
+    // if (this.variants.includes(SCALE))
+    // if (this.variants.includes(ROTATE))
     this.data$ = merge(
       ...generators.map(generator => generator.data$)
     ).pipe(

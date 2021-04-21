@@ -1,4 +1,4 @@
-import {distinctUntilChanged, map, Observable, pairwise, startWith, switchMap, takeUntil} from '@do-while-for-each/rxjs'
+import {distinctUntilChanged, map, Observable, pairwise, share, startWith, switchMap, takeUntil} from '@do-while-for-each/rxjs'
 import {Point} from '@do-while-for-each/math'
 import {IMoveEvent, IUnpackedEvent} from '../../contract'
 import {RectHandler} from '../../rect.handler'
@@ -21,6 +21,7 @@ export class DragEvent {
         map(([a, b]) => processMoveEvent(a, b)),
         takeUntil(UpEvent.of$(upElement, rectHandler, {once: true})),
       )),
+      share(),
     )
 
   static of2$ = (elementWrap: Element,

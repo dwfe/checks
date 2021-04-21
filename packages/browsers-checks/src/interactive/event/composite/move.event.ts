@@ -1,4 +1,4 @@
-import {map, merge, Observable} from '@do-while-for-each/rxjs'
+import {map, merge, Observable, share} from '@do-while-for-each/rxjs'
 import {MouseMove} from '../mouse/mouse-move.event'
 import {TouchMove} from '../touch/touch-move.event'
 import {RectHandler} from '../../rect.handler'
@@ -17,6 +17,8 @@ export class MoveEvent {
       TouchMove.of$(element, options).pipe(
         map(event => Prepare.touchEvent(event, rectHandler)),
       ),
+    ).pipe(
+      share(),
     )
 
 }
