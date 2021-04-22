@@ -1,4 +1,4 @@
-import {filter, Observable, Subj} from '@do-while-for-each/rxjs'
+import {filter, Observable, share, Subj} from '@do-while-for-each/rxjs'
 import {IPoint} from '@do-while-for-each/math'
 
 export class RectHandler {
@@ -26,6 +26,7 @@ export class RectHandler {
   get rect$(): Observable<ClientRect> {
     return this.rectSubj.value$.pipe(
       filter(rect => rect.width > 0 && rect.height > 0),
+      share(),
     )
   }
 
