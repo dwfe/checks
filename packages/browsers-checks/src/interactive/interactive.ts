@@ -3,7 +3,7 @@ import {WebMatrix} from '@do-while-for-each/math'
 import {InteractiveType, ITransformData, ITransformGenerator} from './contract'
 import {ElementHandler} from './element.handler'
 import {RectHandler} from './rect.handler'
-import {DragTransform} from './transform'
+import {DragTransform, ScaleTransform} from './transform'
 
 const {DRAG, ROTATE, SCALE} = InteractiveType
 
@@ -38,7 +38,8 @@ export class Interactive {
     const generators: ITransformGenerator[] = []
     if (this.variants.includes(DRAG))
       generators.push(new DragTransform(this.elementHandler))
-    // if (this.variants.includes(SCALE))
+    if (this.variants.includes(SCALE))
+      generators.push(new ScaleTransform(this.elementHandler))
     // if (this.variants.includes(ROTATE))
     this.data$ = merge(
       ...generators.map(generator => generator.data$)

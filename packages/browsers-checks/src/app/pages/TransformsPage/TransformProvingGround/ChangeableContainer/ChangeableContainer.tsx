@@ -1,14 +1,16 @@
 import {animationFrame, delay, startWith, tap} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
 import React, {useEffect, useRef} from 'react'
-import {Interactive} from '../../../../../interactive'
+import {Interactive, InteractiveType} from '../../../../../interactive'
 import './ChangeableContainer.css'
+
+const {DRAG, ROTATE, SCALE} = InteractiveType
 
 export function ChangeableContainer({elementWrap}: IProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const interactive = new Interactive(ref.current as HTMLDivElement, elementWrap)
+    const interactive = new Interactive(ref.current as HTMLDivElement, elementWrap, [DRAG, SCALE, ROTATE])
     interactive.transformResult$.pipe(
       startWith(WebMatrix.of()),
       delay(0, animationFrame),
