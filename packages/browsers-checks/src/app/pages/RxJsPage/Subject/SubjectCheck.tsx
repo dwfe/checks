@@ -119,6 +119,7 @@ export function SubjectCheck() {
       <select onChange={event => changeCheckVariant(event.target.value as TCheckVariant)}>
         <option value="v1">subscribe ob1, ob2 NEXT unsubscribe ob1, ob2</option>
         <option value="v2">subscribe ob1, ob2 NEXT unsubscribe ob2, subscribe ob3</option>
+        <option value="v3">subscribe ob1, ob2 NEXT unsubscribe ob1, ob2 NEXT subscribe ob3</option>
       </select>
       <label>
         bufferSize:&nbsp;
