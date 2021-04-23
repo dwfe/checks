@@ -43,7 +43,7 @@ export class Check1 {
   }
 
   v3() {
-    console.log(`START check v1`,)
+    console.log(`START check v3`,)
     this.runInterval()
     console.log(`SUBSCRIBE ob1, ob2`)
     const subscr1 = this.subscribe(1)
