@@ -1,13 +1,12 @@
 import {finalize, multicast, refCount, ReplaySubject, share, shareReplay, Subject, tap} from '@do-while-for-each/rxjs'
 import {isNumeric} from '@do-while-for-each/common'
 import React, {useState} from 'react'
-import './SubjectCheck.css'
 import {Check1} from '../check/check1'
+import './SubjectCheck.css'
 
 type TCheckVariant = 'v1' | 'v2'
 
 export function SubjectCheck() {
-  let intervalId
   const [checkVariant, setCheckVariant] = useState<TCheckVariant>('v1')
   const [bufferSize, setBufferSize] = useState(0)
 
