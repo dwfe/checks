@@ -1,4 +1,4 @@
-import {combineLatest, debounceTime, filter, map, mapTo, Observable, shareReplay, Subscription, tap} from '@do-while-for-each/rxjs'
+import {combineLatest, debounceTime, filter, map, mapTo, Observable, share, Subscription, tap} from '@do-while-for-each/rxjs'
 import {InputValidator} from './TimerInput/input.validator'
 import {log} from '../../../common';
 
@@ -32,7 +32,7 @@ export class TimerFactory {
     filter(params => !!params),
     tap((params: number[]) => this.startTimers(params)),
     mapTo(null),
-    shareReplay(1)
+    share(),
   )
 
   private startTimers([countOfTimers, intervalInSeconds]: number[]) {
