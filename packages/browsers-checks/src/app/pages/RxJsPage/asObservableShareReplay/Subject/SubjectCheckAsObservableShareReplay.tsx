@@ -1,13 +1,11 @@
 import {finalize, multicast, refCount, ReplaySubject, share, shareReplay, Subject, tap} from '@do-while-for-each/rxjs'
 import {isNumeric} from '@do-while-for-each/common'
 import React, {useState} from 'react'
-import {Check1} from '../check/check1'
+import {Check} from '../check/check'
 import './SubjectCheckAsObservableShareReplay.css'
 
-type TCheckVariant = 'v1' | 'v2'
-
 export function SubjectCheckAsObservableShareReplay() {
-  const [checkVariant, setCheckVariant] = useState<TCheckVariant>('v1')
+  const [checkVariant, setCheckVariant] = useState<string>('case3')
   const [bufferSize, setBufferSize] = useState(0)
 
   const sameObs = () => {
@@ -17,7 +15,7 @@ export function SubjectCheckAsObservableShareReplay() {
       tap(data => console.log(`obs emit`, data)),
       finalize(() => console.log(`obs final`,))
     )
-    new Check1(subj, ob$, ob$, ob$)[checkVariant]()
+    new Check(subj, ob$, ob$, ob$)[checkVariant]()
   }
 
   const sameObsWithShare = () => {
@@ -28,7 +26,7 @@ export function SubjectCheckAsObservableShareReplay() {
       finalize(() => console.log(`obs final`,)),
       share(),
     )
-    new Check1(subj, ob$, ob$, ob$)[checkVariant]()
+    new Check(subj, ob$, ob$, ob$)[checkVariant]()
   }
 
   const sameObsWithShareReplayRcFalse = () => {
@@ -39,7 +37,7 @@ export function SubjectCheckAsObservableShareReplay() {
       finalize(() => console.log(`obs final`,)),
       shareReplay({refCount: false, bufferSize}),
     )
-    new Check1(subj, ob$, ob$, ob$)[checkVariant]()
+    new Check(subj, ob$, ob$, ob$)[checkVariant]()
   }
 
   const sameObsWithShareReplayRcTrue = () => {
@@ -50,7 +48,7 @@ export function SubjectCheckAsObservableShareReplay() {
       finalize(() => console.log(`obs final`,)),
       shareReplay({refCount: true, bufferSize}),
     )
-    new Check1(subj, ob$, ob$, ob$)[checkVariant]()
+    new Check(subj, ob$, ob$, ob$)[checkVariant]()
   }
 
   const sameObsWithMulticastReplay = () => {
@@ -62,7 +60,7 @@ export function SubjectCheckAsObservableShareReplay() {
       multicast(new ReplaySubject(bufferSize)),
       refCount(),
     )
-    new Check1(subj, ob$, ob$, ob$)[checkVariant]()
+    new Check(subj, ob$, ob$, ob$)[checkVariant]()
   }
 
   const uniqObs = () => {
@@ -72,7 +70,7 @@ export function SubjectCheckAsObservableShareReplay() {
       tap(data => console.log(`obs emit`, data)),
       finalize(() => console.log(`obs final`,))
     )
-    new Check1(subj, ob$(), ob$(), ob$())[checkVariant]()
+    new Check(subj, ob$(), ob$(), ob$())[checkVariant]()
   }
 
   const uniqObsWithShare = () => {
@@ -83,7 +81,7 @@ export function SubjectCheckAsObservableShareReplay() {
       finalize(() => console.log(`obs final`,)),
       share(),
     )
-    new Check1(subj, ob$(), ob$(), ob$())[checkVariant]()
+    new Check(subj, ob$(), ob$(), ob$())[checkVariant]()
   }
 
   const uniqObsWithShareReplay = () => {
@@ -94,7 +92,7 @@ export function SubjectCheckAsObservableShareReplay() {
       finalize(() => console.log(`obs final`,)),
       shareReplay(bufferSize),
     )
-    new Check1(subj, ob$(), ob$(), ob$())[checkVariant]()
+    new Check(subj, ob$(), ob$(), ob$())[checkVariant]()
   }
 
   const uniqSubj = () => {
@@ -103,10 +101,10 @@ export function SubjectCheckAsObservableShareReplay() {
     const ob$ = () => subj.pipe(
       tap(data => console.log(`obs emit`, data)),
     )
-    new Check1(subj, ob$(), ob$(), ob$())[checkVariant]()
+    new Check(subj, ob$(), ob$(), ob$())[checkVariant]()
   }
 
-  const changeCheckVariant = (value: TCheckVariant) => setCheckVariant(value)
+  const changeCheckVariant = (value: string) => setCheckVariant(value)
   const changeBufferSize = (value: string) => {
     if (isNumeric(value))
       setBufferSize(+value)
@@ -115,10 +113,10 @@ export function SubjectCheckAsObservableShareReplay() {
   return (
     <div className="SubjectCheckAsObservableShareReplay">
       <h3>Subject check</h3>
-      <select onChange={event => changeCheckVariant(event.target.value as TCheckVariant)}>
-        <option value="v1">subscribe ob1, ob2 NEXT unsubscribe ob1, ob2</option>
-        <option value="v2">subscribe ob1, ob2 NEXT unsubscribe ob2, subscribe ob3</option>
-        <option value="v3">subscribe ob1, ob2 NEXT unsubscribe ob1, ob2 NEXT subscribe ob3</option>
+      <select onChange={event => changeCheckVariant(event.target.value)} value={checkVariant}>
+        <option value="case1">subscribe ob1, ob2 NEXT unsubscribe ob1, ob2</option>
+        <option value="case2">subscribe ob1, ob2 NEXT unsubscribe ob2, subscribe ob3</option>
+        <option value="case3">subscribe ob1, ob2 NEXT unsubscribe ob1, ob2 NEXT subscribe ob3</option>
       </select>
       <label>
         bufferSize:&nbsp;

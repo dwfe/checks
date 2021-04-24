@@ -1,7 +1,7 @@
 import {Observable, Subject} from '@do-while-for-each/rxjs'
 
 
-export class Check1 {
+export class Check {
   intervalId
   count = 0
 
@@ -11,62 +11,62 @@ export class Check1 {
               private ob$3: Observable<any>) {
   }
 
-  v1() {
+  case1() {
     console.log(`START check v1`,)
     this.runInterval()
     console.log(`SUBSCRIBE ob1, ob2`)
     const subscr1 = this.subscribe(1)
     const subscr2 = this.subscribe(2)
     setTimeout(() => {
+      console.log(`UNSUBSCRIBE ob1, ob2 on`, 20)
       subscr1.unsubscribe()
       subscr2.unsubscribe()
-      console.log(`UNSUBSCRIBE ob1, ob2 on`, 200)
-    }, 200)
-    setTimeout(() => this.stopInterval(), 400)
+    }, 20)
+    setTimeout(() => this.stopInterval(), 40)
   }
 
-  v2() {
+  case2() {
     console.log(`START check v2`,)
     this.runInterval()
     console.log(`SUBSCRIBE ob1, ob2`)
     this.subscribe(1)
     const subscr2 = this.subscribe(2)
     setTimeout(() => {
+      console.log(`UNSUBSCRIBE ob2 on`, 20)
       subscr2.unsubscribe()
-      console.log(`UNSUBSCRIBE ob2 on`, 200)
-    }, 200)
+    }, 20)
     setTimeout(() => {
+      console.log(`SUBSCRIBE ob3 on`, 35)
       this.subscribe(3)
-      console.log(`SUBSCRIBE ob3 on`, 350)
-    }, 350)
-    setTimeout(() => this.stopInterval(), 500)
+    }, 35)
+    setTimeout(() => this.stopInterval(), 50)
   }
 
-  v3() {
+  case3() {
     console.log(`START check v3`,)
     this.runInterval()
     console.log(`SUBSCRIBE ob1, ob2`)
     const subscr1 = this.subscribe(1)
     const subscr2 = this.subscribe(2)
     setTimeout(() => {
+      console.log(`UNSUBSCRIBE ob1, ob2 on`, 20)
       subscr1.unsubscribe()
       subscr2.unsubscribe()
-      console.log(`UNSUBSCRIBE ob1, ob2 on`, 200)
-    }, 200)
+    }, 20)
     setTimeout(() => {
+      console.log(`SUBSCRIBE ob3 on`, 35)
       this.subscribe(3)
-      console.log(`SUBSCRIBE ob3 on`, 350)
-    }, 350)
-    setTimeout(() => this.stopInterval(), 600)
+    }, 35)
+    setTimeout(() => this.stopInterval(), 60)
   }
 
 
   runInterval() {
     this.intervalId = setInterval(() => {
-      const interval = ++this.count * 100
+      const interval = ++this.count * 10
       console.log(`---------- next interval ${interval} ----------`,)
       this.subj.next({interval})
-    }, 100)
+    }, 10)
   }
 
   stopInterval() {
