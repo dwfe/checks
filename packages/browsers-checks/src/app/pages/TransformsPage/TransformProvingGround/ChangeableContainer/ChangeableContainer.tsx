@@ -19,7 +19,7 @@ export function ChangeableContainer({elementWrap}: IProps) {
       })
     ).subscribe()
     return () => interactive.stop()
-  }, [])
+  }, [elementWrap])
 
   return (
     <div className="ChangeableContainer" ref={ref}>

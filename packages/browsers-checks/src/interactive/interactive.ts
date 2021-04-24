@@ -5,7 +5,7 @@ import {ElementHandler} from './element.handler'
 import {RectHandler} from './rect.handler'
 import {DragTransform, ScaleTransform} from './transform'
 
-const {DRAG, ROTATE, SCALE} = InteractiveType
+const {DRAG, SCALE} = InteractiveType
 
 export class Interactive {
 

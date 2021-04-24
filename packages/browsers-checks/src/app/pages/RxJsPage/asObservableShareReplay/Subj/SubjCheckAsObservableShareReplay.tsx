@@ -1,13 +1,12 @@
 import {finalize, multicast, refCount, ReplaySubject, Subj, tap} from '@do-while-for-each/rxjs'
 import {isNumeric} from '@do-while-for-each/common'
 import React, {useState} from 'react'
-import './SubjCheck.css'
+import './SubjCheckAsObservableShareReplay.css'
 import {Check1} from '../check/check1'
 
 type TCheckVariant = 'v1' | 'v2'
 
-export function SubjCheck() {
-  let intervalId
+export function SubjCheckAsObservableShareReplay() {
   const [checkVariant, setCheckVariant] = useState<TCheckVariant>('v1')
   const [bufferSize, setBufferSize] = useState(0)
 
@@ -99,11 +98,12 @@ export function SubjCheck() {
   }
 
   return (
-    <div className="SubjCheck">
+    <div className="SubjCheckAsObservableShareReplay">
       <h3>Subj check</h3>
       <select onChange={event => changeCheckVariant(event.target.value as TCheckVariant)}>
         <option value="v1">subscribe ob1, ob2 NEXT unsubscribe ob1, ob2</option>
         <option value="v2">subscribe ob1, ob2 NEXT unsubscribe ob2, subscribe ob3</option>
+        <option value="v3">subscribe ob1, ob2 NEXT unsubscribe ob1, ob2 NEXT subscribe ob3</option>
       </select>
       <label>
         bufferSize:&nbsp;

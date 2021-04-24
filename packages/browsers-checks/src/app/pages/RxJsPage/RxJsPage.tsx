@@ -7,8 +7,7 @@ export const RxJsPage = (props: IRoutableProps) => {
 
   return (
     <div>
-      <Link href="/rxjs/subject">Subject</Link><br/><br/>
-      <Link href="/rxjs/subj">Subj</Link><br/><br/>
+      <Link href="/rxjs/asObservable-share-shareReplay">asObservable, share, shareReplay</Link><br/><br/>
     </div>
   );
 }

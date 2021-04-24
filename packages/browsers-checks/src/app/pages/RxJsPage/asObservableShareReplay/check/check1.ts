@@ -20,26 +20,26 @@ export class Check1 {
     setTimeout(() => {
       subscr1.unsubscribe()
       subscr2.unsubscribe()
-      console.log(`UNSUBSCRIBE ob1, ob2 on`, 2_000)
-    }, 2_000)
-    setTimeout(() => this.stopInterval(), 4_000)
+      console.log(`UNSUBSCRIBE ob1, ob2 on`, 200)
+    }, 200)
+    setTimeout(() => this.stopInterval(), 400)
   }
 
   v2() {
     console.log(`START check v2`,)
     this.runInterval()
     console.log(`SUBSCRIBE ob1, ob2`)
-    const subscr1 = this.subscribe(1)
+    this.subscribe(1)
     const subscr2 = this.subscribe(2)
     setTimeout(() => {
       subscr2.unsubscribe()
-      console.log(`UNSUBSCRIBE ob2 on`, 2_000)
-    }, 2_000)
+      console.log(`UNSUBSCRIBE ob2 on`, 200)
+    }, 200)
     setTimeout(() => {
-      const subscr3 = this.subscribe(3)
-      console.log(`SUBSCRIBE ob3 on`, 3_500)
-    }, 3_500)
-    setTimeout(() => this.stopInterval(), 5_000)
+      this.subscribe(3)
+      console.log(`SUBSCRIBE ob3 on`, 350)
+    }, 350)
+    setTimeout(() => this.stopInterval(), 500)
   }
 
   v3() {
@@ -51,26 +51,28 @@ export class Check1 {
     setTimeout(() => {
       subscr1.unsubscribe()
       subscr2.unsubscribe()
-      console.log(`UNSUBSCRIBE ob1, ob2 on`, 2_000)
-    }, 2_000)
+      console.log(`UNSUBSCRIBE ob1, ob2 on`, 200)
+    }, 200)
     setTimeout(() => {
-      const subscr3 = this.subscribe(3)
-      console.log(`SUBSCRIBE ob3 on`, 3_500)
-    }, 3_500)
-    setTimeout(() => this.stopInterval(), 6_000)
+      this.subscribe(3)
+      console.log(`SUBSCRIBE ob3 on`, 350)
+    }, 350)
+    setTimeout(() => this.stopInterval(), 600)
   }
 
 
   runInterval() {
     this.intervalId = setInterval(() => {
-      console.log(`---------- next interval ----------`,)
-      this.subj.next({second: ++this.count})
-    }, 1000)
+      const interval = ++this.count * 100
+      console.log(`---------- next interval ${interval} ----------`,)
+      this.subj.next({interval})
+    }, 100)
   }
 
   stopInterval() {
     clearInterval(this.intervalId)
     this.count = 0
+    this.subj.complete()
   }
 
   subscribe(item: number) {
