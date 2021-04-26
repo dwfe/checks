@@ -20,7 +20,7 @@ export class RectHandler {
   }
 
   get rect(): ClientRect {
-    return this.rectSubj.lastValue as ClientRect
+    return this.rectSubj.lastValue
   }
 
   get rect$(): Observable<ClientRect> {
