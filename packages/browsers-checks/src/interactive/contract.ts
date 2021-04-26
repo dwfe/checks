@@ -20,11 +20,6 @@ export interface IMoveEvent {
   currEvent: IUnpackedEvent;
 }
 
-export interface IElementHandleWrap {
-  element: Element;
-  rectHandler: RectHandler;
-}
-
 //endregion
 
 
@@ -50,6 +45,24 @@ export enum InteractiveVariant {
   DRAG,
   SCALE,
   ROTATE,
+}
+
+export interface IElementHandleWrap {
+  element: Element;
+  rectHandler: RectHandler;
+}
+
+export type TElementHandler = 'hot' | 'cold'
+
+export interface IElementHandler {
+  downOnWrap$: Observable<IUnpackedEvent>;
+  moveOnWrap$: Observable<IUnpackedEvent>;
+  upOnWrap$: Observable<IUnpackedEvent>;
+
+  down$: Observable<IUnpackedEvent>;
+  move$: Observable<IUnpackedEvent>;
+  up$: Observable<IUnpackedEvent>;
+  drag$: Observable<IMoveEvent>
 }
 
 //endregion
