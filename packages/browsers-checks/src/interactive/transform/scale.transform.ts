@@ -8,7 +8,7 @@ export class ScaleTransform implements ITransformGenerator {
   constructor(private elementHandler: ElementHandler) {
   }
 
-  data$: Observable<ITransformData> = this.elementHandler.moveOnWrap$.pipe(
+  data$: Observable<ITransformData> = this.elementHandler.moveOnWrap.event$.pipe(
     map(move => {
       const matrix = WebMatrix.of()
         .translate(move.pagePoint.x, move.pagePoint.y)

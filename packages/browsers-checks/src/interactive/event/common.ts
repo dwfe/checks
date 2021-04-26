@@ -26,3 +26,8 @@ export class Prepare {
   }
 
 }
+
+export const addListener = (type: string, element: Element, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): () => void => {
+  element.addEventListener(type, listener, options)
+  return () => element.removeEventListener(type, listener, options)
+}
