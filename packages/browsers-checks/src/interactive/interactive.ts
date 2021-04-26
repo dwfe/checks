@@ -1,17 +1,17 @@
 import {map, merge, Observable, scan, share} from '@do-while-for-each/rxjs'
 import {IStoppable} from '@do-while-for-each/common'
 import {WebMatrix} from '@do-while-for-each/math'
-import {InteractiveVariant, ITransformData, ITransformGenerator} from './contract'
-import {ElementHandlerHot} from './element.handler-hot'
-import {RectHandler} from './rect.handler'
+import {ElementHandlerType, IElementHandler, InteractiveVariant, ITransformData, ITransformGenerator} from './contract'
+import {ElementHandlerFactory} from './element.handler/element-handler.factory'
 import {DragTransform, ScaleTransform} from './transform'
+import {RectHandler} from './rect.handler'
 
 const {DRAG, SCALE} = InteractiveVariant
 
 export class Interactive implements IStoppable {
 
-  rectHandler: RectHandler;
-  elementHandler: ElementHandlerHot
+  rectHandler: RectHandler
+  elementHandler: IElementHandler
 
   data$!: Observable<ITransformData>
   transform$: Observable<WebMatrix>
@@ -19,10 +19,11 @@ export class Interactive implements IStoppable {
 
   constructor(private element: Element,
               private elementWrap: Element,
+              private handlerType: ElementHandlerType,
               private variants: InteractiveVariant[] = [DRAG]) {
     this.rectHandler = new RectHandler()
     this.rectHandler.init(elementWrap)
-    this.elementHandler = new ElementHandlerHot(element, {element: elementWrap, rectHandler: this.rectHandler})
+    this.elementHandler = ElementHandlerFactory.get(handlerType, element, {element: elementWrap, rectHandler: this.rectHandler})
     this.init()
 
     this.transform$ = this.data$.pipe(

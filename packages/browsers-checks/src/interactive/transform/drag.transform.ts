@@ -1,11 +1,10 @@
 import {map, Observable} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
-import {InteractiveVariant, ITransformData, ITransformGenerator} from '../contract'
-import {ElementHandlerHot} from '../element.handler-hot'
+import {IElementHandler, InteractiveVariant, ITransformData, ITransformGenerator} from '../contract'
 
 export class DragTransform implements ITransformGenerator {
 
-  constructor(private elementHandler: ElementHandlerHot) {
+  constructor(private elementHandler: IElementHandler) {
   }
 
   data$: Observable<ITransformData> = this.elementHandler.drag$.pipe(

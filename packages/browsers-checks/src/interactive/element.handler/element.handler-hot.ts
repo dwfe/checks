@@ -1,10 +1,9 @@
 import {Observable, share, Stopper, takeUntil, tap} from '@do-while-for-each/rxjs'
-import {IStoppable} from '@do-while-for-each/common'
-import {IElementHandler, IElementHandleWrap, IMoveEvent, IUnpackedEvent} from './contract'
-import {DragEvent} from './event/composite/drag.event'
-import {DownEvent, MoveEvent, UpEvent} from './event'
+import {IElementHandler, IElementHandleWrap, IMoveEvent, IUnpackedEvent} from '../contract'
+import {DragEvent} from '../event/composite/drag.event'
+import {DownEvent, MoveEvent, UpEvent} from '../event'
 
-export class ElementHandlerHot implements IElementHandler, IStoppable {
+export class ElementHandlerHot implements IElementHandler {
 
   downOnWrap$: Observable<IUnpackedEvent>;
   moveOnWrap$: Observable<IUnpackedEvent>;

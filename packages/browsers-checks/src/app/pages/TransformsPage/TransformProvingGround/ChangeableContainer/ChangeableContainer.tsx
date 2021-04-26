@@ -10,7 +10,7 @@ export function ChangeableContainer({elementWrap}: IProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const interactive = new Interactive(ref.current as HTMLDivElement, elementWrap, [DRAG,])
+    const interactive = new Interactive(ref.current as HTMLDivElement, elementWrap, 'hot', [DRAG,])
     interactive.transformResult$.pipe(
       startWith(WebMatrix.of()),
       delay(0, animationFrame),

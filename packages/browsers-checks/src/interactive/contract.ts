@@ -1,4 +1,5 @@
 import {IDiff, IPoint, WebMatrix} from '@do-while-for-each/math'
+import {IStoppable} from '@do-while-for-each/common'
 import {Observable} from '@do-while-for-each/rxjs'
 import {RectHandler} from './rect.handler'
 
@@ -52,9 +53,12 @@ export interface IElementHandleWrap {
   rectHandler: RectHandler;
 }
 
-export type TElementHandler = 'hot' | 'cold'
+export type ElementHandlerType = 'hot' | 'cold'
 
-export interface IElementHandler {
+export interface IElementHandler extends IElementHandlerData, IStoppable {
+}
+
+export interface IElementHandlerData {
   downOnWrap$: Observable<IUnpackedEvent>;
   moveOnWrap$: Observable<IUnpackedEvent>;
   upOnWrap$: Observable<IUnpackedEvent>;
