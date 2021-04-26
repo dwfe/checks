@@ -4,13 +4,13 @@ import React, {useEffect, useRef} from 'react'
 import {Interactive, InteractiveVariant} from '../../../../../interactive'
 import './ChangeableContainer.css'
 
-const {DRAG, } = InteractiveVariant
+const {DRAG,} = InteractiveVariant
 
 export function ChangeableContainer({elementWrap}: IProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const interactive = new Interactive(ref.current as HTMLDivElement, elementWrap, [DRAG, ])
+    const interactive = new Interactive(ref.current as HTMLDivElement, elementWrap, [DRAG,])
     interactive.transformResult$.pipe(
       startWith(WebMatrix.of()),
       delay(0, animationFrame),

@@ -14,8 +14,8 @@ export function Timer() {
   return (
     <div>
       <h3>Timers</h3>
-      <TimerInput label="count" value={count.value} setValue={setCount}/>&nbsp;&nbsp;&nbsp;
-      <TimerInput label="interval" value={interval.value} setValue={setInterval}/>
+      <TimerInput label="count" value={count.lastValue} setValue={setCount}/>&nbsp;&nbsp;&nbsp;
+      <TimerInput label="interval" value={interval.lastValue} setValue={setInterval}/>
     </div>
   )
 }

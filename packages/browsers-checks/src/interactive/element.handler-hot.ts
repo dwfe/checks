@@ -1,9 +1,10 @@
 import {Observable, share, Stopper, takeUntil, tap} from '@do-while-for-each/rxjs'
+import {IStoppable} from '@do-while-for-each/common'
 import {IElementHandleWrap, IMoveEvent} from './contract'
 import {DragEvent} from './event/composite/drag.event'
 import {DownEvent, MoveEvent, UpEvent} from './event'
 
-export class ElementHotHandler {
+export class ElementHandlerHot implements IStoppable {
 
   moveOnWrap: MoveEvent
   upOnWrap: UpEvent
@@ -37,7 +38,7 @@ export class ElementHotHandler {
     this.down.stop()
     this.move.stop()
     this.up.stop()
-    this.stopper.terminate()
+    this.stopper.stop()
   }
 
 }

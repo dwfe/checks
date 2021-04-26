@@ -1,7 +1,8 @@
 import {filter, Observable, share, Subj} from '@do-while-for-each/rxjs'
+import {IStoppable} from '@do-while-for-each/common'
 import {IPoint} from '@do-while-for-each/math'
 
-export class RectHandler {
+export class RectHandler implements IStoppable {
 
   private element!: Element
   private resizeObserver!: ResizeObserver
@@ -12,7 +13,7 @@ export class RectHandler {
 
   init(element: Element): void {
     this.element = element
-    this.rectSubj = new Subj({type: 'shareReplay + refCount'}, this.rectRaw)
+    this.rectSubj = new Subj({type: 'shareReplay', bufferSize: 1}, this.rectRaw)
     this.resizeObserver = new ResizeObserver(entries => {
       this.rectSubj.setValue(this.rectRaw)
     })

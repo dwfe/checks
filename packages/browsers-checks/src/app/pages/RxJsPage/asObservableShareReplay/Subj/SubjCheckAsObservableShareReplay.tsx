@@ -1,12 +1,12 @@
 import {finalize, multicast, refCount, ReplaySubject, Subj, tap} from '@do-while-for-each/rxjs'
-import {isNumeric} from '@do-while-for-each/common'
+import {useSubjectedState} from '@do-while-for-each/react'
 import React, {useState} from 'react'
 import './SubjCheckAsObservableShareReplay.css'
 import {Check} from '../check/check'
 
 export function SubjCheckAsObservableShareReplay() {
   const [checkVariant, setCheckVariant] = useState<string>('case3')
-  const [bufferSize, setBufferSize] = useState(0)
+  const [bufferSize, setBufferSize] = useSubjectedState('0')
 
   const sameObs = () => {
     console.log(`-= same Observable =-`,)
@@ -23,27 +23,27 @@ export function SubjCheckAsObservableShareReplay() {
   }
 
   const sameObsWithShareReplayRcFalse = () => {
-    console.log(`-= same Observable + shareReplay({refCount: false, bufferSize: ${bufferSize}) =-`,)
-    const subj = new Subj({type: 'shareReplay', bufferSize});
+    console.log(`-= same Observable + shareReplay({refCount: false, bufferSize: ${bufferSize.lastValue}) =-`,)
+    const subj = new Subj({type: 'shareReplay', bufferSize: +bufferSize.lastValue});
     // subj.isDebug = true
     new Check(subj.subj, subj.value$, subj.value$, subj.value$)[checkVariant]()
   }
 
   const sameObsWithShareReplayRcTrue = () => {
-    console.log(`-= same Observable + shareReplay({refCount: true, bufferSize: ${bufferSize}}) =-`,)
-    const subj = new Subj({type: 'shareReplay + refCount', bufferSize});
+    console.log(`-= same Observable + shareReplay({refCount: true, bufferSize: ${bufferSize.lastValue}}) =-`,)
+    const subj = new Subj({type: 'shareReplay + refCount', bufferSize: +bufferSize.lastValue});
     // subj.isDebug = true
     new Check(subj.subj, subj.value$, subj.value$, subj.value$)[checkVariant]()
   }
 
   const sameObsWithMulticastReplay = () => {
-    console.log(`-= same Observable + multicast(new ReplaySubject(${bufferSize})), refCount =-`,)
+    console.log(`-= same Observable + multicast(new ReplaySubject(${bufferSize.lastValue})), refCount =-`,)
     const subj = new Subj({type: 'no-share'});
     // subj.isDebug = true
     const ob$ = subj.value$.pipe(
       tap(data => console.log(`obs emit`, data)),
       finalize(() => console.log(`obs final`,)),
-      multicast(new ReplaySubject(bufferSize)),
+      multicast(new ReplaySubject(+bufferSize.lastValue)),
       refCount(),
     )
     new Check(subj.subj, ob$, ob$, ob$)[checkVariant]()
@@ -53,7 +53,7 @@ export function SubjCheckAsObservableShareReplay() {
     console.log(`-= uniq Observable =-`,)
     const subj = new Subj({type: 'no-share'});
     // subj.isDebug = true
-    const ob$ = () => subj.getValue$({type: 'no-share'}).pipe(
+    const ob$ = () => subj.createValue$({type: 'no-share'}).pipe(
       finalize(() => console.log(`obs final`,))
     )
     new Check(subj.subj, ob$(), ob$(), ob$())[checkVariant]()
@@ -63,17 +63,17 @@ export function SubjCheckAsObservableShareReplay() {
     console.log(`-= uniq Observable + share() =-`,)
     const subj = new Subj({type: 'share'});
     // subj.isDebug = true
-    const ob$ = () => subj.getValue$({type: 'share'}).pipe(
+    const ob$ = () => subj.createValue$({type: 'share'}).pipe(
       finalize(() => console.log(`obs final`,)),
     )
     new Check(subj.subj, ob$(), ob$(), ob$())[checkVariant]()
   }
 
   const uniqObsWithShareReplay = () => {
-    console.log(`-= uniq Observable + shareReplay(${bufferSize}) =-`,)
-    const subj = new Subj({type: 'shareReplay', bufferSize});
+    console.log(`-= uniq Observable + shareReplay(${bufferSize.lastValue}) =-`,)
+    const subj = new Subj({type: 'shareReplay', bufferSize: +bufferSize.lastValue});
     // subj.isDebug = true
-    const ob$ = () => subj.getValue$({type: 'shareReplay', bufferSize}).pipe(
+    const ob$ = () => subj.createValue$({type: 'shareReplay', bufferSize: +bufferSize.lastValue}).pipe(
       finalize(() => console.log(`obs final`,)),
     )
     new Check(subj.subj, ob$(), ob$(), ob$())[checkVariant]()
@@ -90,10 +90,6 @@ export function SubjCheckAsObservableShareReplay() {
   }
 
   const changeCheckVariant = (value: string) => setCheckVariant(value)
-  const changeBufferSize = (value: string) => {
-    if (isNumeric(value))
-      setBufferSize(+value)
-  }
 
   return (
     <div className="SubjCheckAsObservableShareReplay">
@@ -105,16 +101,16 @@ export function SubjCheckAsObservableShareReplay() {
       </select>
       <label>
         bufferSize:&nbsp;
-        <input value={bufferSize} onChange={event => changeBufferSize(event.target.value)}/>
+        <input value={bufferSize.lastValue} onChange={event => setBufferSize(event.target.value)}/>
       </label>
       <button onClick={sameObs}>same Observable</button>
       <button onClick={sameObsWithShare}>same Observable + share()</button>
-      <button onClick={sameObsWithShareReplayRcFalse}>same Observable + shareReplay(refCount: false, bufferSize: {bufferSize})</button>
-      <button onClick={sameObsWithShareReplayRcTrue}>same Observable + shareReplay(refCount: true, bufferSize: {bufferSize})</button>
-      <button onClick={sameObsWithMulticastReplay}>same Observable + multicast(new ReplaySubject({bufferSize})), refCount</button>
+      <button onClick={sameObsWithShareReplayRcFalse}>same Observable + shareReplay(refCount: false, bufferSize: {bufferSize.lastValue})</button>
+      <button onClick={sameObsWithShareReplayRcTrue}>same Observable + shareReplay(refCount: true, bufferSize: {bufferSize.lastValue})</button>
+      <button onClick={sameObsWithMulticastReplay}>same Observable + multicast(new ReplaySubject({bufferSize.lastValue})), refCount</button>
       <button onClick={uniqObs}>uniq Observable</button>
       <button onClick={uniqObsWithShare}>uniq Observable + share()</button>
-      <button onClick={uniqObsWithShareReplay}>uniq Observable + shareReplay({bufferSize})</button>
+      <button onClick={uniqObsWithShareReplay}>uniq Observable + shareReplay({bufferSize.lastValue})</button>
       <button onClick={uniqSubj}>uniq Subject</button>
     </div>
   )
