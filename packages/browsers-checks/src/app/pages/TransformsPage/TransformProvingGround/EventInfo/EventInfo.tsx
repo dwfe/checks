@@ -9,7 +9,7 @@ export function EventInfo({element, rectHandler}: IProps) {
   const [pos, setPos] = useState([] as number[])
 
   useEffect(() => {
-    const subscription = MouseMove.of$(element, {passive: true}).pipe(
+    const subscription = MouseMove.event$(element, {passive: true}).pipe(
       delay(0, animationFrame),
       tap(event => {
         setClient([event.clientX, event.clientY])

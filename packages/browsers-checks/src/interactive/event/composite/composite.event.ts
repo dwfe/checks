@@ -19,14 +19,14 @@ export class CompositeEvent {
               public options?: AddEventListenerOptions) {
   }
 
-  addMouseEvent(type: string) {
+  listenMouseEvent(type: string) {
     this.listeners.push(addListener(type, this.element, (event: MouseEvent) => {
         this.subj.setValue(Prepare.mouseEvent(event, this.rectHandler))
       }, this.options)
     )
   }
 
-  addTouchEvent(type: string) {
+  listenTouchEvent(type: string) {
     this.listeners.push(addListener(type, this.element, (event: TouchEvent) => {
         this.subj.setValue(Prepare.touchEvent(event, this.rectHandler))
       }, this.options)

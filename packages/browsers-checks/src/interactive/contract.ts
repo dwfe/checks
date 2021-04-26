@@ -31,7 +31,7 @@ export interface IElementHandleWrap {
 //region Transform
 
 export interface ITransformData {
-  type: InteractiveType;
+  type: InteractiveVariant;
   matrix: WebMatrix;
   target: EventTarget | null;
   event: IUnpackedEvent;
@@ -46,7 +46,7 @@ export interface ITransformGenerator {
 
 //region Interactive
 
-export enum InteractiveType {
+export enum InteractiveVariant {
   DRAG,
   SCALE,
   ROTATE,

@@ -1,10 +1,10 @@
 import {animationFrame, delay, startWith, tap} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
 import React, {useEffect, useRef} from 'react'
-import {Interactive, InteractiveType} from '../../../../../interactive'
+import {Interactive, InteractiveVariant} from '../../../../../interactive'
 import './ChangeableContainer.css'
 
-const {DRAG, } = InteractiveType
+const {DRAG, } = InteractiveVariant
 
 export function ChangeableContainer({elementWrap}: IProps) {
   const ref = useRef<HTMLDivElement>(null)

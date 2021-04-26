@@ -12,18 +12,18 @@ export class MoveEvent extends CompositeEvent {
               rectHandler: RectHandler,
               options?: AddEventListenerOptions) {
     super(element, rectHandler, options)
-    this.addMouseEvent('mousemove')
-    this.addTouchEvent('touchmove')
+    this.listenMouseEvent('mousemove')
+    this.listenTouchEvent('touchmove')
   }
 
-  static of$ = (element: Element,
-                rectHandler: RectHandler,
-                options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
+  static event$ = (element: Element,
+                   rectHandler: RectHandler,
+                   options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
     merge(
-      MouseMove.of$(element, options).pipe(
+      MouseMove.event$(element, options).pipe(
         map(event => Prepare.mouseEvent(event, rectHandler)),
       ),
-      TouchMove.of$(element, options).pipe(
+      TouchMove.event$(element, options).pipe(
         map(event => Prepare.touchEvent(event, rectHandler)),
       ),
     ).pipe(

@@ -3,7 +3,7 @@ import {IElementHandleWrap, IMoveEvent} from './contract'
 import {DragEvent} from './event/composite/drag.event'
 import {DownEvent, MoveEvent, UpEvent} from './event'
 
-export class ElementHandler {
+export class ElementHotHandler {
 
   moveOnWrap: MoveEvent
   upOnWrap: UpEvent
@@ -18,12 +18,11 @@ export class ElementHandler {
               private wrap: IElementHandleWrap) {
     this.moveOnWrap = new MoveEvent(wrap.element, wrap.rectHandler)
     this.upOnWrap = new UpEvent(wrap.element, wrap.rectHandler)
-
     this.down = new DownEvent(element, wrap.rectHandler)
     this.move = new MoveEvent(element, wrap.rectHandler)
     this.up = new UpEvent(element, wrap.rectHandler)
 
-    this.drag$ = DragEvent.of$(this.down.event$, this.moveOnWrap.event$, this.upOnWrap.event$).pipe(
+    this.drag$ = DragEvent.event$(this.down.event$, this.moveOnWrap.event$, this.upOnWrap.event$).pipe(
       tap(drag => {
         drag.target = element
       }),

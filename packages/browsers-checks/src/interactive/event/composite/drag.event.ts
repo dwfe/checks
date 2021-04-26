@@ -5,9 +5,9 @@ import {processMoveEvent} from '../common'
 
 export class DragEvent {
 
-  static of$ = (down$: Observable<IUnpackedEvent>,
-                move$: Observable<IUnpackedEvent>,
-                up$: Observable<IUnpackedEvent>): Observable<IMoveEvent> =>
+  static event$ = (down$: Observable<IUnpackedEvent>,
+                   move$: Observable<IUnpackedEvent>,
+                   up$: Observable<IUnpackedEvent>): Observable<IMoveEvent> =>
     down$.pipe(
       switchMap(x => move$.pipe(
         startWith(x),

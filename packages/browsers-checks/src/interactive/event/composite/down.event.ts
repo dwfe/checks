@@ -12,18 +12,18 @@ export class DownEvent extends CompositeEvent {
               rectHandler: RectHandler,
               options?: AddEventListenerOptions) {
     super(element, rectHandler, options)
-    this.addMouseEvent('mousedown')
-    this.addTouchEvent('touchstart')
+    this.listenMouseEvent('mousedown')
+    this.listenTouchEvent('touchstart')
   }
 
-  static of$ = (element: Element,
-                rectHandler: RectHandler,
-                options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
+  static event$ = (element: Element,
+                   rectHandler: RectHandler,
+                   options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
     merge(
-      MouseDown.of$(element, options).pipe(
+      MouseDown.event$(element, options).pipe(
         map(event => Prepare.mouseEvent(event, rectHandler)),
       ),
-      TouchStart.of$(element, options).pipe(
+      TouchStart.event$(element, options).pipe(
         map(event => Prepare.touchEvent(event, rectHandler)),
       ),
     ).pipe(

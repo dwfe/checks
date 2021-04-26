@@ -14,26 +14,26 @@ export class UpEvent extends CompositeEvent {
               rectHandler: RectHandler,
               options?: AddEventListenerOptions) {
     super(element, rectHandler, options)
-    this.addMouseEvent('mouseup')
-    this.addMouseEvent('mouseleave')
-    this.addTouchEvent('touchend')
-    this.addTouchEvent('touchcancel')
+    this.listenMouseEvent('mouseup')
+    this.listenMouseEvent('mouseleave')
+    this.listenTouchEvent('touchend')
+    this.listenTouchEvent('touchcancel')
   }
 
-  static of$ = (element: Element,
-                rectHandler: RectHandler,
-                options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
+  static event$ = (element: Element,
+                   rectHandler: RectHandler,
+                   options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
     merge(
-      MouseUp.of$(element, options).pipe(
+      MouseUp.event$(element, options).pipe(
         map(event => Prepare.mouseEvent(event, rectHandler)),
       ),
-      MouseLeave.of$(element, options).pipe(
+      MouseLeave.event$(element, options).pipe(
         map(event => Prepare.mouseEvent(event, rectHandler)),
       ),
-      TouchEnd.of$(element, options).pipe(
+      TouchEnd.event$(element, options).pipe(
         map(event => Prepare.touchEvent(event, rectHandler)),
       ),
-      TouchCancel.of$(element, options).pipe(
+      TouchCancel.event$(element, options).pipe(
         map(event => Prepare.touchEvent(event, rectHandler)),
       ),
     ).pipe(
