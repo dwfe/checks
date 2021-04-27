@@ -6,27 +6,29 @@ import {IUnpackedEvent} from '../contract'
 
 export class WrapHandler implements IStoppable {
 
-  down$: Observable<IUnpackedEvent>
-  move$: Observable<IUnpackedEvent>
-  up$: Observable<IUnpackedEvent>
-
-  rectHandler: RectHandler
+  rectHandler = new RectHandler()
 
   private down: MoveEvent
   private move: MoveEvent
   private up: UpEvent
 
   constructor(public element: Element) {
-    this.rectHandler = new RectHandler()
     this.rectHandler.init(element)
-
     this.down = new DownEvent(element, this.rectHandler)
     this.move = new MoveEvent(element, this.rectHandler)
     this.up = new UpEvent(element, this.rectHandler)
+  }
 
-    this.down$ = this.down.event$
-    this.move$ = this.move.event$
-    this.up$ = this.up.event$
+  get down$(): Observable<IUnpackedEvent> {
+    return this.down.event$
+  }
+
+  get move$(): Observable<IUnpackedEvent> {
+    return this.move.event$
+  }
+
+  get up$(): Observable<IUnpackedEvent> {
+    return this.up.event$
   }
 
   stop(): void {
