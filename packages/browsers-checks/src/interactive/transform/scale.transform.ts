@@ -1,11 +1,11 @@
 import {map, Observable} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
 import {InteractiveVariant, ITransformData, ITransformGenerator} from '../contract'
-import {WrapHandler} from '../handler'
+import {ElementHandler, WrapHandler} from '../handler'
 
 export class ScaleTransform implements ITransformGenerator {
 
-  constructor(private handler: WrapHandler) {
+  constructor(private handler: WrapHandler | ElementHandler) {
   }
 
   data$: Observable<ITransformData> = this.handler.move$.pipe(
@@ -16,7 +16,7 @@ export class ScaleTransform implements ITransformGenerator {
         .scale(1.01)
         .translate(move.pagePoint.x, move.pagePoint.y)
       return {
-        type: InteractiveVariant.SCALE,
+        variant: InteractiveVariant.SCALE,
         matrix,
         target: move.target,
         event: move,

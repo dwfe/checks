@@ -9,19 +9,19 @@ const {DRAG, SCALE} = InteractiveVariant
 export class Interactive {
 
   raw$!: Observable<ITransformData>
-  transform$: Observable<WebMatrix>
-  transformResult$: Observable<WebMatrix>
+  matrix$: Observable<WebMatrix>
+  matrixResult$: Observable<WebMatrix>
 
   constructor(public wrapHandler: WrapHandler,
               public elementHandler: ElementHandler,
               public variants: InteractiveVariant[] = [DRAG]) {
     this.init()
 
-    this.transform$ = this.raw$.pipe(
+    this.matrix$ = this.raw$.pipe(
       map(action => action.matrix),
       share(),
     )
-    this.transformResult$ = this.transform$.pipe(
+    this.matrixResult$ = this.matrix$.pipe(
       scan((acc, curr) => acc.multiply(curr)),
       share(),
     )

@@ -22,10 +22,16 @@ export interface IMoveEvent {
 //endregion
 
 
-//region Transform
+//region Interactive transformation
+
+export enum InteractiveVariant {
+  DRAG,
+  SCALE,
+  ROTATE,
+}
 
 export interface ITransformData {
-  type: InteractiveVariant;
+  variant: InteractiveVariant;
   matrix: WebMatrix;
   target: EventTarget | null;
   event: IUnpackedEvent;
@@ -33,17 +39,6 @@ export interface ITransformData {
 
 export interface ITransformGenerator {
   data$: Observable<ITransformData>;
-}
-
-//endregion
-
-
-//region Interactive
-
-export enum InteractiveVariant {
-  DRAG,
-  SCALE,
-  ROTATE,
 }
 
 //endregion

@@ -2,13 +2,13 @@ import {map, merge, Observable, share} from '@do-while-for-each/rxjs'
 import {TouchCancel} from '../touch/touch-cancel.event'
 import {MouseLeave} from '../mouse/mouse-leave.event'
 import {TouchEnd} from '../touch/touch-end.event'
-import {CompositeEvent} from './composite.event'
+import {SharedHotEvent} from '../shared-hot.event'
 import {MouseUp} from '../mouse/mouse-up.event'
 import {IUnpackedEvent} from '../../contract'
 import {RectHandler} from '../../handler'
 import {Prepare} from '../common'
 
-export class UpEvent extends CompositeEvent {
+export class UpEvent extends SharedHotEvent {
 
   constructor(element: Element,
               rectHandler: RectHandler,

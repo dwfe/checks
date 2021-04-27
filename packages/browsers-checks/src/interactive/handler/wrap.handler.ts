@@ -8,7 +8,7 @@ export class WrapHandler implements IStoppable {
 
   rectHandler = new RectHandler()
 
-  private down: MoveEvent
+  private down: DownEvent
   private move: MoveEvent
   private up: UpEvent
 

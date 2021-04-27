@@ -13,3 +13,4 @@ export * from './composite/move.event'
 export * from './composite/up.event'
 
 export * from './common'
+export * from './shared-hot.event'

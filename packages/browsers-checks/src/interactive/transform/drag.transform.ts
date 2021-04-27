@@ -10,7 +10,7 @@ export class DragTransform implements ITransformGenerator {
 
   data$: Observable<ITransformData> = this.handler.drag$.pipe(
     map(drag => ({
-      type: InteractiveVariant.DRAG,
+      variant: InteractiveVariant.DRAG,
       matrix: WebMatrix.of().translate(drag.pagePointDiff.dX, drag.pagePointDiff.dY),
       target: drag.target,
       event: drag.currEvent,

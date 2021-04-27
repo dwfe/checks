@@ -13,7 +13,7 @@ export function ChangeableContainer({elementWrap}: IProps) {
     const wrapHandler = new WrapHandler(elementWrap)
     const elementHandler = new ElementHandler(ref.current as HTMLDivElement, wrapHandler)
     const interactive = new Interactive(wrapHandler, elementHandler, [DRAG,])
-    interactive.transformResult$.pipe(
+    interactive.matrixResult$.pipe(
       startWith(WebMatrix.of()),
       delay(0, animationFrame),
       tap(m => {

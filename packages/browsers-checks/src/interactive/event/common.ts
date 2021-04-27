@@ -27,7 +27,11 @@ export class Prepare {
 
 }
 
-export const addListener = (type: string, element: Element, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): () => void => {
-  element.addEventListener(type, listener, options)
-  return () => element.removeEventListener(type, listener, options)
+/**
+ * Sets up a browser's event listener.
+ * @return unlisten - A function that may be used to stop listening
+ */
+export const addListener = (type: string, element: Element, fn: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): () => void => {
+  element.addEventListener(type, fn, options)
+  return () => element.removeEventListener(type, fn, options)
 }
