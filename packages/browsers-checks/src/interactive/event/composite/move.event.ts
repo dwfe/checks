@@ -2,8 +2,8 @@ import {map, merge, Observable, share} from '@do-while-for-each/rxjs'
 import {MouseMove} from '../mouse/mouse-move.event'
 import {TouchMove} from '../touch/touch-move.event'
 import {CompositeEvent} from './composite.event'
-import {RectHandler} from '../../rect.handler'
 import {IUnpackedEvent} from '../../contract'
+import {RectHandler} from '../../handler'
 import {Prepare} from '../common'
 
 export class MoveEvent extends CompositeEvent {

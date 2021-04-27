@@ -1,5 +1,5 @@
 import {MutableRefObject, useEffect, useRef, useState} from 'react'
-import {RectHandler} from './rect.handler'
+import {RectHandler} from './handler'
 
 export const useResizeObserver = <TElement extends Element>(): [MutableRefObject<TElement | null>, RectHandler] => {
   const ref = useRef<TElement>(null)

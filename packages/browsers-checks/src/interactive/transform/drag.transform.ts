@@ -1,13 +1,14 @@
 import {map, Observable} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
-import {IElementHandler, InteractiveVariant, ITransformData, ITransformGenerator} from '../contract'
+import {InteractiveVariant, ITransformData, ITransformGenerator} from '../contract'
+import {ElementHandler} from '../handler'
 
 export class DragTransform implements ITransformGenerator {
 
-  constructor(private elementHandler: IElementHandler) {
+  constructor(private handler: ElementHandler) {
   }
 
-  data$: Observable<ITransformData> = this.elementHandler.drag$.pipe(
+  data$: Observable<ITransformData> = this.handler.drag$.pipe(
     map(drag => ({
       type: InteractiveVariant.DRAG,
       matrix: WebMatrix.of().translate(drag.pagePointDiff.dX, drag.pagePointDiff.dY),

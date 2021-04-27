@@ -1,7 +1,7 @@
 import {animationFrame, delay, startWith, tap} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
 import React, {useEffect, useRef} from 'react'
-import {Interactive, InteractiveVariant} from '../../../../../interactive'
+import {ElementHandler, Interactive, InteractiveVariant, WrapHandler} from '../../../../../interactive'
 import './ChangeableContainer.css'
 
 const {DRAG,} = InteractiveVariant
@@ -10,7 +10,9 @@ export function ChangeableContainer({elementWrap}: IProps) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const interactive = new Interactive(ref.current as HTMLDivElement, elementWrap, 'hot', [DRAG,])
+    const wrapHandler = new WrapHandler(elementWrap)
+    const elementHandler = new ElementHandler(ref.current as HTMLDivElement, wrapHandler)
+    const interactive = new Interactive(wrapHandler, elementHandler, [DRAG,])
     interactive.transformResult$.pipe(
       startWith(WebMatrix.of()),
       delay(0, animationFrame),
@@ -18,7 +20,10 @@ export function ChangeableContainer({elementWrap}: IProps) {
         (ref.current as HTMLDivElement).style.transform = m.toStyleValue()
       })
     ).subscribe()
-    return () => interactive.stop()
+    return () => {
+      wrapHandler.stop()
+      elementHandler.stop()
+    }
   }, [elementWrap])
 
   return (

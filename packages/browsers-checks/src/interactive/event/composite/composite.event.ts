@@ -1,8 +1,8 @@
 import {Observable, Subj} from '@do-while-for-each/rxjs'
 import {IStoppable} from '@do-while-for-each/common'
 import {addListener, Prepare} from '../common'
-import {RectHandler} from '../../rect.handler'
 import {IUnpackedEvent} from '../../contract'
+import {RectHandler} from '../../handler'
 
 export class CompositeEvent implements IStoppable {
 

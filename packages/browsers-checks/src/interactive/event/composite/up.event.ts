@@ -4,8 +4,8 @@ import {MouseLeave} from '../mouse/mouse-leave.event'
 import {TouchEnd} from '../touch/touch-end.event'
 import {CompositeEvent} from './composite.event'
 import {MouseUp} from '../mouse/mouse-up.event'
-import {RectHandler} from '../../rect.handler'
 import {IUnpackedEvent} from '../../contract'
+import {RectHandler} from '../../handler'
 import {Prepare} from '../common'
 
 export class UpEvent extends CompositeEvent {

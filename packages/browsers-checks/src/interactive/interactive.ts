@@ -1,32 +1,23 @@
 import {map, merge, Observable, scan, share} from '@do-while-for-each/rxjs'
-import {IStoppable} from '@do-while-for-each/common'
 import {WebMatrix} from '@do-while-for-each/math'
-import {ElementHandlerType, IElementHandler, InteractiveVariant, ITransformData, ITransformGenerator} from './contract'
-import {ElementHandlerFactory} from './element.handler/element-handler.factory'
+import {InteractiveVariant, ITransformData, ITransformGenerator} from './contract'
 import {DragTransform, ScaleTransform} from './transform'
-import {RectHandler} from './rect.handler'
+import {ElementHandler, WrapHandler} from './handler'
 
 const {DRAG, SCALE} = InteractiveVariant
 
-export class Interactive implements IStoppable {
+export class Interactive {
 
-  rectHandler: RectHandler
-  elementHandler: IElementHandler
-
-  data$!: Observable<ITransformData>
+  raw$!: Observable<ITransformData>
   transform$: Observable<WebMatrix>
   transformResult$: Observable<WebMatrix>
 
-  constructor(private element: Element,
-              private elementWrap: Element,
-              private handlerType: ElementHandlerType,
-              private variants: InteractiveVariant[] = [DRAG]) {
-    this.rectHandler = new RectHandler()
-    this.rectHandler.init(elementWrap)
-    this.elementHandler = ElementHandlerFactory.get(handlerType, element, {element: elementWrap, rectHandler: this.rectHandler})
+  constructor(public wrapHandler: WrapHandler,
+              public elementHandler: ElementHandler,
+              public variants: InteractiveVariant[] = [DRAG]) {
     this.init()
 
-    this.transform$ = this.data$.pipe(
+    this.transform$ = this.raw$.pipe(
       map(action => action.matrix),
       share(),
     )
@@ -41,18 +32,13 @@ export class Interactive implements IStoppable {
     if (this.variants.includes(DRAG))
       generators.push(new DragTransform(this.elementHandler))
     if (this.variants.includes(SCALE))
-      generators.push(new ScaleTransform(this.elementHandler))
+      generators.push(new ScaleTransform(this.wrapHandler))
     // if (this.variants.includes(ROTATE))
-    this.data$ = merge(
+    this.raw$ = merge(
       ...generators.map(generator => generator.data$)
     ).pipe(
       share()
     )
-  }
-
-  stop() {
-    this.rectHandler.stop()
-    this.elementHandler.stop()
   }
 
 }
