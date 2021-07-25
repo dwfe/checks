@@ -1,6 +1,6 @@
 import {IStoppable} from '@do-while-for-each/common'
-import {Observable} from '@do-while-for-each/rxjs'
-import {DownEvent, MoveEvent, UpEvent} from '../event'
+import {Observable, share, Stopper, takeUntil} from '@do-while-for-each/rxjs'
+import {DownEvent, MouseLeave, MoveEvent, UpEvent} from '../event'
 import {RectHandler} from './rect.handler'
 import {IUnpackedEvent} from '../contract'
 
@@ -11,6 +11,8 @@ export class WrapHandler implements IStoppable {
   private down: DownEvent
   private move: MoveEvent
   private up: UpEvent
+
+  private stopper = new Stopper()
 
   constructor(public element: Element) {
     this.rectHandler.init(element)
@@ -31,11 +33,17 @@ export class WrapHandler implements IStoppable {
     return this.up.event$
   }
 
+  leave$ = MouseLeave.event$(this.element).pipe(
+    takeUntil(this.stopper.ob$),
+    share(),
+  )
+
   stop(): void {
     this.down.stop()
     this.move.stop()
     this.up.stop()
     this.rectHandler.stop()
+    this.stopper.stop()
   }
 
 }

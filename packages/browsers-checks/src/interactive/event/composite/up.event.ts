@@ -1,18 +1,18 @@
 import {map, merge, Observable, share} from '@do-while-for-each/rxjs'
+import {ISharedHotEventOptions, IUnpackedEvent} from '../../contract'
 import {TouchCancel} from '../touch/touch-cancel.event'
 import {MouseLeave} from '../mouse/mouse-leave.event'
 import {TouchEnd} from '../touch/touch-end.event'
 import {SharedHotEvent} from '../shared-hot.event'
 import {MouseUp} from '../mouse/mouse-up.event'
-import {IUnpackedEvent} from '../../contract'
 import {RectHandler} from '../../handler'
-import {Prepare} from '../common'
+import {unpackEvent} from '../common'
 
 export class UpEvent extends SharedHotEvent {
 
   constructor(element: Element,
               rectHandler: RectHandler,
-              options?: AddEventListenerOptions) {
+              options?: ISharedHotEventOptions) {
     super(element, rectHandler, options)
     this.listenMouseEvent('mouseup')
     this.listenMouseEvent('mouseleave')
@@ -22,19 +22,19 @@ export class UpEvent extends SharedHotEvent {
 
   static event$ = (element: Element,
                    rectHandler: RectHandler,
-                   options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
+                   options?: ISharedHotEventOptions): Observable<IUnpackedEvent> =>
     merge(
-      MouseUp.event$(element, options).pipe(
-        map(event => Prepare.mouseEvent(event, rectHandler)),
+      MouseUp.event$(element, options?.listener).pipe(
+        map(event => unpackEvent('mouse', event, rectHandler, options?.addExtraInfo)),
       ),
-      MouseLeave.event$(element, options).pipe(
-        map(event => Prepare.mouseEvent(event, rectHandler)),
+      MouseLeave.event$(element, options?.listener).pipe(
+        map(event => unpackEvent('mouse', event, rectHandler, options?.addExtraInfo)),
       ),
-      TouchEnd.event$(element, options).pipe(
-        map(event => Prepare.touchEvent(event, rectHandler)),
+      TouchEnd.event$(element, options?.listener).pipe(
+        map(event => unpackEvent('touch', event, rectHandler, options?.addExtraInfo)),
       ),
-      TouchCancel.event$(element, options).pipe(
-        map(event => Prepare.touchEvent(event, rectHandler)),
+      TouchCancel.event$(element, options?.listener).pipe(
+        map(event => unpackEvent('touch', event, rectHandler, options?.addExtraInfo)),
       ),
     ).pipe(
       share(),

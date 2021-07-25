@@ -8,12 +8,18 @@ export class DragTransform implements ITransformGenerator {
   }
 
   data$: Observable<ITransformData> = this.handler.drag$.pipe(
-    map(drag => ({
-      variant: InteractiveVariant.DRAG,
-      matrix: [1, 0, 0, 1, drag.pagePointDiff[0], drag.pagePointDiff[1]],
-      target: drag.target,
-      event: drag.currEvent,
-    })),
+    map(drag => {
+      const result: ITransformData = {
+        matrix: [1, 0, 0, 1, drag.pagePointDiff[0], drag.pagePointDiff[1]],
+      }
+      if (drag.extra)
+        result.extra = {
+          variant: InteractiveVariant.DRAG,
+          target: drag.extra.target,
+          event: drag.extra.currEvent,
+        }
+      return result;
+    }),
   )
 
 }

@@ -1,16 +1,16 @@
 import {map, merge, Observable, share} from '@do-while-for-each/rxjs'
+import {ISharedHotEventOptions, IUnpackedEvent} from '../../contract'
 import {MouseMove} from '../mouse/mouse-move.event'
 import {TouchMove} from '../touch/touch-move.event'
 import {SharedHotEvent} from '../shared-hot.event'
-import {IUnpackedEvent} from '../../contract'
 import {RectHandler} from '../../handler'
-import {Prepare} from '../common'
+import {unpackEvent} from '../common'
 
 export class MoveEvent extends SharedHotEvent {
 
   constructor(element: Element,
               rectHandler: RectHandler,
-              options?: AddEventListenerOptions) {
+              options?: ISharedHotEventOptions) {
     super(element, rectHandler, options)
     this.listenMouseEvent('mousemove')
     this.listenTouchEvent('touchmove')
@@ -18,13 +18,13 @@ export class MoveEvent extends SharedHotEvent {
 
   static event$ = (element: Element,
                    rectHandler: RectHandler,
-                   options?: AddEventListenerOptions): Observable<IUnpackedEvent> =>
+                   options?: ISharedHotEventOptions): Observable<IUnpackedEvent> =>
     merge(
-      MouseMove.event$(element, options).pipe(
-        map(event => Prepare.mouseEvent(event, rectHandler)),
+      MouseMove.event$(element, options?.listener).pipe(
+        map(event => unpackEvent('mouse', event, rectHandler, options?.addExtraInfo)),
       ),
-      TouchMove.event$(element, options).pipe(
-        map(event => Prepare.touchEvent(event, rectHandler)),
+      TouchMove.event$(element, options?.listener).pipe(
+        map(event => unpackEvent('touch', event, rectHandler, options?.addExtraInfo)),
       ),
     ).pipe(
       share(),

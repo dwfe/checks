@@ -1,7 +1,7 @@
 import {Observable, Subj} from '@do-while-for-each/rxjs'
 import {IStoppable} from '@do-while-for-each/common'
-import {addListener, Prepare} from './common'
-import {IUnpackedEvent} from '../contract'
+import {ISharedHotEventOptions, IUnpackedEvent} from '../contract'
+import {addListener, unpackEvent} from './common'
 import {RectHandler} from '../handler'
 
 export class SharedHotEvent implements IStoppable {
@@ -17,15 +17,17 @@ export class SharedHotEvent implements IStoppable {
 
   constructor(public element: Element,
               public rectHandler: RectHandler,
-              public options?: AddEventListenerOptions) {
+              public options?: ISharedHotEventOptions) {
   }
 
   listenMouseEvent(type: string) {
     this.unlisten.push(addListener(
       type,
       this.element,
-      (event: MouseEvent) => this.subj.setValue(Prepare.mouseEvent(event, this.rectHandler)),
-      this.options
+      (event: MouseEvent) => this.subj.setValue(
+        unpackEvent('mouse', event, this.rectHandler, this.options?.addExtraInfo)
+      ),
+      this.options?.listener
     ))
   }
 
@@ -33,8 +35,10 @@ export class SharedHotEvent implements IStoppable {
     this.unlisten.push(addListener(
       type,
       this.element,
-      (event: TouchEvent) => this.subj.setValue(Prepare.touchEvent(event, this.rectHandler)),
-      this.options
+      (event: TouchEvent) => this.subj.setValue(
+        unpackEvent('touch', event, this.rectHandler, this.options?.addExtraInfo)
+      ),
+      this.options?.listener
     ))
   }
 

@@ -8,15 +8,19 @@ export type TManualEvent = MouseEvent | TouchEvent | KeyboardEvent | WheelEvent
 
 export interface IUnpackedEvent {
   pagePoint: TPoint;
-  target: EventTarget | null;
-  event: TManualEvent;
+  extra?: {
+    target: EventTarget | null;
+    event: TManualEvent;
+  };
 }
 
 export interface IMoveEvent {
   pagePointDiff: TPoint;
-  target: EventTarget | null;
-  prevEvent: IUnpackedEvent;
-  currEvent: IUnpackedEvent;
+  extra?: {
+    target: EventTarget | null;
+    prevEvent: IUnpackedEvent;
+    currEvent: IUnpackedEvent;
+  };
 }
 
 //endregion
@@ -31,10 +35,12 @@ export enum InteractiveVariant {
 }
 
 export interface ITransformData {
-  variant: InteractiveVariant;
   matrix: TWebMatrix;
-  target: EventTarget | null;
-  event: IUnpackedEvent;
+  extra?: {
+    variant: InteractiveVariant;
+    target: EventTarget | null;
+    event: IUnpackedEvent;
+  };
 }
 
 export interface ITransformGenerator {
@@ -42,3 +48,9 @@ export interface ITransformGenerator {
 }
 
 //endregion
+
+
+export interface ISharedHotEventOptions {
+  addExtraInfo: boolean;
+  listener?: AddEventListenerOptions;
+}

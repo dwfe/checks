@@ -1,7 +1,7 @@
-import {share, Stopper, takeUntil, tap} from '@do-while-for-each/rxjs'
 import {IStoppable} from '@do-while-for-each/common'
-import {DragEvent} from '../event/composite/drag.event'
+import {share, Stopper, takeUntil, tap} from '@do-while-for-each/rxjs'
 import {DownEvent, MoveEvent, UpEvent} from '../event'
+import {DragEvent} from '../event/composite/drag.event'
 import {WrapHandler} from './wrap.handler'
 
 export class ElementHandler implements IStoppable {
@@ -24,9 +24,10 @@ export class ElementHandler implements IStoppable {
     takeUntil(this.stopper.ob$),
     share(),
   )
-  drag$ = DragEvent.event$(this.down$, this.wrap.move$, this.wrap.up$).pipe(
+  drag$ = DragEvent.event$(this.down$, this.wrap.move$, [this.wrap.up$, this.wrap.leave$]).pipe(
     tap(drag => {
-      drag.target = this.element
+      if (drag.extra)
+        drag.extra.target = this.element
     }),
     takeUntil(this.stopper.ob$),
     share(),
