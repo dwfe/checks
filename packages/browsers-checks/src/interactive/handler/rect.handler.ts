@@ -1,6 +1,6 @@
 import {filter, Observable, share, Subj} from '@do-while-for-each/rxjs'
 import {IStoppable} from '@do-while-for-each/common'
-import {IPoint} from '@do-while-for-each/math'
+import {TPoint} from '@do-while-for-each/math'
 
 export class RectHandler implements IStoppable {
 
@@ -35,10 +35,10 @@ export class RectHandler implements IStoppable {
     return this.element.getBoundingClientRect()
   }
 
-  pagePoint = (pageX: number, pageY: number): IPoint => ({
-    x: pageX - this.rect.left,
-    y: pageY - this.rect.top
-  })
+  pagePoint = (pageX: number, pageY: number): TPoint => ([
+    pageX - this.rect.left,
+    pageY - this.rect.top
+  ])
 
   stop() {
     this.rectSubj.stop()

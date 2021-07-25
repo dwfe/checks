@@ -3,7 +3,7 @@ import {IMoveEvent, IUnpackedEvent, TManualEvent} from '../contract'
 import {RectHandler} from '../handler'
 
 export const processMoveEvent = (prevEvent: IUnpackedEvent, currEvent: IUnpackedEvent): IMoveEvent => ({
-  pagePointDiff: Point.diff(currEvent.pagePoint, prevEvent.pagePoint),
+  pagePointDiff: Point.subtract(currEvent.pagePoint, prevEvent.pagePoint),
   target: currEvent.target,
   prevEvent,
   currEvent,

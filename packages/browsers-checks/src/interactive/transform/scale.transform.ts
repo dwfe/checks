@@ -10,14 +10,14 @@ export class ScaleTransform implements ITransformGenerator {
 
   data$: Observable<ITransformData> = this.handler.move$.pipe(
     map(move => {
-      const matrix = WebMatrix.of()
-        .translate(move.pagePoint.x, move.pagePoint.y)
+      const webMatrix = WebMatrix.of()
+        .translate(move.pagePoint[0], move.pagePoint[1])
         .invert()
         .scale(1.01)
-        .translate(move.pagePoint.x, move.pagePoint.y)
+        .translate(move.pagePoint[0], move.pagePoint[1])
       return {
         variant: InteractiveVariant.SCALE,
-        matrix,
+        matrix: webMatrix.m,
         target: move.target,
         event: move,
       }

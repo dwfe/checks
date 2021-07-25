@@ -14,10 +14,10 @@ export function ChangeableContainer({elementWrap}: IProps) {
     const elementHandler = new ElementHandler(ref.current as HTMLDivElement, wrapHandler)
     const interactive = new Interactive(wrapHandler, elementHandler, [DRAG,])
     interactive.matrixResult$.pipe(
-      startWith(WebMatrix.of()),
+      startWith(WebMatrix.identity()),
       delay(0, animationFrame),
       tap(m => {
-        (ref.current as HTMLDivElement).style.transform = m.toStyleValue()
+        (ref.current as HTMLDivElement).style.transform = `matrix(${m.toString()})`
       })
     ).subscribe()
     return () => {

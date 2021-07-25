@@ -14,8 +14,7 @@ export function EventInfo({element, rectHandler}: IProps) {
       tap(event => {
         setClient([event.clientX, event.clientY])
         setPage([event.pageX, event.pageY])
-        const pagePoint = rectHandler.pagePoint(event.pageX, event.pageY)
-        setPos([pagePoint.x, pagePoint.y])
+        setPos(rectHandler.pagePoint(event.pageX, event.pageY))
       })
     ).subscribe()
     return () => subscription.unsubscribe();

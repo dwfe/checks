@@ -1,5 +1,5 @@
 import {map, merge, Observable, scan, share} from '@do-while-for-each/rxjs'
-import {WebMatrix} from '@do-while-for-each/math'
+import {TWebMatrix, WebMatrix} from '@do-while-for-each/math'
 import {InteractiveVariant, ITransformData, ITransformGenerator} from './contract'
 import {DragTransform, ScaleTransform} from './transform'
 import {ElementHandler, WrapHandler} from './handler'
@@ -9,8 +9,8 @@ const {DRAG, SCALE} = InteractiveVariant
 export class Interactive {
 
   raw$!: Observable<ITransformData>
-  matrix$: Observable<WebMatrix>
-  matrixResult$: Observable<WebMatrix>
+  matrix$: Observable<TWebMatrix>
+  matrixResult$: Observable<TWebMatrix>
 
   constructor(public wrapHandler: WrapHandler,
               public elementHandler: ElementHandler,
@@ -22,7 +22,7 @@ export class Interactive {
       share(),
     )
     this.matrixResult$ = this.matrix$.pipe(
-      scan((acc, curr) => acc.multiply(curr)),
+      scan((acc, curr) => WebMatrix.multiply(acc, curr)),
       share(),
     )
   }

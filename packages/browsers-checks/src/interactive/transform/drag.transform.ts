@@ -5,13 +5,15 @@ import {ElementHandler} from '../handler'
 
 export class DragTransform implements ITransformGenerator {
 
+  identityMatrix = WebMatrix.identity();
+
   constructor(private handler: ElementHandler) {
   }
 
   data$: Observable<ITransformData> = this.handler.drag$.pipe(
     map(drag => ({
       variant: InteractiveVariant.DRAG,
-      matrix: WebMatrix.of().translate(drag.pagePointDiff.dX, drag.pagePointDiff.dY),
+      matrix: WebMatrix.translateIdentity(drag.pagePointDiff[0], drag.pagePointDiff[1]),
       target: drag.target,
       event: drag.currEvent,
     })),

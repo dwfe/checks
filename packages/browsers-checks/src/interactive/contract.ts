@@ -1,4 +1,4 @@
-import {IDiff, IPoint, WebMatrix} from '@do-while-for-each/math'
+import {TPoint, TWebMatrix} from '@do-while-for-each/math'
 import {Observable} from '@do-while-for-each/rxjs'
 
 
@@ -7,13 +7,13 @@ import {Observable} from '@do-while-for-each/rxjs'
 export type TManualEvent = MouseEvent | TouchEvent | KeyboardEvent | WheelEvent
 
 export interface IUnpackedEvent {
-  pagePoint: IPoint;
+  pagePoint: TPoint;
   target: EventTarget | null;
   event: TManualEvent;
 }
 
 export interface IMoveEvent {
-  pagePointDiff: IDiff;
+  pagePointDiff: TPoint;
   target: EventTarget | null;
   prevEvent: IUnpackedEvent;
   currEvent: IUnpackedEvent;
@@ -32,7 +32,7 @@ export enum InteractiveVariant {
 
 export interface ITransformData {
   variant: InteractiveVariant;
-  matrix: WebMatrix;
+  matrix: TWebMatrix;
   target: EventTarget | null;
   event: IUnpackedEvent;
 }
