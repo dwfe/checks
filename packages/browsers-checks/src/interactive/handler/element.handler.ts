@@ -1,7 +1,6 @@
 import {share, Stopper, takeUntil} from '@do-while-for-each/rxjs'
 import {IStoppable} from '@do-while-for-each/common'
-import {DragEvent} from '../event/composite/drag.event'
-import {DownEvent, MoveEvent, UpEvent} from '../event'
+import {DownEvent, DragEvent, MoveEvent, UpEvent} from '../event'
 import {RectHandler} from './rect.handler'
 import {WrapHandler} from './wrap.handler'
 

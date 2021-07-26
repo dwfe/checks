@@ -3,8 +3,9 @@ import {TWebMatrix, WebMatrix} from '@do-while-for-each/math'
 import {InteractiveVariant, ITransformData, ITransformGenerator} from './contract'
 import {DragTransform, ScaleTransform} from './transform'
 import {ElementHandler, WrapHandler} from './handler'
+import {RotateTransform} from './transform/rotate.transform';
 
-const {DRAG, SCALE} = InteractiveVariant
+const {DRAG, SCALE, ROTATE} = InteractiveVariant
 
 export class Interactive {
 
@@ -31,7 +32,8 @@ export class Interactive {
       generators.push(new DragTransform(this.elementHandler))
     if (this.variants.includes(SCALE))
       generators.push(new ScaleTransform(this.wrapHandler))
-    // if (this.variants.includes(ROTATE))
+    if (this.variants.includes(ROTATE))
+      generators.push(new RotateTransform(this.wrapHandler))
     this.raw$ = merge(
       ...generators.map(generator => generator.data$)
     ).pipe(
