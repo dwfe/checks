@@ -1,19 +1,30 @@
 import {distinctUntilChanged, first, map, merge, Observable, pairwise, share, startWith, switchMap, takeUntil} from '@do-while-for-each/rxjs'
 import {Point} from '@do-while-for-each/math'
-import {IMoveEvent, IUnpackedEvent} from '../../contract'
-import {processMoveEvent} from '../common'
+import {IDragEvent, IUnpackedEvent} from '../../contract'
 
 export class DragEvent {
 
   static event$ = (down$: Observable<IUnpackedEvent>,
                    move$: Observable<IUnpackedEvent>,
-                   stoppers: Observable<any>[]): Observable<IMoveEvent> =>
+                   stoppers: Observable<any>[],
+                   targetReplace?: EventTarget): Observable<IDragEvent> =>
     down$.pipe(
       switchMap(x => move$.pipe(
         startWith(x),
-        distinctUntilChanged((a, b) => Point.isEquals(a.pagePoint, b.pagePoint)),
+        distinctUntilChanged((prev, curr) => Point.isEquals(prev.pagePoint, curr.pagePoint)),
         pairwise(),
-        map(([a, b]) => processMoveEvent(a, b)),
+        map(([prev, curr]) => {
+          const result: IDragEvent = {
+            pagePointDiff: Point.subtract(curr.pagePoint, prev.pagePoint),
+          };
+          if (curr.extra)
+            result.extra = {
+              target: targetReplace ? targetReplace : curr.extra.target,
+              prevEvent: prev,
+              currEvent: curr,
+            }
+          return result;
+        }),
         takeUntil(merge(...stoppers).pipe(first())),
       )),
       share(),

@@ -1,7 +1,7 @@
 import {Observable, Subj} from '@do-while-for-each/rxjs'
 import {IStoppable} from '@do-while-for-each/common'
 import {ISharedHotEventOptions, IUnpackedEvent} from '../contract'
-import {addListener, unpackEvent} from './common'
+import {unpackEvent} from './common'
 import {RectHandler} from '../handler'
 
 export class SharedHotEvent implements IStoppable {
@@ -20,26 +20,19 @@ export class SharedHotEvent implements IStoppable {
               public options?: ISharedHotEventOptions) {
   }
 
-  listenMouseEvent(type: string) {
-    this.unlisten.push(addListener(
-      type,
-      this.element,
-      (event: MouseEvent) => this.subj.setValue(
-        unpackEvent('mouse', event, this.rectHandler, this.options?.addExtraInfo)
-      ),
-      this.options?.listener
-    ))
-  }
-
-  listenTouchEvent(type: string) {
-    this.unlisten.push(addListener(
-      type,
-      this.element,
-      (event: TouchEvent) => this.subj.setValue(
-        unpackEvent('touch', event, this.rectHandler, this.options?.addExtraInfo)
-      ),
-      this.options?.listener
-    ))
+  /**
+   * Sets up a browser's event listener.
+   * @return unlisten - A function that may be used to stop listening
+   */
+  addListeners(types: string[]) {
+    types.forEach(type => {
+      const commonType = type.indexOf('touch') >= 0 ? 'touch' : 'mouse';
+      const fn: EventListenerOrEventListenerObject = (event: TouchEvent) => this.subj.setValue(
+        unpackEvent(commonType, event, this.rectHandler, this.options?.addExtraInfo)
+      )
+      this.element.addEventListener(type, fn, this.options?.listener)
+      this.unlisten.push(() => this.element.removeEventListener(type, fn, this.options?.listener))
+    })
   }
 
   stop() {

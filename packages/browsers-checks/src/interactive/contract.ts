@@ -14,7 +14,7 @@ export interface IUnpackedEvent {
   };
 }
 
-export interface IMoveEvent {
+export interface IDragEvent {
   pagePointDiff: TPoint;
   extra?: {
     target: EventTarget | null;

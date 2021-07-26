@@ -12,8 +12,10 @@ export class DownEvent extends SharedHotEvent {
               rectHandler: RectHandler,
               options?: ISharedHotEventOptions) {
     super(element, rectHandler, options)
-    this.listenMouseEvent('mousedown')
-    this.listenTouchEvent('touchstart')
+    this.addListeners([
+      'mousedown',
+      'touchstart',
+    ])
   }
 
   static event$ = (element: Element,

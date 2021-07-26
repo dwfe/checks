@@ -1,5 +1,4 @@
-import {Point} from '@do-while-for-each/math'
-import {IMoveEvent, IUnpackedEvent, TManualEvent} from '../contract'
+import {IUnpackedEvent, TManualEvent} from '../contract'
 import {RectHandler} from '../handler'
 
 export const unpackEvent = (type: 'mouse' | 'touch',
@@ -27,32 +26,4 @@ export const unpackEvent = (type: 'mouse' | 'touch',
       event,
     }
   return result;
-}
-
-export const processMoveEvent = (prevEvent: IUnpackedEvent,
-                                 currEvent: IUnpackedEvent): IMoveEvent => {
-  const result: IMoveEvent = {
-    pagePointDiff: Point.subtract(currEvent.pagePoint, prevEvent.pagePoint),
-  };
-  if (currEvent.extra)
-    result.extra = {
-      target: currEvent.extra.target,
-      prevEvent,
-      currEvent,
-    }
-  return result;
-}
-
-
-/**
- * Sets up a browser's event listener.
- * @return unlisten - A function that may be used to stop listening
- */
-export const addListener = (type: string,
-                            element: Element,
-                            fn: EventListenerOrEventListenerObject,
-                            options?: boolean | AddEventListenerOptions
-): () => void => {
-  element.addEventListener(type, fn, options)
-  return () => element.removeEventListener(type, fn, options)
 }

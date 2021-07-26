@@ -12,8 +12,10 @@ export class MoveEvent extends SharedHotEvent {
               rectHandler: RectHandler,
               options?: ISharedHotEventOptions) {
     super(element, rectHandler, options)
-    this.listenMouseEvent('mousemove')
-    this.listenTouchEvent('touchmove')
+    this.addListeners([
+      'mousemove',
+      'touchmove',
+    ])
   }
 
   static event$ = (element: Element,
