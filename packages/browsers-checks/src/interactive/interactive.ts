@@ -1,9 +1,8 @@
 import {merge, Observable, scan, share} from '@do-while-for-each/rxjs'
 import {TWebMatrix, WebMatrix} from '@do-while-for-each/math'
 import {InteractiveVariant, ITransformData, ITransformGenerator} from './contract'
-import {DragTransform, ScaleTransform} from './transform'
+import {DragTransform, RotateTransform, ScaleTransform} from './transform'
 import {ElementHandler, WrapHandler} from './handler'
-import {RotateTransform} from './transform/rotate.transform';
 
 const {DRAG, SCALE, ROTATE} = InteractiveVariant
 
@@ -14,7 +13,7 @@ export class Interactive {
 
   constructor(public wrapHandler: WrapHandler,
               public elementHandler: ElementHandler,
-              public variants: InteractiveVariant[] = [DRAG]) {
+              public variants: InteractiveVariant[] = [DRAG, SCALE, ROTATE]) {
     this.init()
 
     this.matrixResult$ = this.raw$.pipe(
