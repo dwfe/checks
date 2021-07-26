@@ -18,7 +18,7 @@ export class Interactive {
 
     this.matrixResult$ = this.raw$.pipe(
       scan<ITransformData, TWebMatrix>(
-        (acc, raw) => WebMatrix.multiply(acc, raw.matrix),
+        (acc, raw) => WebMatrix.multiply(raw.matrix, acc),
         WebMatrix.identity()
       ),
       share(),

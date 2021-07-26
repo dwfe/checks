@@ -1,28 +1,25 @@
+import {map, Observable, withLatestFrom} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
-import {map, Observable} from '@do-while-for-each/rxjs'
 import {InteractiveVariant, ITransformData, ITransformGenerator} from '../contract'
-import {ElementHandler, WrapHandler} from '../handler'
+import {WrapHandler} from '../handler'
 
 export class ScaleTransform implements ITransformGenerator {
 
-  constructor(private handler: WrapHandler | ElementHandler) {
+  constructor(private handler: WrapHandler) {
   }
 
-  data$: Observable<ITransformData> = this.handler.move$.pipe(
-    map(move => {
-      const webMatrix = WebMatrix.of()
-        .translate(move.pagePoint[0], move.pagePoint[1])
-        .invert()
-        .scale(1.01)
-        .translate(move.pagePoint[0], move.pagePoint[1])
+  data$: Observable<ITransformData> = this.handler.wheel$.pipe(
+    withLatestFrom(this.handler.cursorPos$),
+    map(([wheel, cursorPos]) => {
+      const factor = wheel.deltaY < 0 ? 1.1 : 0.9;
       const result: ITransformData = {
-        matrix: webMatrix.m
+        matrix: WebMatrix.scaleAtPoint(cursorPos.pagePoint, factor)
       }
-      if (move.extra)
+      if (cursorPos.extra)
         result.extra = {
           variant: InteractiveVariant.SCALE,
-          target: move.extra.target,
-          event: move,
+          target: cursorPos.extra.target,
+          event: cursorPos,
         }
       return result
     })

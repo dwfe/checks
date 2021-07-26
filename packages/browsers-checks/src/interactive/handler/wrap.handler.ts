@@ -1,6 +1,6 @@
 import {share, Stopper, takeUntil} from '@do-while-for-each/rxjs'
 import {IStoppable} from '@do-while-for-each/common'
-import {DownEvent, MouseLeave, MoveEvent, UpEvent} from '../event'
+import {DownEvent, MouseLeave, MouseWheel, MoveEvent, UpEvent} from '../event'
 import {RectHandler} from './rect.handler'
 
 export class WrapHandler implements IStoppable {
@@ -20,11 +20,15 @@ export class WrapHandler implements IStoppable {
     takeUntil(this.stopper.ob$),
     share(),
   )
-  move$ = MoveEvent.event$(this.element, this.rectHandler).pipe(
+  cursorPos$ = MoveEvent.event$(this.element, this.rectHandler).pipe(
     takeUntil(this.stopper.ob$),
     share(),
   )
   leave$ = MouseLeave.event$(this.element).pipe(
+    takeUntil(this.stopper.ob$),
+    share(),
+  )
+  wheel$ = MouseWheel.event$(this.element).pipe(
     takeUntil(this.stopper.ob$),
     share(),
   )

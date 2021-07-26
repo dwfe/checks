@@ -5,11 +5,11 @@ import {IDragEvent, IUnpackedEvent} from '../../contract'
 export class DragEvent {
 
   static event$ = (down$: Observable<IUnpackedEvent>,
-                   move$: Observable<IUnpackedEvent>,
+                   cursorPos$: Observable<IUnpackedEvent>,
                    stoppers: Observable<any>[],
                    targetReplace?: EventTarget): Observable<IDragEvent> =>
     down$.pipe(
-      switchMap(x => move$.pipe(
+      switchMap(x => cursorPos$.pipe(
         startWith(x),
         distinctUntilChanged((prev, curr) => Point.isEquals(prev.pagePoint, curr.pagePoint)),
         pairwise(),

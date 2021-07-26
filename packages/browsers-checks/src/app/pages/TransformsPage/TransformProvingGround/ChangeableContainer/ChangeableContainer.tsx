@@ -4,7 +4,7 @@ import React, {useEffect, useRef} from 'react'
 import {ElementHandler, Interactive, InteractiveVariant, WrapHandler} from '../../../../../interactive'
 import './ChangeableContainer.css'
 
-const {DRAG,} = InteractiveVariant
+const {DRAG, SCALE} = InteractiveVariant
 
 export function ChangeableContainer({elementWrap}: IProps) {
   const ref = useRef<HTMLDivElement>(null)
@@ -12,12 +12,12 @@ export function ChangeableContainer({elementWrap}: IProps) {
   useEffect(() => {
     const wrapHandler = new WrapHandler(elementWrap)
     const elementHandler = new ElementHandler(ref.current as HTMLDivElement, wrapHandler)
-    const interactive = new Interactive(wrapHandler, elementHandler, [DRAG,])
+    const interactive = new Interactive(wrapHandler, elementHandler, [DRAG, SCALE])
     interactive.matrixResult$.pipe(
       startWith(WebMatrix.identity()),
       delay(0, animationFrame),
       tap(m => {
-        (ref.current as HTMLDivElement).style.transform = `matrix(${m.toString()})`
+        (ref.current as HTMLDivElement).style.transform = WebMatrix.toStyleValue(m)
       })
     ).subscribe()
     return () => {

@@ -6,4 +6,5 @@
   background: lightyellow;
 
   will-change: transform;
+  transform-origin: 0 0;
 }

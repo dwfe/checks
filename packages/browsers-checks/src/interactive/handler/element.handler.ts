@@ -21,11 +21,16 @@ export class ElementHandler implements IStoppable {
     takeUntil(this.stopper.ob$),
     share(),
   )
-  move$ = MoveEvent.event$(this.element, this.rectHandler).pipe(
+  cursorPos$ = MoveEvent.event$(this.element, this.rectHandler).pipe(
     takeUntil(this.stopper.ob$),
     share(),
   )
-  drag$ = DragEvent.event$(this.down$, this.wrap.move$, [this.wrap.up$, this.wrap.leave$], this.element).pipe(
+  drag$ = DragEvent.event$(
+    this.down$,
+    this.wrap.cursorPos$,
+    [this.wrap.up$, this.wrap.leave$],
+    this.element
+  ).pipe(
     takeUntil(this.stopper.ob$),
     share(),
   )
