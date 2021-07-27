@@ -1,7 +1,7 @@
 import {animationFrame, debounceTime, delay, startWith, tap} from '@do-while-for-each/rxjs'
+import {AngleType, TWebMatrix, WebMatrix} from '@do-while-for-each/math'
 import React, {useEffect, useRef, useState} from 'react'
-import {WebMatrix} from '@do-while-for-each/math'
-import {ElementHandler, Interactive, WrapHandler} from '../../../../../interactive'
+import {ElementHandler, ElementInteractive, WrapHandler} from '../../../../../interactive'
 import './ChangeableContainer.css'
 
 const textInactive = 'Transform Me'
@@ -13,8 +13,11 @@ export function ChangeableContainer({wrapHandler}: IProps) {
   useEffect(() => {
     const element = ref.current as HTMLDivElement;
 
-    const elementHandler = new ElementHandler(element, wrapHandler)
-    const interactive = new Interactive(wrapHandler, elementHandler)
+    const handler = new ElementHandler(element, wrapHandler)
+    const interactive = new ElementInteractive(
+      handler,
+      WebMatrix.of().translate(50, 120).rotate(-10, AngleType.DEGREES).toJSON() as TWebMatrix
+    )
 
     interactive.resultMatrix$.pipe(
       startWith(WebMatrix.identity()),
@@ -29,7 +32,7 @@ export function ChangeableContainer({wrapHandler}: IProps) {
     ).subscribe()
 
     return () => {
-      elementHandler.stop()
+      handler.stop()
       interactive.stop()
     }
   }, [wrapHandler])

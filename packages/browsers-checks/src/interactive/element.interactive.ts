@@ -1,25 +1,26 @@
-import {merge, Observable, scan, share, Stopper, takeUntil} from '@do-while-for-each/rxjs'
+import {merge, Observable, scan, share, startWith, Stopper, takeUntil} from '@do-while-for-each/rxjs'
 import {TWebMatrix, WebMatrix} from '@do-while-for-each/math'
 import {IStoppable} from '@do-while-for-each/common'
 import {DragGenerator, RotateGenerator, ScaleGenerator} from './transform-generator'
 import {InteractiveVariant, ITransformGenerator} from './contract'
-import {ElementHandler, WrapHandler} from './handler'
+import {ElementHandler, RectHandler} from './handler'
 
 const {DRAG, SCALE, ROTATE} = InteractiveVariant
 
-export class Interactive implements IStoppable {
+export class ElementInteractive implements IStoppable {
 
   rawMatrix$!: Observable<TWebMatrix>
   resultMatrix$: Observable<TWebMatrix>
 
   private stopper = new Stopper()
 
-  constructor(public wrapHandler: WrapHandler,
-              public elementHandler: ElementHandler,
-              public variants: InteractiveVariant[] = [DRAG, SCALE, ROTATE]) {
+  constructor(private handler: ElementHandler,
+              private startTransform: TWebMatrix = WebMatrix.identity(),
+              private variants: InteractiveVariant[] = [DRAG, SCALE, ROTATE]) {
     this.init()
 
     this.resultMatrix$ = this.rawMatrix$.pipe(
+      startWith(this.startTransform),
       scan(
         (result, raw) => WebMatrix.multiply(raw, result),
         WebMatrix.identity()
@@ -32,11 +33,11 @@ export class Interactive implements IStoppable {
   private init(): void {
     const generators: ITransformGenerator[] = []
     if (this.variants.includes(DRAG))
-      generators.push(new DragGenerator(this.elementHandler))
+      generators.push(new DragGenerator(this.handler.drag$))
     if (this.variants.includes(SCALE))
-      generators.push(new ScaleGenerator(this.wrapHandler))
+      generators.push(new ScaleGenerator(this.wheel$, this.rectHandler))
     if (this.variants.includes(ROTATE))
-      generators.push(new RotateGenerator(this.wrapHandler))
+      generators.push(new RotateGenerator(this.wheel$, this.rectHandler))
     this.rawMatrix$ = merge(
       ...generators.map(generator => generator.data$)
     ).pipe(
@@ -48,5 +49,18 @@ export class Interactive implements IStoppable {
   stop(): void {
     this.stopper.stop()
   }
+
+
+//region Support
+
+  get rectHandler(): RectHandler {
+    return this.handler.wrap.rectHandler
+  }
+
+  get wheel$(): Observable<WheelEvent> {
+    return this.handler.wrap.wheel$
+  }
+
+//endregion
 
 }

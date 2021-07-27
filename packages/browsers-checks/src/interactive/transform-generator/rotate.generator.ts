@@ -2,20 +2,21 @@ import {filter, map, Observable} from '@do-while-for-each/rxjs'
 import {TWebMatrix, WebMatrix} from '@do-while-for-each/math'
 import {ITransformGenerator} from '../contract'
 import {WheelFactor} from './wheel.factor'
-import {WrapHandler} from '../handler'
+import {RectHandler} from '../handler'
 
 export class RotateGenerator implements ITransformGenerator {
 
-  constructor(private handler: WrapHandler) {
+  constructor(private wheel$: Observable<WheelEvent>,
+              private rectHandler: RectHandler) {
   }
 
-  data$: Observable<TWebMatrix> = this.handler.wheel$.pipe(
+  data$: Observable<TWebMatrix> = this.wheel$.pipe(
     filter(e => !!e.altKey),
-    map(event => (
+    map(event =>
       WebMatrix.rotateAtPoint(
-        this.handler.rectHandler.pagePointFromEvent(event),
+        this.rectHandler.pagePointFromEvent(event),
         WheelFactor.rotation(event)
-      ))
+      )
     ),
   );
 
