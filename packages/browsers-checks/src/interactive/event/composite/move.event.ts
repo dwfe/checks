@@ -1,22 +1,13 @@
-import {map, merge, Observable, share} from '@do-while-for-each/rxjs'
-import {ISharedHotEventOptions, IUnpackedEvent} from '../../contract'
+import {merge, Observable, share} from '@do-while-for-each/rxjs'
 import {MouseMove} from '../mouse/mouse-move.event'
 import {TouchMove} from '../touch/touch-move.event'
-import {RectHandler} from '../../handler'
-import {unpackEvent} from '../common'
 
 export class MoveEvent {
 
-  static event$ = (element: Element,
-                   rectHandler: RectHandler,
-                   options?: ISharedHotEventOptions): Observable<IUnpackedEvent> =>
+  static event$ = (element: Element, options?: AddEventListenerOptions): Observable<MouseEvent | TouchEvent> =>
     merge(
-      MouseMove.event$(element, options?.listener).pipe(
-        map(event => unpackEvent('mouse', event, rectHandler, options?.addExtraInfo)),
-      ),
-      TouchMove.event$(element, options?.listener).pipe(
-        map(event => unpackEvent('touch', event, rectHandler, options?.addExtraInfo)),
-      ),
+      MouseMove.event$(element, options),
+      TouchMove.event$(element, options),
     ).pipe(
       share(),
     )

@@ -12,15 +12,15 @@ export class WrapHandler implements IStoppable {
     this.rectHandler.init(element)
   }
 
-  down$ = DownEvent.event$(this.element, this.rectHandler).pipe(
+  down$ = DownEvent.event$(this.element).pipe(
     takeUntil(this.stopper.ob$),
     share(),
   )
-  up$ = UpEvent.event$(this.element, this.rectHandler).pipe(
+  up$ = UpEvent.event$(this.element).pipe(
     takeUntil(this.stopper.ob$),
     share(),
   )
-  cursorPos$ = MoveEvent.event$(this.element, this.rectHandler).pipe(
+  position$ = MoveEvent.event$(this.element).pipe(
     takeUntil(this.stopper.ob$),
     share(),
   )

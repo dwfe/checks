@@ -1,30 +1,27 @@
 import {distinctUntilChanged, first, map, merge, Observable, pairwise, share, startWith, switchMap, takeUntil} from '@do-while-for-each/rxjs'
 import {Point} from '@do-while-for-each/math'
-import {IDragEvent, IUnpackedEvent} from '../../contract'
+import {IPagePointDiffEvent} from '../../contract'
+import {toPagePointEvent} from '../common'
+import {RectHandler} from '../../handler'
 
 export class DragEvent {
 
-  static event$ = (down$: Observable<IUnpackedEvent>,
-                   cursorPos$: Observable<IUnpackedEvent>,
+  static event$ = (down$: Observable<MouseEvent | TouchEvent>,
+                   position$: Observable<MouseEvent | TouchEvent>,
                    stoppers: Observable<any>[],
-                   targetReplace?: EventTarget): Observable<IDragEvent> =>
+                   rectHandler: RectHandler,
+                   targetReplace?: EventTarget): Observable<IPagePointDiffEvent> =>
     down$.pipe(
-      switchMap(x => cursorPos$.pipe(
+      switchMap(x => position$.pipe(
         startWith(x),
+        map(event => toPagePointEvent(event, rectHandler)),
         distinctUntilChanged((prev, curr) => Point.isEquals(prev.pagePoint, curr.pagePoint)),
         pairwise(),
-        map(([prev, curr]) => {
-          const result: IDragEvent = {
-            pagePointDiff: Point.subtract(curr.pagePoint, prev.pagePoint),
-          };
-          if (curr.extra)
-            result.extra = {
-              target: targetReplace ? targetReplace : curr.extra.target,
-              prevEvent: prev,
-              currEvent: curr,
-            }
-          return result;
-        }),
+        map(([prev, curr]) => ({
+          pagePointDiff: Point.subtract(curr.pagePoint, prev.pagePoint),
+          target: targetReplace ? targetReplace : curr.target,
+          event: curr.event,
+        })),
         takeUntil(merge(...stoppers).pipe(first())),
       )),
       share(),

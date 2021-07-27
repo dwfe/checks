@@ -1,6 +1,6 @@
 export * from './event'
 export * from './handler'
-export * from './transform'
+export * from './transform-generator'
 export * from './contract'
 export * from './interactive'
 export * from './useResizeObserver'

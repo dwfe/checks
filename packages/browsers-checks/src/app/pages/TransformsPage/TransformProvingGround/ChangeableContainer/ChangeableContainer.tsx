@@ -11,7 +11,7 @@ export function ChangeableContainer({elementWrap}: IProps) {
     const wrapHandler = new WrapHandler(elementWrap)
     const elementHandler = new ElementHandler(ref.current as HTMLDivElement, wrapHandler)
     const interactive = new Interactive(wrapHandler, elementHandler)
-    interactive.matrixResult$.pipe(
+    interactive.resultMatrix$.pipe(
       startWith(WebMatrix.identity()),
       delay(0, animationFrame),
       tap(m => {

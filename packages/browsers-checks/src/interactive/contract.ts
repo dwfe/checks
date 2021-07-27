@@ -6,21 +6,16 @@ import {Observable} from '@do-while-for-each/rxjs'
 
 export type TManualEvent = MouseEvent | TouchEvent | KeyboardEvent | WheelEvent
 
-export interface IUnpackedEvent {
+export interface IPagePointEvent {
   pagePoint: TPoint;
-  extra?: {
-    target: EventTarget | null;
-    event: TManualEvent;
-  };
+  target: EventTarget | null;
+  event: TManualEvent;
 }
 
-export interface IDragEvent {
+export interface IPagePointDiffEvent {
   pagePointDiff: TPoint;
-  extra?: {
-    target: EventTarget | null;
-    prevEvent: IUnpackedEvent;
-    currEvent: IUnpackedEvent;
-  };
+  target: EventTarget | null;
+  event: TManualEvent;
 }
 
 //endregion
@@ -34,23 +29,8 @@ export enum InteractiveVariant {
   ROTATE,
 }
 
-export interface ITransformData {
-  matrix: TWebMatrix;
-  extra?: {
-    variant: InteractiveVariant;
-    target: EventTarget | null;
-    event: IUnpackedEvent;
-  };
-}
-
 export interface ITransformGenerator {
-  data$: Observable<ITransformData>;
+  data$: Observable<TWebMatrix>;
 }
 
 //endregion
-
-
-export interface ISharedHotEventOptions {
-  addExtraInfo: boolean;
-  listener?: AddEventListenerOptions;
-}

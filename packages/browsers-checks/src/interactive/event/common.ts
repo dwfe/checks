@@ -1,29 +1,19 @@
-import {IUnpackedEvent, TManualEvent} from '../contract'
+import {IPagePointEvent, TManualEvent} from '../contract'
 import {RectHandler} from '../handler'
 
-export const unpackEvent = (type: 'mouse' | 'touch',
-                            event: TManualEvent,
-                            rectHandler: RectHandler,
-                            addExtraInfo = false): IUnpackedEvent => {
+export function toPagePointEvent(event: TManualEvent, rectHandler: RectHandler): IPagePointEvent {
   let pageX: number, pageY: number;
-  switch (type) {
-    case 'mouse':
-      pageX = (event as MouseEvent).pageX
-      pageY = (event as MouseEvent).pageY
-      break
-    case 'touch':
-      const touch = (event as TouchEvent).touches[0]
-      pageX = touch.pageX
-      pageY = touch.pageY
-      break
-  }
-  const result: IUnpackedEvent = {
+  if (event['pageX'] !== undefined) {
+    pageX = (event as MouseEvent).pageX
+    pageY = (event as MouseEvent).pageY
+  } else if (event['touches'] !== undefined) {
+    pageX = (event as TouchEvent).touches[0].pageX
+    pageY = (event as TouchEvent).touches[0].pageY
+  } else
+    throw new Error(`can't convert to IPagePointEvent because unknown type of event`)
+  return {
     pagePoint: rectHandler.pagePoint(pageX, pageY),
-  }
-  if (addExtraInfo)
-    result.extra = {
-      target: event.target,
-      event,
-    }
-  return result;
+    target: event.target,
+    event,
+  };
 }
