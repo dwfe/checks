@@ -4,16 +4,15 @@ import {WebMatrix} from '@do-while-for-each/math'
 import {ElementHandler, Interactive, WrapHandler} from '../../../../../interactive'
 import './ChangeableContainer.css'
 
-const inactiveText = 'Transform Me'
+const textInactive = 'Transform Me'
 
-export function ChangeableContainer({elementWrap}: IProps) {
+export function ChangeableContainer({wrapHandler}: IProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const [text, setText] = useState(inactiveText)
+  const [text, setText] = useState(textInactive)
 
   useEffect(() => {
     const element = ref.current as HTMLDivElement;
 
-    const wrapHandler = new WrapHandler(elementWrap)
     const elementHandler = new ElementHandler(element, wrapHandler)
     const interactive = new Interactive(wrapHandler, elementHandler)
 
@@ -26,14 +25,14 @@ export function ChangeableContainer({elementWrap}: IProps) {
     interactive.resultMatrix$.pipe(
       tap(() => setText('Yeah!')),
       debounceTime(500),
-      tap(() => setText(inactiveText)),
+      tap(() => setText(textInactive)),
     ).subscribe()
 
     return () => {
-      wrapHandler.stop()
       elementHandler.stop()
+      interactive.stop()
     }
-  }, [elementWrap])
+  }, [wrapHandler])
 
   return (
     <div className="ChangeableContainer" ref={ref}>
@@ -43,5 +42,5 @@ export function ChangeableContainer({elementWrap}: IProps) {
 }
 
 interface IProps {
-  elementWrap: Element;
+  wrapHandler: WrapHandler;
 }
