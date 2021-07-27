@@ -1,7 +1,6 @@
 import {distinctUntilChanged, first, map, merge, Observable, pairwise, share, startWith, switchMap, takeUntil} from '@do-while-for-each/rxjs'
 import {Point} from '@do-while-for-each/math'
-import {IPagePointDiffEvent} from '../../contract'
-import {toPagePointEvent} from '../common'
+import {IDragEvent} from '../../contract'
 import {RectHandler} from '../../handler'
 
 export class DragEvent {
@@ -10,11 +9,15 @@ export class DragEvent {
                    position$: Observable<MouseEvent | TouchEvent>,
                    stoppers: Observable<any>[],
                    rectHandler: RectHandler,
-                   targetReplace?: EventTarget): Observable<IPagePointDiffEvent> =>
+                   targetReplace?: EventTarget): Observable<IDragEvent> =>
     down$.pipe(
       switchMap(x => position$.pipe(
         startWith(x),
-        map(event => toPagePointEvent(event, rectHandler)),
+        map(event => ({
+          pagePoint: rectHandler.pagePointFromEvent(event),
+          target: event.target,
+          event,
+        })),
         distinctUntilChanged((prev, curr) => Point.isEquals(prev.pagePoint, curr.pagePoint)),
         pairwise(),
         map(([prev, curr]) => ({

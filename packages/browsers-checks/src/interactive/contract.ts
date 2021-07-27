@@ -6,13 +6,7 @@ import {Observable} from '@do-while-for-each/rxjs'
 
 export type TManualEvent = MouseEvent | TouchEvent | KeyboardEvent | WheelEvent
 
-export interface IPagePointEvent {
-  pagePoint: TPoint;
-  target: EventTarget | null;
-  event: TManualEvent;
-}
-
-export interface IPagePointDiffEvent {
+export interface IDragEvent {
   pagePointDiff: TPoint;
   target: EventTarget | null;
   event: TManualEvent;
