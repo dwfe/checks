@@ -1,4 +1,4 @@
-import {distinctUntilChanged, first, map, merge, Observable, pairwise, share, startWith, switchMap, takeUntil} from '@do-while-for-each/rxjs'
+import {filter, first, map, merge, Observable, pairwise, share, startWith, switchMap, takeUntil} from '@do-while-for-each/rxjs'
 import {Point} from '@do-while-for-each/math'
 import {IDragEvent} from '../../contract'
 import {RectHandler} from '../../handler'
@@ -18,8 +18,8 @@ export class DragEvent {
           target: event.target,
           event,
         })),
-        distinctUntilChanged((prev, curr) => Point.isEquals(prev.pagePoint, curr.pagePoint)),
         pairwise(),
+        filter(([prev, curr]) => !Point.isEquals(prev.pagePoint, curr.pagePoint)),
         map(([prev, curr]) => ({
           pagePointDiff: Point.subtract(curr.pagePoint, prev.pagePoint),
           target: targetReplace ? targetReplace : curr.target,
