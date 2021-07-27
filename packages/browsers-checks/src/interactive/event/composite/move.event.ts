@@ -2,21 +2,10 @@ import {map, merge, Observable, share} from '@do-while-for-each/rxjs'
 import {ISharedHotEventOptions, IUnpackedEvent} from '../../contract'
 import {MouseMove} from '../mouse/mouse-move.event'
 import {TouchMove} from '../touch/touch-move.event'
-import {SharedHotEvent} from '../shared-hot.event'
 import {RectHandler} from '../../handler'
 import {unpackEvent} from '../common'
 
-export class MoveEvent extends SharedHotEvent {
-
-  constructor(element: Element,
-              rectHandler: RectHandler,
-              options?: ISharedHotEventOptions) {
-    super(element, rectHandler, options)
-    this.addListeners([
-      'mousemove',
-      'touchmove',
-    ])
-  }
+export class MoveEvent {
 
   static event$ = (element: Element,
                    rectHandler: RectHandler,

@@ -15,4 +15,4 @@ export * from './touch/touch-move.event'
 export * from './touch/touch-start.event'
 
 export * from './common'
-export * from './shared-hot.event'
+export * from './hot.event'

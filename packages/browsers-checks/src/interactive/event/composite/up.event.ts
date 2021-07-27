@@ -2,25 +2,12 @@ import {map, merge, Observable, share} from '@do-while-for-each/rxjs'
 import {ISharedHotEventOptions, IUnpackedEvent} from '../../contract'
 import {TouchCancel} from '../touch/touch-cancel.event'
 import {MouseLeave} from '../mouse/mouse-leave.event'
-import {SharedHotEvent} from '../shared-hot.event'
 import {TouchEnd} from '../touch/touch-end.event'
 import {MouseUp} from '../mouse/mouse-up.event'
 import {RectHandler} from '../../handler'
 import {unpackEvent} from '../common'
 
-export class UpEvent extends SharedHotEvent {
-
-  constructor(element: Element,
-              rectHandler: RectHandler,
-              options?: ISharedHotEventOptions) {
-    super(element, rectHandler, options)
-    this.addListeners([
-      'mouseup',
-      'mouseleave',
-      'touchend',
-      'touchcancel',
-    ])
-  }
+export class UpEvent {
 
   static event$ = (element: Element,
                    rectHandler: RectHandler,
