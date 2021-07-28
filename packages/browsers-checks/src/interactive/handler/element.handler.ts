@@ -1,6 +1,6 @@
 import {share, Stopper, takeUntil} from '@do-while-for-each/rxjs'
 import {IStoppable} from '@do-while-for-each/common'
-import {DownEvent, DragEvent, MoveEvent, UpEvent} from '../event'
+import {DownEvent, DragEvent, MoveEvent} from '../event'
 import {WrapHandler} from './wrap.handler'
 
 export class ElementHandler implements IStoppable {
@@ -12,10 +12,6 @@ export class ElementHandler implements IStoppable {
   }
 
   down$ = DownEvent.event$(this.element).pipe(
-    takeUntil(this.stopper.ob$),
-    share(),
-  )
-  up$ = UpEvent.event$(this.element).pipe(
     takeUntil(this.stopper.ob$),
     share(),
   )
