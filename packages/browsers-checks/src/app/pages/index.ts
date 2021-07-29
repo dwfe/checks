@@ -7,4 +7,5 @@ export * from './RxJsPage/asObservableShareReplay/Subj/SubjCheckAsObservableShar
 export * from './TransformsPage/TransformsPage'
 export * from './TransformsPage/ConstantDistance/ConstantDistance'
 export * from './TransformsPage/ResizeObserver/ResizeObserver'
-export * from './TransformsPage/TransformProvingGround/TransformProvingGround'
+export * from './TransformsPage/TransformDom/TransformDom'
+export * from './TransformsPage/TransformCanvas/TransformCanvas'

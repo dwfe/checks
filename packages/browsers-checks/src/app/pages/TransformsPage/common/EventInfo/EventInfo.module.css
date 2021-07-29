@@ -1,17 +1,21 @@
-.EventInfo {
+.container {
+  position: absolute;
+  top: 0;
+  right: 0;
   background-color: lightyellow;
+  opacity: 80%;
 }
 
-.EventInfo_table {
+.table {
   margin: 0;
   font-size: 11px;
 }
 
-.EventInfo_title {
+.title {
   text-align: end;
 }
 
-.EventInfo_value {
+.value {
   min-width: 25px;
   text-align: end;
   font-family: Menlo, "Courier New", monospace;

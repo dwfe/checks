@@ -2,11 +2,11 @@ import {animationFrame, debounceTime, delay, startWith, tap} from '@do-while-for
 import React, {useEffect, useRef, useState} from 'react'
 import {WebMatrix} from '@do-while-for-each/math'
 import {ElementHandler, ElementInteractive, WrapHandler} from '../../../../../interactive'
-import './ChangeableContainer.css'
+import s from './Item.module.css'
 
 const textInactive = 'Transform Me'
 
-export function ChangeableContainer({wrapHandler}: IProps) {
+export function Item({wrapHandler}: IProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [text, setText] = useState(textInactive)
 
@@ -38,7 +38,7 @@ export function ChangeableContainer({wrapHandler}: IProps) {
   }, [wrapHandler])
 
   return (
-    <div className="ChangeableContainer" ref={ref}>
+    <div className={s.container} ref={ref}>
       <div>{text}</div>
     </div>
   );

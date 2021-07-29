@@ -1,0 +1,9 @@
+.container {
+  box-sizing: border-box;
+  height: 85vh;
+  outline: 1px solid darkgray;
+  border: none;
+
+  position: relative;
+  user-select: none;
+}

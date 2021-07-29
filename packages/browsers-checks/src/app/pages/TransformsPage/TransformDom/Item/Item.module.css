@@ -1,4 +1,4 @@
-.ChangeableContainer {
+.container {
   box-sizing: border-box;
   width: 30%;
   height: 30%;
@@ -14,5 +14,4 @@
 
   will-change: transform;
   transform-origin: 0 0;
-
 }
