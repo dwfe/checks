@@ -1,4 +1,4 @@
-import {animationFrame, delay, startWith, tap} from '@do-while-for-each/rxjs'
+import {animationFrame, combineLatest, debounceTime, delay, tap} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
 import React, {useEffect, useRef} from 'react'
 import {ElementHandler, ElementInteractive, WrapHandler} from '../../../../../interactive'
@@ -8,16 +8,13 @@ export const Item = ({wrapHandler}: IProps) => {
   const ref = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    console.log(`hello`, )
     const canvas = ref.current as HTMLCanvasElement
-    const {width, height} = canvas
-
-    const rectWidth = 100
-    const rectHeight = 50
-    const offeset = 20
-    const count = 100
-
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+
+    const boxWidth = 100
+    const boxHeight = 50
+    const boxOffset = 20
+    const count = 100
 
     const handler = new ElementHandler(canvas, wrapHandler)
     const interactive = new ElementInteractive(
@@ -25,16 +22,26 @@ export const Item = ({wrapHandler}: IProps) => {
       WebMatrix.of().translate(50, 120).rotate(-10).toJSON()
     )
 
-    interactive.resultMatrix$.pipe(
-      startWith(WebMatrix.identity()),
+    const canvasSizes$ = wrapHandler.rectHandler.rect$.pipe(
+      debounceTime(10),
+      tap(({width, height}) => {
+        canvas.setAttribute('width', `${width}`)
+        canvas.setAttribute('height', `${height}`)
+      }),
+    )
+
+    const drawSubscription = combineLatest([
+      interactive.resultMatrix$,
+      canvasSizes$,
+    ]).pipe(
       delay(0, animationFrame),
-      tap(m => {
-        ctx.setTransform()
-        ctx.clearRect(0, 0, width, height)
+      tap(([m, canvasSizes]) => {
+        ctx.resetTransform()
+        ctx.clearRect(0, 0, canvasSizes.width, canvasSizes.height)
         ctx.transform(m[0], m[1], m[2], m[3], m[4], m[5])
         for (let j = 0; j < count; j++) {
           for (let i = 0; i < count; i++) {
-            ctx.strokeRect(i*rectWidth + i*offeset, j*rectHeight + j*offeset, rectWidth, rectHeight)
+            ctx.strokeRect(i * boxWidth + i * boxOffset, j * boxHeight + j * boxOffset, boxWidth, boxHeight)
           }
         }
         // ctx.strokeRect(0, 0, width * 0.3, height * 0.3)
@@ -42,11 +49,17 @@ export const Item = ({wrapHandler}: IProps) => {
       })
     ).subscribe()
 
-
+    return () => {
+      handler.stop()
+      interactive.stop()
+      drawSubscription.unsubscribe()
+    }
   }, [wrapHandler])
 
   return (
-    <canvas width={1200} height={600} className={s.container} ref={ref}/>
+    <canvas className={s.container}
+            ref={ref}
+    />
   )
 }
 

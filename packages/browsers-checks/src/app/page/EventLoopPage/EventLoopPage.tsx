@@ -2,7 +2,7 @@ import {useDocumentTitle} from '@do-while-for-each/browser-router-react-tools'
 import React from 'react'
 import {WhatFreezesTheEventLoop} from './WhatFreezesTheEventLoop/WhatFreezesTheEventLoop'
 import {AboutEventLoop} from './AboutEventLoop/AboutEventLoop'
-import {Timer} from '../../components/timers'
+import {Timer} from '../../component/timers'
 import {IRoutableProps} from '../../../router'
 
 export const EventLoopPage = (props: IRoutableProps) => {

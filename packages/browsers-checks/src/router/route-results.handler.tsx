@@ -2,7 +2,7 @@ import {BrowserRouter} from '@do-while-for-each/browser-router'
 import {container} from 'tsyringe'
 import ReactDOM from 'react-dom'
 import React from 'react'
-import {GeneralTemplate} from '../app/templates/General/GeneralTemplate'
+import {GeneralTemplate} from '../app/template/General/GeneralTemplate'
 import {TRouteResultArg} from './contract'
 
 export class RouteResultsHandler {

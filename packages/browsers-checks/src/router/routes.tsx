@@ -1,7 +1,7 @@
 import {NotFoundPage} from '@do-while-for-each/browser-router-react-tools'
 import {IActionResult, IRoute} from '@do-while-for-each/path-resolver'
 import React, {ReactElement} from 'react'
-import {AsObservableShareReplay, ConstantDistance, EventLoopPage, IndexPage, ResizeObserver, RxJsPage, SubjCheckAsObservableShareReplay, SubjectCheckAsObservableShareReplay, TransformCanvas, TransformDom, TransformsPage} from '../app/pages'
+import {AsObservableShareReplay, ConstantDistance, EventLoopPage, IndexPage, ResizeObserver, RxJsPage, SubjCheckAsObservableShareReplay, SubjectCheckAsObservableShareReplay, TransformCanvas, TransformDom, TransformsPage} from '../app/page'
 import {IRouteNote} from './index'
 
 export const routes: IRoute<ReactElement, IRouteNote, IActionResult<ReactElement>>[] = [
