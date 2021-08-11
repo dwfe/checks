@@ -1,4 +1,4 @@
-import {isNumeric} from '@do-while-for-each/common'
+import {isNumber} from '@do-while-for-each/math'
 
 export class InputValidator {
 
@@ -16,7 +16,7 @@ export class InputValidator {
   }
 
   static isIntervalValidFn(data) {
-    return InputValidator.isPositiveNumberValidFn(data, isNumeric) // интервал каждого таймера в секундах - дробные
+    return InputValidator.isPositiveNumberValidFn(data, isNumber) // интервал каждого таймера в секундах - дробные
   }
 
   static invalidClassName(value: string, isValidFn): string {
