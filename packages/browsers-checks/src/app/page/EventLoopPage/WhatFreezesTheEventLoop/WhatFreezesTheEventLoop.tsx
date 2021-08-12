@@ -1,7 +1,7 @@
 import React from 'react'
-import {PromisedTaskInsideMainThread} from './PromisedTaskInsideMainThread';
-import {WorkerTask} from './Worker';
-import {MultipleRequestsToServer} from './MultipleRequestsToServer';
+import {PromisedTaskInsideMainThread} from './PromisedTaskInsideMainThread'
+import {MultipleRequestsToServer} from './MultipleRequestsToServer'
+import {WorkerTask} from './Worker'
 
 
 export const WhatFreezesTheEventLoop = () => {

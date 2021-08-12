@@ -6,8 +6,9 @@ export function TransformsPage() {
     <div>
       <Link href="/transforms/constant-distance">Constant distance</Link><br/><br/>
       <Link href="/transforms/resize-observer">Resize observer</Link><br/><br/>
-      <Link href="/transforms/transform-dom">Transform DOM</Link><br/><br/>
-      <Link href="/transforms/transform-canvas">Transform Canvas</Link><br/><br/>
+      <h1>Transform</h1>
+      <Link href="/transforms/transform-dom">DOM</Link><br/><br/>
+      <Link href="/transforms/transform-canvas">Canvas</Link><br/><br/>
     </div>
   );
 }

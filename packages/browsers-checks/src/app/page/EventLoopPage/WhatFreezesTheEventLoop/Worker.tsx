@@ -1,5 +1,5 @@
-import React from 'react';
-import {log} from '../../../../common';
+import React from 'react'
+import {log} from '../../../../common'
 
 
 export const WorkerTask = () => {

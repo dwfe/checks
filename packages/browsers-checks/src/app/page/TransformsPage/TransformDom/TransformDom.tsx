@@ -1,8 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react'
+import {WebMatrix} from '@do-while-for-each/math'
+import {TransformMe} from '../../../component/TransformMe/TransformMe'
 import {EventInfo} from '../common/EventInfo/EventInfo'
 import {WrapHandler} from '../../../../interactive'
 import s from './TransformDom.module.css'
-import {Item} from './Item/Item'
 
 export function TransformDom() {
   const ref = useRef<HTMLDivElement>(null)
@@ -18,7 +19,7 @@ export function TransformDom() {
 
   return (
     <div className={s.container} ref={ref}>
-      {wrapHandler && <Item wrapHandler={wrapHandler}/>}
+      {wrapHandler && <TransformMe wrapHandler={wrapHandler} startTransform={WebMatrix.of().translate(50, 120).rotate(-10).toJSON()}/>}
       {wrapHandler && <EventInfo element={ref.current as any} rectHandler={wrapHandler.rectHandler}/>}
     </div>
   );

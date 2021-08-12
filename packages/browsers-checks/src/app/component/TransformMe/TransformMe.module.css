@@ -14,4 +14,7 @@
 
   will-change: transform;
   transform-origin: 0 0 0;
+
+  position: absolute;
+  user-select: none;
 }
