@@ -2,6 +2,7 @@ import {NotFoundPage} from '@do-while-for-each/browser-router-react-tools'
 import {IActionResult, IRoute} from '@do-while-for-each/path-resolver'
 import React, {ReactElement} from 'react'
 import {AsObservableShareReplay, ConstantDistance, EventLoopPage, IndexPage, ResizeObserver, RxJsPage, SubjCheckAsObservableShareReplay, SubjectCheckAsObservableShareReplay, TransformCanvas, TransformDom, TransformsPage} from '../app/page'
+import {CanvasPage, IsInside} from '../app/page/CanvasPage'
 import {IRouteNote} from './index'
 
 export const routes: IRoute<ReactElement, IRouteNote, IActionResult<ReactElement>>[] = [
@@ -23,6 +24,11 @@ export const routes: IRoute<ReactElement, IRouteNote, IActionResult<ReactElement
       {path: 'resize-observer', component: <ResizeObserver/>},
       {path: 'transform-dom', component: <TransformDom/>},
       {path: 'transform-canvas', component: <TransformCanvas/>},
+    ]
+  },
+  {
+    path: 'canvas', component: <CanvasPage/>, children: [
+      {path: 'is-inside', component: <IsInside/>}
     ]
   },
   {path: 'not-found', component: <NotFoundPage/>},
