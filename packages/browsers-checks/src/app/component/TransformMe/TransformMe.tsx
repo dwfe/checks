@@ -1,7 +1,7 @@
 import {animationFrame, debounceTime, delay, startWith, tap} from '@do-while-for-each/rxjs'
 import {TWebMatrix, WebMatrix} from '@do-while-for-each/math'
 import React, {useEffect, useRef, useState} from 'react'
-import {ElementHandler, ElementInteractive, InteractiveVariant, WrapHandler} from '../../../interactive'
+import {InnerElementHandler, InnerElementInteractive, InteractiveVariant, WrapElementHandler} from '../../../interactive'
 import s from './TransformMe.module.css'
 
 export function TransformMe({wrapHandler, startTransform, variants, textInactive}: IProps) {
@@ -12,8 +12,8 @@ export function TransformMe({wrapHandler, startTransform, variants, textInactive
     const element = ref.current as HTMLDivElement;
     let styleTransformSubscription, containerTextSubscription
 
-    const handler = new ElementHandler(element, wrapHandler)
-    const interactive = new ElementInteractive(handler, startTransform, variants)
+    const handler = new InnerElementHandler(element, wrapHandler)
+    const interactive = new InnerElementInteractive(handler, startTransform, variants)
 
     styleTransformSubscription = interactive.resultMatrix$.pipe(
       startWith(WebMatrix.identity()),
@@ -44,7 +44,7 @@ export function TransformMe({wrapHandler, startTransform, variants, textInactive
 }
 
 interface IProps {
-  wrapHandler: WrapHandler;
+  wrapHandler: WrapElementHandler;
   startTransform: TWebMatrix;
   variants?: InteractiveVariant[];
   textInactive?: string;

@@ -1,7 +1,7 @@
 import {animationFrame, combineLatest, debounceTime, delay, tap} from '@do-while-for-each/rxjs'
 import {WebMatrix} from '@do-while-for-each/math'
 import React, {useEffect, useRef} from 'react'
-import {ElementHandler, ElementInteractive, WrapHandler} from '../../../../../interactive'
+import {InnerElementHandler, InnerElementInteractive, WrapElementHandler} from '../../../../../interactive'
 import s from './Item.module.css'
 
 export const Item = ({wrapHandler}: IProps) => {
@@ -16,8 +16,8 @@ export const Item = ({wrapHandler}: IProps) => {
     const boxOffset = 20
     const count = 100
 
-    const handler = new ElementHandler(canvas, wrapHandler)
-    const interactive = new ElementInteractive(
+    const handler = new InnerElementHandler(canvas, wrapHandler)
+    const interactive = new InnerElementInteractive(
       handler,
       WebMatrix.of().translate(50, 120).rotate(-10).toJSON()
     )
@@ -57,12 +57,10 @@ export const Item = ({wrapHandler}: IProps) => {
   }, [wrapHandler])
 
   return (
-    <canvas className={s.container}
-            ref={ref}
-    />
+    <canvas className={s.container} ref={ref}/>
   )
 }
 
 interface IProps {
-  wrapHandler: WrapHandler;
+  wrapHandler: WrapElementHandler;
 }

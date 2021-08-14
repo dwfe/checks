@@ -1,14 +1,13 @@
 import {animationFrame, delay, tap} from '@do-while-for-each/rxjs'
 import React, {useEffect, useRef, useState} from 'react'
-import {WrapHandler} from '../../../../interactive'
+import {WrapElementHandler} from '../../../../interactive'
 import {EventInfo} from '../../../component'
 import s from './IsInside.module.css'
 
 export function IsInside() {
-  const refWrap = useRef<HTMLDivElement>(null)
   const refCanvas = useRef<HTMLCanvasElement>(null)
   const refCanvasOverlay = useRef<HTMLCanvasElement>(null)
-  const [wrapHandler, setWrapHandler] = useState<WrapHandler | null>(null)
+  const [wrapHandler, setWrapHandler] = useState<WrapElementHandler | null>(null)
   const [info, setInfo] = useState({inPath: false, inStroke: false})
 
   useEffect(() => {
@@ -19,12 +18,15 @@ export function IsInside() {
     const ctxOverlay = canvasOverlay.getContext('2d') as CanvasRenderingContext2D
     drawGrid(ctxOverlay)
 
-    const handler = new WrapHandler(canvas)
-    setWrapHandler(handler)
+    const wrapHandler = new WrapElementHandler(canvas)
+    setWrapHandler(wrapHandler)
 
-    ctx.lineWidth = 14
+    ctx.lineWidth = 28
     ctx.strokeStyle = 'black'
-    ctx.fillStyle = 'rgba(255,200,0,0.7)'
+    ctx.fillStyle = 'rgba(135,206,235,0.55)'
+
+    // ctx.fillStyle = 'rgba(255,255,0,0.55)'
+    // ctx.rect(50,50,250,200)
 
     ctx.beginPath();
     ctx.moveTo(50, 50);
@@ -36,24 +38,23 @@ export function IsInside() {
     ctx.stroke()
     ctx.fill()
 
-    const mouseMoveSubscription = handler.position$.pipe(
+    const mouseMoveSubscription = wrapHandler.position$.pipe(
       delay(0, animationFrame),
       tap(event => {
-        const [x, y] = handler.rectHandler.pagePointFromEvent(event)
+        const [x, y] = wrapHandler.rectHandler.pagePointFromEvent(event)
         setInfo({inPath: ctx.isPointInPath(x, y), inStroke: ctx.isPointInStroke(x, y)})
       }),
     ).subscribe()
 
     return () => {
-      handler.stop()
+      wrapHandler.stop()
       mouseMoveSubscription.unsubscribe()
     }
   }, [])
 
 
   return (
-    <div className={s.container} style={{width: '500px', height: '500px'}}
-         ref={refWrap}>
+    <div className={s.container} style={{width: '500px', height: '500px'}}>
       <canvas className={s.canvas} width={500} height={500}
               ref={refCanvas}/>
       <canvas className={s.canvasOverlay} width={500} height={500}
@@ -69,7 +70,7 @@ export function IsInside() {
 
 function drawGrid(ctx: CanvasRenderingContext2D,) {
   ctx.lineWidth = 1
-  ctx.strokeStyle = 'rgba(255,21,0,0.3)'
+  ctx.strokeStyle = 'rgba(255,255,0,0.5)'
 
   //y
   for (let i = 0.5; i < 500; i = i + 10) {

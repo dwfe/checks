@@ -1,18 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {WebMatrix} from '@do-while-for-each/math'
 import {EventInfo, TransformMe} from '../../../component'
-import {WrapHandler} from '../../../../interactive'
+import {WrapElementHandler} from '../../../../interactive'
 import s from './TransformDom.module.css'
 
 export function TransformDom() {
   const ref = useRef<HTMLDivElement>(null)
-  const [wrapHandler, setWrapHandler] = useState<WrapHandler | null>(null)
+  const [wrapHandler, setWrapHandler] = useState<WrapElementHandler | null>(null)
 
   useEffect(() => {
-    const handler = new WrapHandler(ref.current as HTMLDivElement)
-    setWrapHandler(handler)
+    const wrapHandler = new WrapElementHandler(ref.current as HTMLDivElement)
+    setWrapHandler(wrapHandler)
     return () => {
-      handler.stop()
+      wrapHandler.stop()
     }
   }, [])
 

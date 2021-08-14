@@ -3,18 +3,18 @@ import {TWebMatrix, WebMatrix} from '@do-while-for-each/math'
 import {IStoppable} from '@do-while-for-each/common'
 import {DragGenerator, RotateGenerator, ScaleGenerator} from './transform-generator'
 import {InteractiveVariant, ITransformGenerator} from './contract'
-import {ElementHandler, RectHandler} from './handler'
+import {InnerElementHandler, RectHandler} from './handler'
 
 const {DRAG, SCALE, ROTATE} = InteractiveVariant
 
-export class ElementInteractive implements IStoppable {
+export class InnerElementInteractive implements IStoppable {
 
   rawMatrix$!: Observable<TWebMatrix>
   resultMatrix$: Observable<TWebMatrix>
 
   private stopper = new Stopper()
 
-  constructor(private handler: ElementHandler,
+  constructor(private handler: InnerElementHandler,
               private startTransform: TWebMatrix = WebMatrix.identity(),
               private variants: InteractiveVariant[] = [DRAG, SCALE, ROTATE]) {
     this.init()

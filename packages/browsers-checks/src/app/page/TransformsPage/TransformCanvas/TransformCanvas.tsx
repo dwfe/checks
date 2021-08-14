@@ -1,18 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react'
-import {WrapHandler} from '../../../../interactive'
+import {WrapElementHandler} from '../../../../interactive'
 import {EventInfo} from '../../../component'
 import s from './TransformCanvas.module.css'
 import {Item} from './Item/Item'
 
 export const TransformCanvas = () => {
   const ref = useRef<HTMLDivElement>(null)
-  const [wrapHandler, setWrapHandler] = useState<WrapHandler | null>(null)
+  const [wrapHandler, setWrapHandler] = useState<WrapElementHandler | null>(null)
 
   useEffect(() => {
-    const handler = new WrapHandler(ref.current as HTMLDivElement)
-    setWrapHandler(handler)
+    const wrapHandler = new WrapElementHandler(ref.current as HTMLDivElement)
+    setWrapHandler(wrapHandler)
     return () => {
-      handler.stop()
+      wrapHandler.stop()
     }
   }, [])
 

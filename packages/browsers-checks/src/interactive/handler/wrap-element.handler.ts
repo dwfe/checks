@@ -3,7 +3,7 @@ import {IStoppable} from '@do-while-for-each/common'
 import {DownEvent, MouseLeave, MouseWheel, MoveEvent, UpEvent} from '../event'
 import {RectHandler} from './rect.handler'
 
-export class WrapHandler implements IStoppable {
+export class WrapElementHandler implements IStoppable {
 
   rectHandler = new RectHandler()
   private stopper = new Stopper()
