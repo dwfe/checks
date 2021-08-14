@@ -6,7 +6,7 @@ export function CanvasPage() {
 
   return (
     <div className={s.container}>
-      <Link href="/canvas/is-inside">Is Inside?</Link><br/><br/>
+      <Link href="/canvas/is-point-in">Is point in?</Link><br/><br/>
     </div>
   );
 }

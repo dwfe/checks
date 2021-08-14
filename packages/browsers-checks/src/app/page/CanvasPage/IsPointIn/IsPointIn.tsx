@@ -1,14 +1,19 @@
 import {animationFrame, delay, tap} from '@do-while-for-each/rxjs'
 import React, {useEffect, useRef, useState} from 'react'
+import classNamesBind from 'classnames/bind'
 import {WrapElementHandler} from '../../../../interactive'
 import {EventInfo} from '../../../component'
-import s from './IsInside.module.css'
+import s from './IsPointIn.module.css'
+import {Info} from './Info/Info'
 
-export function IsInside() {
+const sx = classNamesBind.bind(s)
+
+export function IsPointIn() {
   const refCanvas = useRef<HTMLCanvasElement>(null)
   const refCanvasOverlay = useRef<HTMLCanvasElement>(null)
   const [wrapHandler, setWrapHandler] = useState<WrapElementHandler | null>(null)
-  const [info, setInfo] = useState({inPath: false, inStroke: false})
+  const [infoForPath, setInfoForPath] = useState({inPath: false, inStroke: false})
+  const [infoForRect, setInfoForRect] = useState({inPath: false, inStroke: false})
 
   useEffect(() => {
     const canvas = refCanvas.current as HTMLCanvasElement
@@ -25,24 +30,32 @@ export function IsInside() {
     ctx.strokeStyle = 'black'
     ctx.fillStyle = 'rgba(135,206,235,0.55)'
 
-    // ctx.fillStyle = 'rgba(255,255,0,0.55)'
-    // ctx.rect(50,50,250,200)
+    const pathPath = new Path2D()
+    pathPath.moveTo(50, 50);
+    pathPath.lineTo(300, 50);
+    pathPath.lineTo(300, 210);
+    pathPath.lineTo(50, 210);
+    pathPath.lineTo(50, 50);
+    pathPath.closePath()
+    ctx.stroke(pathPath)
+    ctx.fill(pathPath)
 
-    ctx.beginPath();
-    ctx.moveTo(50, 50);
-    ctx.lineTo(300, 50);
-    ctx.lineTo(300, 250);
-    ctx.lineTo(50, 250);
-    ctx.lineTo(50, 50);
-    ctx.closePath()
-    ctx.stroke()
-    ctx.fill()
+    const pathRect = new Path2D()
+    pathRect.rect(50, 270, 250, 160)
+    ctx.stroke(pathRect)
+    ctx.fill(pathRect)
+
+    ctxOverlay.font = '20px Verdana'
+    ctxOverlay.fillStyle = 'blue'
+    ctxOverlay.fillText('by Path', 130, 135)
+    ctxOverlay.fillText('by Rect', 130, 360)
 
     const mouseMoveSubscription = wrapHandler.position$.pipe(
       delay(0, animationFrame),
       tap(event => {
         const [x, y] = wrapHandler.rectHandler.pagePointFromEvent(event)
-        setInfo({inPath: ctx.isPointInPath(x, y), inStroke: ctx.isPointInStroke(x, y)})
+        setInfoForPath({inPath: ctx.isPointInPath(pathPath, x, y), inStroke: ctx.isPointInStroke(pathPath, x, y)})
+        setInfoForRect({inPath: ctx.isPointInPath(pathRect, x, y), inStroke: ctx.isPointInStroke(pathRect, x, y)})
       }),
     ).subscribe()
 
@@ -52,17 +65,22 @@ export function IsInside() {
     }
   }, [])
 
-
   return (
     <div className={s.container} style={{width: '500px', height: '500px'}}>
-      <canvas className={s.canvas} width={500} height={500}
-              ref={refCanvas}/>
-      <canvas className={s.canvasOverlay} width={500} height={500}
-              ref={refCanvasOverlay}/>
+      <canvas className={s.canvas} width={500} height={500} ref={refCanvas}/>
+      <canvas className={s.canvasOverlay} width={500} height={500} ref={refCanvasOverlay}/>
       {refCanvas?.current && wrapHandler && <EventInfo element={refCanvas.current as any} rectHandler={wrapHandler.rectHandler}/>}
-      <div className={s.info}>
-        <span><b>{`${info.inPath}`}</b> in path&nbsp;&nbsp;&nbsp;</span><br/>
-        <span><b>{`${info.inStroke}`}</b> in stroke&nbsp;</span>
+      <div className={s.infoForPath}>
+        <Info inStroke={infoForPath.inStroke} inPath={infoForPath.inPath}/>
+      </div>
+      <div className={s.infoForRect}>
+        <Info inStroke={infoForRect.inStroke} inPath={infoForRect.inPath}/>
+      </div>
+      <div className={s.result}>
+        <ol>
+          <li>Если фигур нарисовано больше одной, то для корректной работы приходится использовать Path2D</li>
+          <li>Если толщина обводки больше 1px, то надо помнить, что толщина обводки увеличивается симметрично как внутрь, так и наружу контура</li>
+        </ol>
       </div>
     </div>
   )

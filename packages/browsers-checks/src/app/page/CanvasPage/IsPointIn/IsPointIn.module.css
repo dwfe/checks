@@ -24,10 +24,8 @@
 .info {
   position: absolute;
   width: 110px;
-  height: 30px;
+  height: 40px;
   padding: 5px;
-  right: 0;
-  top: 71px;
 
   background-color: lightyellow;
   opacity: 80%;
@@ -38,4 +36,29 @@
 
   pointer-events: none;
   user-select: none;
+}
+
+.infoForPath {
+  composes: info;
+  right: 0;
+  top: 71px;
+}
+
+.infoForRect {
+  composes: info;
+  right: 0;
+  top: 310px;
+}
+
+.marked {
+  color: limegreen;
+  font-weight: bold;
+}
+
+.result {
+  padding-top: 500px;
+}
+
+.result li {
+  padding-top: 7px;
 }
