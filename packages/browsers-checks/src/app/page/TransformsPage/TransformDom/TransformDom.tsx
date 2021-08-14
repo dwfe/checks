@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {WebMatrix} from '@do-while-for-each/math'
-import {TransformMe} from '../../../component/TransformMe/TransformMe'
-import {EventInfo} from '../common/EventInfo/EventInfo'
+import {EventInfo, TransformMe} from '../../../component'
 import {WrapHandler} from '../../../../interactive'
 import s from './TransformDom.module.css'
 

@@ -3,10 +3,9 @@ import React, {useEffect, useRef, useState} from 'react'
 import {WebMatrix} from '@do-while-for-each/math'
 import {WhatFreezesTheEventLoop} from './WhatFreezesTheEventLoop/WhatFreezesTheEventLoop'
 import {InteractiveVariant, WrapHandler} from '../../../interactive'
-import {TransformMe} from '../../component/TransformMe/TransformMe'
 import {AboutEventLoop} from './AboutEventLoop/AboutEventLoop'
+import {Timer, TransformMe} from '../../component'
 import {IRoutableProps} from '../../../router'
-import {Timer} from '../../component/timers'
 import s from './EventLoopPage.module.css'
 
 export const EventLoopPage = (props: IRoutableProps) => {

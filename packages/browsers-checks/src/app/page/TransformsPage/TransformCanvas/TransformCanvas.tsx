@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
-import {EventInfo} from '../common/EventInfo/EventInfo'
 import {WrapHandler} from '../../../../interactive'
+import {EventInfo} from '../../../component'
 import s from './TransformCanvas.module.css'
 import {Item} from './Item/Item'
 

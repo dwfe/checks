@@ -1,0 +1,41 @@
+.container {
+  box-sizing: border-box;
+  background-color: skyblue;
+  position: relative;
+}
+
+.canvas,
+.canvasOverlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.canvas {
+  cursor: crosshair;
+}
+
+.canvasOverlay {
+  cursor: crosshair;
+  pointer-events: none;
+  user-select: none;
+}
+
+.info {
+  position: absolute;
+  width: 110px;
+  height: 30px;
+  padding: 5px;
+  right: 0;
+  top: 71px;
+
+  background-color: lightyellow;
+  opacity: 80%;
+
+  font-family: Menlo, "Courier New", monospace;
+  font-size: 11px;
+  text-align: end;
+
+  pointer-events: none;
+  user-select: none;
+}

@@ -4,6 +4,8 @@
   right: 0;
   background-color: lightyellow;
   opacity: 80%;
+  user-select: none;
+  pointer-events: none;
 }
 
 .table {

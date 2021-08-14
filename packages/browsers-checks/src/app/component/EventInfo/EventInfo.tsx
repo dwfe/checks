@@ -1,6 +1,6 @@
 import {animationFrame, delay, tap} from '@do-while-for-each/rxjs'
 import React, {useEffect, useState} from 'react'
-import {MouseMove, RectHandler} from '../../../../../interactive'
+import {MouseMove, RectHandler} from '../../../interactive'
 import s from './EventInfo.module.css'
 
 export function EventInfo({element, rectHandler}: IProps) {
@@ -9,7 +9,7 @@ export function EventInfo({element, rectHandler}: IProps) {
   const [pos, setPos] = useState<number[]>([])
 
   useEffect(() => {
-    const subscription = MouseMove.event$(element, {passive: true}).pipe(
+    const mouseMoveSubscription = MouseMove.event$(element, {passive: true}).pipe(
       delay(0, animationFrame),
       tap(event => {
         setClient([event.clientX, event.clientY])
@@ -17,7 +17,7 @@ export function EventInfo({element, rectHandler}: IProps) {
         setPos(rectHandler.pagePointFromEvent(event))
       })
     ).subscribe()
-    return () => subscription.unsubscribe();
+    return () => mouseMoveSubscription.unsubscribe();
   }, [element, rectHandler])
 
   return (
