@@ -1,12 +1,9 @@
 import {animationFrame, delay, tap} from '@do-while-for-each/rxjs'
 import React, {useEffect, useRef, useState} from 'react'
-import classNamesBind from 'classnames/bind'
 import {WrapElementHandler} from '../../../../interactive'
 import {EventInfo} from '../../../component'
 import s from './IsPointIn.module.css'
 import {Info} from './Info/Info'
-
-const sx = classNamesBind.bind(s)
 
 export function IsPointIn() {
   const refCanvas = useRef<HTMLCanvasElement>(null)
@@ -21,7 +18,7 @@ export function IsPointIn() {
 
     const canvasOverlay = refCanvasOverlay.current as HTMLCanvasElement
     const ctxOverlay = canvasOverlay.getContext('2d') as CanvasRenderingContext2D
-    drawGrid(ctxOverlay)
+    drawGrid(ctxOverlay, {from: 0, step: 10, to: canvas.width}, {from: 0, step: 10, to: canvas.height})
 
     const wrapHandler = new WrapElementHandler(canvas)
     setWrapHandler(wrapHandler)
@@ -86,32 +83,32 @@ export function IsPointIn() {
   )
 }
 
-function drawGrid(ctx: CanvasRenderingContext2D,) {
+function drawGrid(ctx: CanvasRenderingContext2D, xGrid: IGridData, yGrid: IGridData) {
   ctx.lineWidth = 1
   ctx.strokeStyle = 'rgba(255,255,0,0.5)'
 
-  //y
-  for (let i = 0.5; i < 500; i = i + 10) {
-    ctx.beginPath();
-    ctx.moveTo(0, i);
-    ctx.lineTo(500, i);
-    ctx.stroke()
-  }
-  ctx.beginPath();
-  ctx.moveTo(0, 499.5);
-  ctx.lineTo(500, 499.5);
-  ctx.stroke()
-
   //x
-  for (let i = 0.5; i <= 500; i += 10) {
+  for (let i = yGrid.from; i <= xGrid.to; i += yGrid.step) {
     ctx.beginPath();
-    ctx.moveTo(i, 0);
-    ctx.lineTo(i, 500);
+    ctx.moveTo(truncTo05(i), 0);
+    ctx.lineTo(truncTo05(i), xGrid.to);
     ctx.stroke()
   }
-  ctx.beginPath();
-  ctx.moveTo(499.5, 0);
-  ctx.lineTo(499.5, 500);
-  ctx.stroke()
 
+  //y
+  for (let i = xGrid.from; i <= yGrid.to; i += xGrid.step) {
+    const pos = truncTo05(i)
+    ctx.beginPath();
+    ctx.moveTo(0, pos);
+    ctx.lineTo(yGrid.to, pos);
+    ctx.stroke()
+  }
 }
+
+interface IGridData {
+  from: number;
+  to: number;
+  step: number;
+}
+
+const truncTo05 = (x: number): number => Math.trunc(x) + 0.5;
