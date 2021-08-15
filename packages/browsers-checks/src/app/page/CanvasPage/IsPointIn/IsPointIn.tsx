@@ -5,6 +5,10 @@ import {EventInfo} from '../../../component'
 import s from './IsPointIn.module.css'
 import {Info} from './Info/Info'
 
+const width = 500;
+const height = 700;
+const containerSizes = {width: `${width}px`, height: `${height}px`}
+
 export function IsPointIn() {
   const refCanvas = useRef<HTMLCanvasElement>(null)
   const refCanvasOverlay = useRef<HTMLCanvasElement>(null)
@@ -18,7 +22,7 @@ export function IsPointIn() {
 
     const canvasOverlay = refCanvasOverlay.current as HTMLCanvasElement
     const ctxOverlay = canvasOverlay.getContext('2d') as CanvasRenderingContext2D
-    drawGrid(ctxOverlay, {from: 0, step: 10, to: canvas.width}, {from: 0, step: 10, to: canvas.height})
+    drawGrid(ctxOverlay, {from: 0, step: 10, to: width}, {from: 0, step: 10, to: height})
 
     const wrapHandler = new WrapElementHandler(canvas)
     setWrapHandler(wrapHandler)
@@ -63,9 +67,9 @@ export function IsPointIn() {
   }, [])
 
   return (
-    <div className={s.container} style={{width: '500px', height: '500px'}}>
-      <canvas className={s.canvas} width={500} height={500} ref={refCanvas}/>
-      <canvas className={s.canvasOverlay} width={500} height={500} ref={refCanvasOverlay}/>
+    <div className={s.container} style={containerSizes}>
+      <canvas className={s.canvas} width={width} height={height} ref={refCanvas}/>
+      <canvas className={s.canvasOverlay} width={width} height={height} ref={refCanvasOverlay}/>
       {refCanvas?.current && wrapHandler && <EventInfo element={refCanvas.current as any} rectHandler={wrapHandler.rectHandler}/>}
       <div className={s.infoForPath}>
         <Info inStroke={infoForPath.inStroke} inPath={infoForPath.inPath}/>
@@ -88,19 +92,20 @@ function drawGrid(ctx: CanvasRenderingContext2D, xGrid: IGridData, yGrid: IGridD
   ctx.strokeStyle = 'rgba(255,255,0,0.5)'
 
   //x
-  for (let i = yGrid.from; i <= xGrid.to; i += yGrid.step) {
+  for (let i = xGrid.from; i <= xGrid.to; i += xGrid.step) {
+    const pos = truncTo05(i)
     ctx.beginPath();
-    ctx.moveTo(truncTo05(i), 0);
-    ctx.lineTo(truncTo05(i), xGrid.to);
+    ctx.moveTo(pos, 0);
+    ctx.lineTo(pos, yGrid.to);
     ctx.stroke()
   }
 
   //y
-  for (let i = xGrid.from; i <= yGrid.to; i += xGrid.step) {
+  for (let i = yGrid.from; i <= yGrid.to; i += yGrid.step) {
     const pos = truncTo05(i)
     ctx.beginPath();
     ctx.moveTo(0, pos);
-    ctx.lineTo(yGrid.to, pos);
+    ctx.lineTo(xGrid.to, pos);
     ctx.stroke()
   }
 }
