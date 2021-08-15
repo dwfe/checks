@@ -19,6 +19,7 @@
   cursor: crosshair;
   pointer-events: none;
   user-select: none;
+  /*opacity: 0;*/
 }
 
 .info {
@@ -50,13 +51,25 @@
   top: 310px;
 }
 
+.infoForArrow {
+  composes: info;
+  right: 0;
+  top: 500px;
+}
+
+.infoForCircle {
+  composes: info;
+  right: 0;
+  top: 720px;
+}
+
 .marked {
   color: limegreen;
   font-weight: bold;
 }
 
 .result {
-  padding-top: 500px;
+  padding-top: 850px;
 }
 
 .result li {

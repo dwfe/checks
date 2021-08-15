@@ -3,10 +3,11 @@ import React, {useEffect, useRef, useState} from 'react'
 import {WrapElementHandler} from '../../../../interactive'
 import {EventInfo} from '../../../component'
 import s from './IsPointIn.module.css'
+import {drawGrid} from '../common'
 import {Info} from './Info/Info'
 
-const width = 500;
-const height = 700;
+const width = 500
+const height = 850
 const containerSizes = {width: `${width}px`, height: `${height}px`}
 
 export function IsPointIn() {
@@ -15,6 +16,8 @@ export function IsPointIn() {
   const [wrapHandler, setWrapHandler] = useState<WrapElementHandler | null>(null)
   const [infoForPath, setInfoForPath] = useState({inPath: false, inStroke: false})
   const [infoForRect, setInfoForRect] = useState({inPath: false, inStroke: false})
+  const [infoForArrow, setInfoForArrow] = useState({inPath: false, inStroke: false})
+  const [infoForCircle, setInfoForCircle] = useState({inPath: false, inStroke: false})
 
   useEffect(() => {
     const canvas = refCanvas.current as HTMLCanvasElement
@@ -24,19 +27,19 @@ export function IsPointIn() {
     const ctxOverlay = canvasOverlay.getContext('2d') as CanvasRenderingContext2D
     drawGrid(ctxOverlay, {from: 0, step: 10, to: width}, {from: 0, step: 10, to: height})
 
-    const wrapHandler = new WrapElementHandler(canvas)
-    setWrapHandler(wrapHandler)
+    const wrapElementHandler = new WrapElementHandler(canvas)
+    setWrapHandler(wrapElementHandler)
 
     ctx.lineWidth = 28
     ctx.strokeStyle = 'black'
     ctx.fillStyle = 'rgba(135,206,235,0.55)'
 
     const pathPath = new Path2D()
-    pathPath.moveTo(50, 50);
-    pathPath.lineTo(300, 50);
-    pathPath.lineTo(300, 210);
-    pathPath.lineTo(50, 210);
-    pathPath.lineTo(50, 50);
+    pathPath.moveTo(50, 50)
+    pathPath.lineTo(300, 50)
+    pathPath.lineTo(300, 210)
+    pathPath.lineTo(50, 210)
+    pathPath.lineTo(50, 50)
     pathPath.closePath()
     ctx.stroke(pathPath)
     ctx.fill(pathPath)
@@ -51,17 +54,32 @@ export function IsPointIn() {
     ctxOverlay.fillText('by Path', 130, 135)
     ctxOverlay.fillText('by Rect', 130, 360)
 
-    const mouseMoveSubscription = wrapHandler.position$.pipe(
+    ctx.lineWidth = 2
+    const pathArrow = new Path2D()
+    pathArrow.moveTo(40, 580)
+    pathArrow.lineTo(320, 520)
+    pathArrow.lineTo(260, 500)
+    pathArrow.moveTo(320, 520)
+    pathArrow.lineTo(275, 565)
+    ctx.stroke(pathArrow)
+
+    const pathCircle = new Path2D()
+    pathCircle.arc(180, 720, 85.5, 0, 2 * Math.PI, false)
+    ctx.stroke(pathCircle)
+
+    const mouseMoveSubscription = wrapElementHandler.position$.pipe(
       delay(0, animationFrame),
       tap(event => {
-        const [x, y] = wrapHandler.rectHandler.pagePointFromEvent(event)
+        const [x, y] = wrapElementHandler.rectHandler.pagePointFromEvent(event)
         setInfoForPath({inPath: ctx.isPointInPath(pathPath, x, y), inStroke: ctx.isPointInStroke(pathPath, x, y)})
         setInfoForRect({inPath: ctx.isPointInPath(pathRect, x, y), inStroke: ctx.isPointInStroke(pathRect, x, y)})
+        setInfoForArrow({inPath: ctx.isPointInPath(pathArrow, x, y), inStroke: ctx.isPointInStroke(pathArrow, x, y)})
+        setInfoForCircle({inPath: ctx.isPointInPath(pathCircle, x, y), inStroke: ctx.isPointInStroke(pathCircle, x, y)})
       }),
     ).subscribe()
 
     return () => {
-      wrapHandler.stop()
+      wrapElementHandler.stop()
       mouseMoveSubscription.unsubscribe()
     }
   }, [])
@@ -77,43 +95,19 @@ export function IsPointIn() {
       <div className={s.infoForRect}>
         <Info inStroke={infoForRect.inStroke} inPath={infoForRect.inPath}/>
       </div>
+      <div className={s.infoForArrow}>
+        <Info inStroke={infoForArrow.inStroke} inPath={infoForArrow.inPath}/>
+      </div>
+      <div className={s.infoForCircle}>
+        <Info inStroke={infoForCircle.inStroke} inPath={infoForCircle.inPath}/>
+      </div>
       <div className={s.result}>
         <ol>
           <li>Если фигур нарисовано больше одной, то для корректной работы приходится использовать Path2D</li>
           <li>Если толщина обводки больше 1px, то надо помнить, что толщина обводки увеличивается симметрично как внутрь, так и наружу контура</li>
+          <li>Если на холсте фигуры с разной толщиной обводки, то все контуры начнут детектиться как будто у всех фигур обводка толщиной как самая малая</li>
         </ol>
       </div>
     </div>
   )
 }
-
-function drawGrid(ctx: CanvasRenderingContext2D, xParams: IGridData, yParams: IGridData) {
-  ctx.lineWidth = 1
-  ctx.strokeStyle = 'rgba(255,255,0,0.5)'
-
-  //x
-  for (let i = xParams.from; i <= xParams.to; i += xParams.step) {
-    const pos = truncTo05(i)
-    ctx.beginPath();
-    ctx.moveTo(pos, 0);
-    ctx.lineTo(pos, yParams.to);
-    ctx.stroke()
-  }
-
-  //y
-  for (let i = yParams.from; i <= yParams.to; i += yParams.step) {
-    const pos = truncTo05(i)
-    ctx.beginPath();
-    ctx.moveTo(0, pos);
-    ctx.lineTo(xParams.to, pos);
-    ctx.stroke()
-  }
-}
-
-interface IGridData {
-  from: number;
-  to: number;
-  step: number;
-}
-
-const truncTo05 = (x: number): number => Math.trunc(x) + 0.5;
