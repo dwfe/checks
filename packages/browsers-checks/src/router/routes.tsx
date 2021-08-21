@@ -1,8 +1,7 @@
 import {NotFoundPage} from '@do-while-for-each/browser-router-react-tools'
 import {IActionResult, IRoute} from '@do-while-for-each/path-resolver'
 import React, {ReactElement} from 'react'
-import {AsObservableShareReplay, ConstantDistance, EventLoopPage, IndexPage, ResizeObserver, RxJsPage, SubjCheckAsObservableShareReplay, SubjectCheckAsObservableShareReplay, TransformCanvas, TransformDom, TransformsPage} from '../app/page'
-import {CanvasPage, CrispLine, IsPointIn} from '../app/page/CanvasPage'
+import {AsObservableShareReplay, CanvasPage, ConstantDistance, CrispLine, EventLoopPage, IndexPage, IsPointIn, ResizeObserver, RxJsPage, SubjCheckAsObservableShareReplay, SubjectCheckAsObservableShareReplay, TilesMaker, TransformCanvas, TransformDom, TransformsPage} from '../app/page'
 import {IRouteNote} from './index'
 
 export const routes: IRoute<ReactElement, IRouteNote, IActionResult<ReactElement>>[] = [
@@ -30,6 +29,7 @@ export const routes: IRoute<ReactElement, IRouteNote, IActionResult<ReactElement
     path: 'canvas', component: <CanvasPage/>, children: [
       {path: 'crisp-line', component: <CrispLine/>},
       {path: 'is-point-in', component: <IsPointIn/>},
+      {path: 'tiles-maker', component: <TilesMaker/>},
     ]
   },
   {path: 'not-found', component: <NotFoundPage/>},
