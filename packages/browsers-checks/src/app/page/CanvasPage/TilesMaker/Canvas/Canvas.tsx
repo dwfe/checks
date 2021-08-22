@@ -1,4 +1,5 @@
 import React, {useEffect, useRef} from 'react'
+import s from './Canvas.module.css'
 
 export function Canvas({image}: IProps) {
   const refCanvas = useRef<HTMLCanvasElement>(null)
@@ -10,7 +11,9 @@ export function Canvas({image}: IProps) {
   }, [image])
 
   return (
-    <canvas width="800" height="600" ref={refCanvas}/>
+    <div className={s.container}>
+      <canvas  className={s.canvas} width="800" height="600" ref={refCanvas}/>
+    </div>
   )
 }
 
