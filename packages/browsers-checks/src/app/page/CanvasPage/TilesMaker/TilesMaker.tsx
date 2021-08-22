@@ -1,25 +1,27 @@
-import React, {useRef} from 'react'
+import React, {useState} from 'react'
 import s from './TilesMaker.module.css'
+import {Canvas} from './Canvas/Canvas'
 
 export function TilesMaker() {
-  const refCanvas = useRef<HTMLCanvasElement>(null)
+  const [image, setImage] = useState<HTMLImageElement>()
 
   const fileHandler = (event) => {
-    const canvas = refCanvas.current as HTMLCanvasElement
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
-    const img = new Image();
-    const imageUrl = URL.createObjectURL(event.target.files[0]);
-    img.src = imageUrl
-    img.onload = function () {
-      URL.revokeObjectURL(imageUrl)
-      ctx.drawImage(img, 0, 0, 800, 600);
+    const file = event.target.files && event.target.files[0]
+    if (file) {
+      const img = new Image()
+      const url = URL.createObjectURL(file)
+      img.src = url
+      img.onload = function () {
+        URL.revokeObjectURL(url)
+        setImage(img)
+      }
     }
   }
 
   return (
     <div className={s.container}>
       <input type="file" onChange={fileHandler}/>
-      <canvas width="800" height="600" ref={refCanvas}/>
+      {image && <Canvas image={image}/>}
     </div>
   )
 }
