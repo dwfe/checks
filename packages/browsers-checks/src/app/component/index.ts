@@ -1,4 +1,5 @@
 export * from './EventInfo/EventInfo'
+export * from './FileOpen/FileOpen'
 export * from './Header/Header'
 export * from './Main/Main'
 export * from './timers'
