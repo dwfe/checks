@@ -19,7 +19,7 @@ export class DragEvent {
           event,
         })),
         pairwise(),
-        filter(([prev, curr]) => !Point.isEquals(prev.pagePoint, curr.pagePoint)),
+        filter(([prev, curr]) => !Point.isEqual(prev.pagePoint, curr.pagePoint)),
         map(([prev, curr]) => ({
           pagePointDiff: Point.subtract(curr.pagePoint, prev.pagePoint),
           target: targetReplace ? targetReplace : curr.target,
