@@ -1,4 +1,4 @@
-export function drawParamsToFitImage(canvas: ILinearSizes, image: ILinearSizes): { dx: number; dy: number; dw: number; dh: number; } {
+export function drawParamsToFitImage(canvas: ILinearSizes, image: ILinearSizes): [dx: number, dy: number, dw: number, dh: number] {
   const aspectRatioCanvas = canvas.width / canvas.height
   const aspectRatioImage = image.width / image.height
   let dx = 0
@@ -12,7 +12,7 @@ export function drawParamsToFitImage(canvas: ILinearSizes, image: ILinearSizes):
     dh = dw / aspectRatioImage
     dy = (canvas.height - dh) / 2
   }
-  return {dx, dy, dw, dh}
+  return [dx, dy, dw, dh]
 }
 
 interface ILinearSizes {

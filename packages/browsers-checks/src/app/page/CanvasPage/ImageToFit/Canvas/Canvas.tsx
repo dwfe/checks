@@ -12,9 +12,7 @@ export function Canvas({image}: IProps) {
     const canvas = refCanvas.current as HTMLCanvasElement
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
     ctx.clearRect(0, 0, width, height)
-
-    const {dx, dy, dw, dh} = drawParamsToFitImage({width, height}, {width: image.naturalWidth, height: image.naturalHeight})
-    ctx.drawImage(image, dx, dy, dw, dh)
+    ctx.drawImage(image, ...drawParamsToFitImage({width, height}, {width: image.naturalWidth, height: image.naturalHeight}))
   }, [image])
 
   return (
