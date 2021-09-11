@@ -9,7 +9,7 @@ const {DRAG, SCALE, ROTATE} = InteractiveVariant
 
 export class InnerElementInteractive implements IStoppable {
 
-  rawMatrix$!: Observable<TWebMatrix>
+  actionMatrix$!: Observable<TWebMatrix>
   resultMatrix$: Observable<TWebMatrix>
 
   private stopper = new Stopper()
@@ -19,15 +19,16 @@ export class InnerElementInteractive implements IStoppable {
               private variants: InteractiveVariant[] = [DRAG, SCALE, ROTATE]) {
     this.init()
 
-    this.resultMatrix$ = this.rawMatrix$.pipe(
+    this.resultMatrix$ = this.actionMatrix$.pipe(
       startWith(this.startTransform),
       scan(
         /**
-         * result = (m1 * m2 * ... * mN) * result
+         * resultMatrix = actionMatrix * resultMatrix
+         *   actionMatrix can be complex: m1 * m2 * ... * mN - e.g. scale at point, rotate at point.
          *   Matrix multiplication is not commutative and it applies from right to left.
          *   That is, the last matrix (mN) is applied first.
          */
-        (result, m) => WebMatrix.multiply(m, result),
+        (resultMatrix, actionMatrix) => WebMatrix.multiply(actionMatrix, resultMatrix),
         WebMatrix.identity()
       ),
       takeUntil(this.stopper.ob$),
@@ -43,8 +44,8 @@ export class InnerElementInteractive implements IStoppable {
       generators.push(new ScaleGenerator(this.wheel$, this.rectHandler))
     if (this.variants.includes(ROTATE))
       generators.push(new RotateGenerator(this.wheel$, this.rectHandler))
-    this.rawMatrix$ = merge(
-      ...generators.map(generator => generator.data$)
+    this.actionMatrix$ = merge(
+      ...generators.map(generator => generator.matrix$)
     ).pipe(
       takeUntil(this.stopper.ob$),
       share()

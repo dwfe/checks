@@ -24,7 +24,7 @@ export enum InteractiveVariant {
 }
 
 export interface ITransformGenerator {
-  data$: Observable<TWebMatrix>;
+  matrix$: Observable<TWebMatrix>;
 }
 
 //endregion

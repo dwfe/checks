@@ -10,7 +10,7 @@ export class ScaleGenerator implements ITransformGenerator {
               private rectHandler: RectHandler) {
   }
 
-  data$: Observable<TWebMatrix> = this.wheel$.pipe(
+  matrix$: Observable<TWebMatrix> = this.wheel$.pipe(
     filter(e => !e.altKey),
     map(event => (
       WebMatrix.scaleAtPoint(
