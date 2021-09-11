@@ -22,7 +22,12 @@ export class InnerElementInteractive implements IStoppable {
     this.resultMatrix$ = this.rawMatrix$.pipe(
       startWith(this.startTransform),
       scan(
-        (result, raw) => WebMatrix.multiply(raw, result),
+        /**
+         * result = (m1 * m2 * ... * mN) * result
+         *   Matrix multiplication is not commutative and it applies from right to left.
+         *   That is, the last matrix (mN) is applied first.
+         */
+        (result, m) => WebMatrix.multiply(m, result),
         WebMatrix.identity()
       ),
       takeUntil(this.stopper.ob$),
