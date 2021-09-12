@@ -23,10 +23,9 @@ export class InnerElementInteractive implements IStoppable {
       startWith(this.startTransform),
       scan(
         /**
-         * resultMatrix = actionMatrix * resultMatrix
-         *   actionMatrix can be complex: m1 * m2 * ... * mN - e.g. scale at point, rotate at point.
-         *   Matrix multiplication is not commutative and it applies from right to left.
-         *   That is, the last matrix (mN) is applied first.
+         * resultMatrix is always multiplied from the right by new actionMatrix:
+         *    resultMatrix = actionMatrix * resultMatrix
+         * This is a feature of performing operations on the matrix in the executive system.
          */
         (resultMatrix, actionMatrix) => WebMatrix.multiply(actionMatrix, resultMatrix),
         WebMatrix.identity()
