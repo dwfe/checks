@@ -6,8 +6,8 @@ import s from './IsPointIn.module.css'
 import {drawGrid} from '../common'
 import {Info} from './Info/Info'
 
-const width = 500
-const height = 850
+const width = 501
+const height = 851
 const containerSizes = {width: `${width}px`, height: `${height}px`}
 
 export function IsPointIn() {
@@ -25,7 +25,7 @@ export function IsPointIn() {
 
     const canvasOverlay = refCanvasOverlay.current as HTMLCanvasElement
     const ctxOverlay = canvasOverlay.getContext('2d') as CanvasRenderingContext2D
-    drawGrid(ctxOverlay, {from: 0, step: 10, to: width}, {from: 0, step: 10, to: height})
+    drawGrid(ctxOverlay, {from: 0, step: 10, to: width}, {from: 0, step: 10, to: height}, 'rgba(255,255,0,0.5)')
 
     const wrapElementHandler = new WrapElementHandler(canvas)
     setWrapHandler(wrapElementHandler)

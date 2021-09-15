@@ -1,8 +1,8 @@
 export const truncTo05 = (x: number): number => Math.trunc(x) + 0.5;
 
-export function drawGrid(ctx: CanvasRenderingContext2D, xParams: IGridData, yParams: IGridData) {
+export function drawGrid(ctx: CanvasRenderingContext2D, xParams: IGridData, yParams: IGridData, lineColor = '#e7e7e7') {
   ctx.lineWidth = 1
-  ctx.strokeStyle = 'rgba(255,255,0,0.5)'
+  ctx.strokeStyle = lineColor
 
   //x
   for (let i = xParams.from; i <= xParams.to; i += xParams.step) {

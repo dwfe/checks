@@ -1,7 +1,7 @@
 import {NotFoundPage} from '@do-while-for-each/browser-router-react-tools'
 import {IActionResult, IRoute} from '@do-while-for-each/path-resolver'
 import React, {ReactElement} from 'react'
-import {AsObservableShareReplay, CanvasPage, ConstantDistance, CrispLine, EventLoopPage, ImageToFit, IndexPage, IsPointIn, ResizeObserver, RxJsPage, SubjCheckAsObservableShareReplay, SubjectCheckAsObservableShareReplay, TilesMaker, TransformCanvas, TransformDom, TransformsPage} from '../app/page'
+import {AsObservableShareReplay, CanvasPage, ConstantDistance, CrispLine, EventLoopPage, ImageToFit, IndexPage, IsPointIn, ResizeObserver, RxJsPage, SubjCheckAsObservableShareReplay, SubjectCheckAsObservableShareReplay, TilesMaker, ToNewCoordinateSystem, TransformCanvas, TransformDom, TransformsPage} from '../app/page'
 import {IRouteNote} from './index'
 
 export const routes: IRoute<ReactElement, IRouteNote, IActionResult<ReactElement>>[] = [
@@ -23,6 +23,7 @@ export const routes: IRoute<ReactElement, IRouteNote, IActionResult<ReactElement
       {path: 'resize-observer', component: <ResizeObserver/>},
       {path: 'transform-dom', component: <TransformDom/>},
       {path: 'transform-canvas', component: <TransformCanvas/>},
+      {path: 'to-new-coordinate-system', component: <ToNewCoordinateSystem/>},
     ]
   },
   {

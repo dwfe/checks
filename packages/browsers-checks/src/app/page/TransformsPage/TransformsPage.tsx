@@ -9,6 +9,7 @@ export function TransformsPage() {
       <h1>Transform</h1>
       <Link href="/transforms/transform-dom">DOM</Link><br/><br/>
       <Link href="/transforms/transform-canvas">Canvas</Link><br/><br/>
+      <Link href="/transforms/to-new-coordinate-system">To new coordinate system</Link><br/><br/>
     </div>
   );
 }
