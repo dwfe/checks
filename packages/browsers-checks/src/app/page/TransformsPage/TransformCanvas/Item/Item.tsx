@@ -38,7 +38,7 @@ export const Item = ({wrapHandler}: IProps) => {
       tap(([m, canvasSizes]) => {
         ctx.resetTransform()
         ctx.clearRect(0, 0, canvasSizes.width, canvasSizes.height)
-        ctx.transform(m[0], m[1], m[2], m[3], m[4], m[5])
+        ctx.transform(...m)
         for (let j = 0; j < count; j++) {
           for (let i = 0; i < count; i++) {
             ctx.strokeRect(i * boxWidth + i * boxOffset, j * boxHeight + j * boxOffset, boxWidth, boxHeight)

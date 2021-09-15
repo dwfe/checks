@@ -1,16 +1,22 @@
-import {TPoint, TWebMatrix, WebMatrix} from '@do-while-for-each/math'
+import {TPoint, WebMatrix} from '@do-while-for-each/math'
 import React, {useEffect, useRef} from 'react'
 import {drawGrid, truncTo05} from '../../CanvasPage/common'
 import s from './ToNewCoordinateSystem.module.css'
 
 const width = 421
-const height = 251
+const height = 501
 
 const block = {
-  topLeftY: 15,
+  topLeftY: 35,
   height: 175,
-  topIndent: 32,
+  topIndent: 15,
   bottomIndent: 45,
+}
+const block2 = {
+  topLeftY: block.topLeftY + block.height + 35,
+  height: 230,
+  topIndent: 20,
+  bottomIndent: 5,
 }
 type TBlock = typeof block
 
@@ -22,15 +28,11 @@ export function ToNewCoordinateSystem() {
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
     ctx.clearRect(0, 0, width, height)
 
-    const valueToPixel = WebMatrix.toNewCoordinateSystem(
-      {fromSegment: 30, toSegment: 30 * 14},
-      {fromSegment: 15, toSegment: block.height - (block.topIndent + block.bottomIndent)},
-      {fromPoint: [0, 0], toPoint: [0, block.topLeftY + block.topIndent]}
-    );
-
     drawGrid(ctx, {from: 0, step: 10, to: width}, {from: 0, step: 10, to: height})
     drawStaticLines(ctx, block)
-    drawGraph(ctx, valueToPixel)
+    drawStaticLines(ctx, block2)
+    drawGraph(ctx, block)
+    drawGraph(ctx, block2)
   }, [])
 
   return (
@@ -40,25 +42,31 @@ export function ToNewCoordinateSystem() {
   );
 }
 
-function drawGraph(ctx: CanvasRenderingContext2D, valueToPixel: TWebMatrix) {
+
+function drawGraph(ctx: CanvasRenderingContext2D, block: TBlock) {
+
+  const valueToPixel = WebMatrix.toNewCoordinateSystem(
+    {fromSegment: 30, toSegment: 30 * 14},
+    {fromSegment: 15, toSegment: block.height - (block.topIndent + block.bottomIndent)},
+    {fromPoint: [0, 0], toPoint: [0, block.bottomIndent]}
+  );
+
   const dotsValue: TPoint[] = [
     [0, 0],
     [14, 15],
     [23, 0],
     [30, 15]
   ]
-  const maxY = dotsValue.reduce((max, [, y]) => y > max ? y : max, Number.MIN_SAFE_INTEGER)
-  dotsValue.forEach(p => {
-    p[1] = maxY - p[1]
-  })
 
   const dotsPixel: TPoint[] = dotsValue.reduce((acc, p) => {
-    acc.push(WebMatrix.apply(valueToPixel, p))
+    const p1 = WebMatrix.apply(valueToPixel, p)
+    p1[1] = (block.height + block.topLeftY) - p1[1] // перевернуть график, т.к. ось Y в браузере направлена вниз
+    acc.push(p1)
     return acc
   }, [] as TPoint[])
 
-  ctx.strokeStyle = '#ff00ae'
-  ctx.lineWidth = 1
+  ctx.strokeStyle = '#2a7107'
+  ctx.lineWidth = 3
   ctx.beginPath()
   ctx.moveTo(...dotsPixel[0])
   for (let i = 1; i < dotsPixel.length; i++) {
